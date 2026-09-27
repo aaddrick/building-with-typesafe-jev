@@ -26,7 +26,7 @@
 > [!NOTE]
 > 这是一个非官方的社区技能。它不是由 TypeSafe AI 制作、审核或认可的。TypeSafe 在 [typesafe-ai/skills](https://github.com/typesafe-ai/skills) 发布了自己的技能。参见[与官方技能的区别](#与官方技能的区别)。
 
-编程智能体把 Jev 当作又一个聊天模型。这个技能教它们为 Jev 做设计：类型化的问题、校准过的置信度，以及指向 150 多个社区项目的链接，按工作方式分类，每种模式附一个代码草图。它可以安装在 Claude Code、Codex 和 Antigravity CLI 中。
+编程智能体把 Jev 当作又一个聊天模型。这个技能教它们为 Jev 做设计：类型化的问题、校准过的置信度，以及指向 150 多个社区项目的链接，按工作方式分类，每种模式附一个代码草图。它可以安装在 Claude Code、Codex、Antigravity CLI、Muse 和 Muse Code 中。
 
 [Jev](https://docs.typesafe.ai/introduction) 是一个 [System One](https://docs.typesafe.ai/concepts/system-one) 模型。它不生成文本。你给它发送内容和一组类型化的问题，它对每个问题返回一个值和一个校准过的概率，通常在 100 到 200 毫秒内完成：
 
@@ -94,6 +94,48 @@ agy plugin list
 ```
 
 从 Gemini CLI 迁移过来？如果 `agy plugin import gemini` 已经导入了这个扩展，也请运行上面的安装命令，用当前版本替换导入的副本。
+
+</details>
+
+<details>
+<summary><strong>Muse (muse.ai)</strong></summary>
+
+Muse 从它自己电脑上的 `~/workspace/skills/` 加载技能。把这条命令粘贴到 Muse 对话里，让 Muse 运行它：
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/aaddrick/building-with-typesafe-jev/main/scripts/install_muse.sh | bash
+```
+
+脚本会把技能文件夹复制到那里，并把 `SKILL.md` 的头部改写成 Muse 能读取的格式。开始一个新对话。任务匹配时，Muse 会加载这个技能。要更新，再运行一次这条命令。
+
+</details>
+
+<details>
+<summary><strong>Muse Code</strong></summary>
+
+克隆仓库：
+
+```bash
+git clone https://github.com/aaddrick/building-with-typesafe-jev.git
+```
+
+为所有项目安装这个技能：
+
+```bash
+muse skills install building-with-typesafe-jev/skills/building-with-typesafe-jev --scope user
+```
+
+检查是否安装成功：
+
+```bash
+muse skills list
+```
+
+开始一个新会话。任务匹配时，Muse Code 会加载这个技能。想手动加载，输入：
+
+```
+/building-with-typesafe-jev
+```
 
 </details>
 

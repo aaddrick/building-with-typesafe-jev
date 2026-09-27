@@ -26,7 +26,7 @@
 > [!NOTE]
 > これは非公式のコミュニティ製スキルです。TypeSafe AI が作成、レビュー、推奨したものではありません。TypeSafe は独自のスキルを [typesafe-ai/skills](https://github.com/typesafe-ai/skills) で公開しています。[公式スキルとの違い](#公式スキルとの違い) も参照してください。
 
-コーディングエージェントは、Jev をチャットモデルの 1 つとして扱います。このスキルは、Jev に合わせた設計をエージェントに教えます。型付きの質問、較正された確信度、そして仕組みごとに整理した 150 を超えるコミュニティプロジェクトへのリンクと、パターンごとのコードスケッチです。Claude Code、Codex、Antigravity CLI にインストールできます。
+コーディングエージェントは、Jev をチャットモデルの 1 つとして扱います。このスキルは、Jev に合わせた設計をエージェントに教えます。型付きの質問、較正された確信度、そして仕組みごとに整理した 150 を超えるコミュニティプロジェクトへのリンクと、パターンごとのコードスケッチです。Claude Code、Codex、Antigravity CLI、Muse、Muse Code にインストールできます。
 
 [Jev](https://docs.typesafe.ai/introduction) は [System One](https://docs.typesafe.ai/concepts/system-one) モデルです。文章は書きません。コンテンツと型付きの質問のセットを送ると、Jev は各質問に値と較正された確率で答えます。通常は 100〜200 ms で返ります。
 
@@ -94,6 +94,48 @@ agy plugin list
 ```
 
 Gemini CLI から移行しましたか？ `agy plugin import gemini` でこの拡張機能を移した場合も、上のインストールコマンドを実行してください。インポートしたコピーが最新のものに置き換わります。
+
+</details>
+
+<details>
+<summary><strong>Muse (muse.ai)</strong></summary>
+
+Muse は自分専用のコンピューター上の `~/workspace/skills/` からスキルを読み込みます。このコマンドを Muse のチャットに貼り付け、実行するよう Muse に頼んでください：
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/aaddrick/building-with-typesafe-jev/main/scripts/install_muse.sh | bash
+```
+
+スクリプトはスキルフォルダをそこへコピーし、`SKILL.md` のヘッダーを Muse が読める形に書き換えます。新しいチャットを始めてください。タスクが合えば Muse がスキルを読み込みます。更新するときは、同じコマンドをもう一度実行します。
+
+</details>
+
+<details>
+<summary><strong>Muse Code</strong></summary>
+
+リポジトリをクローンします。
+
+```bash
+git clone https://github.com/aaddrick/building-with-typesafe-jev.git
+```
+
+すべてのプロジェクトで使えるようにスキルをインストールします。
+
+```bash
+muse skills install building-with-typesafe-jev/skills/building-with-typesafe-jev --scope user
+```
+
+インストールされたか確認します。
+
+```bash
+muse skills list
+```
+
+新しいセッションを始めます。Muse Code はタスクに合うときにスキルを読み込みます。手動で読み込むには、次のように入力します。
+
+```
+/building-with-typesafe-jev
+```
 
 </details>
 

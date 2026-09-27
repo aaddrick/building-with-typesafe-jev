@@ -26,7 +26,7 @@
 > [!NOTE]
 > 이 스킬은 비공식 커뮤니티 스킬입니다. TypeSafe AI가 만들거나 검토하거나 보증한 것이 아닙니다. TypeSafe는 자체 스킬을 [typesafe-ai/skills](https://github.com/typesafe-ai/skills)에 공개하고 있습니다. [공식 스킬과 다른 점](#공식-스킬과-다른-점)을 참고하세요.
 
-코딩 에이전트는 Jev를 채팅 모델 하나쯤으로 다룹니다. 이 스킬은 에이전트가 Jev에 맞게 설계하도록 가르칩니다. 타입 있는 질문, 보정된 신뢰도, 그리고 동작 방식별로 정리한 150개가 넘는 커뮤니티 프로젝트 링크와 패턴별 코드 스케치를 담았습니다. Claude Code, Codex, Antigravity CLI에 설치할 수 있습니다.
+코딩 에이전트는 Jev를 채팅 모델 하나쯤으로 다룹니다. 이 스킬은 에이전트가 Jev에 맞게 설계하도록 가르칩니다. 타입 있는 질문, 보정된 신뢰도, 그리고 동작 방식별로 정리한 150개가 넘는 커뮤니티 프로젝트 링크와 패턴별 코드 스케치를 담았습니다. Claude Code, Codex, Antigravity CLI, Muse, Muse Code에 설치할 수 있습니다.
 
 [Jev](https://docs.typesafe.ai/introduction)는 [System One](https://docs.typesafe.ai/concepts/system-one) 모델입니다. 글을 쓰지 않습니다. 콘텐츠와 타입 있는 질문 몇 개를 보내면, 각 질문에 값과 보정된 확률로 답합니다. 보통 100~200ms가 걸립니다.
 
@@ -94,6 +94,48 @@ agy plugin list
 ```
 
 Gemini CLI에서 옮겨 오셨나요? `agy plugin import gemini`로 이 확장을 가져왔더라도 위의 설치 명령을 실행해서 현재 복사본이 가져온 복사본을 대체하게 하세요.
+
+</details>
+
+<details>
+<summary><strong>Muse (muse.ai)</strong></summary>
+
+Muse는 자체 컴퓨터의 `~/workspace/skills/`에서 스킬을 불러옵니다. 이 명령을 Muse 채팅에 붙여 넣고 Muse에게 실행해 달라고 요청하세요:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/aaddrick/building-with-typesafe-jev/main/scripts/install_muse.sh | bash
+```
+
+스크립트가 스킬 폴더를 그곳에 복사하고 `SKILL.md`의 머리말을 Muse가 읽는 형태로 다시 씁니다. 새 채팅을 시작하세요. 작업이 맞으면 Muse가 스킬을 불러옵니다. 업데이트하려면 명령을 다시 실행하세요.
+
+</details>
+
+<details>
+<summary><strong>Muse Code</strong></summary>
+
+저장소를 클론하세요.
+
+```bash
+git clone https://github.com/aaddrick/building-with-typesafe-jev.git
+```
+
+모든 프로젝트에서 쓰도록 스킬을 설치하세요.
+
+```bash
+muse skills install building-with-typesafe-jev/skills/building-with-typesafe-jev --scope user
+```
+
+설치되었는지 확인하세요.
+
+```bash
+muse skills list
+```
+
+새 세션을 시작하세요. 작업이 맞으면 Muse Code가 스킬을 로드합니다. 직접 로드하려면 다음을 입력하세요.
+
+```
+/building-with-typesafe-jev
+```
 
 </details>
 
