@@ -1,7 +1,7 @@
 <p align="center">
   <strong>Building with TypeSafe Jev</strong><br>
   <em>Quyết định có kiểu với độ tin cậy đã hiệu chỉnh, dành cho tác nhân lập trình của bạn.</em><br>
-  <em>Tham khảo từ hơn 150 dự án cộng đồng, xếp theo dạng.</em>
+  <em>Liên kết tới hơn 150 dự án cộng đồng, xếp theo dạng, mỗi dạng có một bản phác thảo code.</em>
 </p>
 
 <p align="center">
@@ -26,7 +26,7 @@
 > [!NOTE]
 > Đây là một skill không chính thức do cộng đồng làm. TypeSafe AI không làm, không duyệt và không bảo trợ nó. TypeSafe có skill riêng tại [typesafe-ai/skills](https://github.com/typesafe-ai/skills). Xem [Khác biệt so với skill chính thức](#khác-biệt-so-với-skill-chính-thức).
 
-Các tác nhân lập trình đối xử với Jev như thêm một chat model nữa. Skill này dạy chúng thiết kế cho nó: câu hỏi có kiểu, độ tin cậy đã hiệu chỉnh, và một thư viện hơn 150 dự án cộng đồng xếp theo cách chúng hoạt động. Nó cài được trong Claude Code, Codex và Antigravity CLI.
+Các tác nhân lập trình đối xử với Jev như thêm một chat model nữa. Skill này dạy chúng thiết kế cho nó: câu hỏi có kiểu, độ tin cậy đã hiệu chỉnh, và liên kết tới hơn 150 dự án cộng đồng, xếp theo cách chúng hoạt động, mỗi mẫu có một bản phác thảo code. Nó cài được trong Claude Code, Codex và Antigravity CLI.
 
 [Jev](https://docs.typesafe.ai/introduction) là một model [System One](https://docs.typesafe.ai/concepts/system-one). Nó không viết văn bản. Bạn gửi cho nó một nội dung cùng một bộ câu hỏi có kiểu, và nó trả lời mỗi câu hỏi bằng một giá trị kèm xác suất đã hiệu chỉnh, thường trong 100 tới 200 ms:
 

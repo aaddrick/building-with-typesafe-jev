@@ -1,7 +1,7 @@
 <p align="center">
   <strong>Building with TypeSafe Jev</strong><br>
   <em>コーディングエージェントのための、較正された確信度つきの型付き判断。</em><br>
-  <em>150 を超えるコミュニティプロジェクトの先行事例を、形ごとに整理。</em>
+  <em>150 を超えるコミュニティプロジェクトへのリンクを形ごとに整理し、形ごとにコードスケッチ付き。</em>
 </p>
 
 <p align="center">
@@ -26,7 +26,7 @@
 > [!NOTE]
 > これは非公式のコミュニティ製スキルです。TypeSafe AI が作成、レビュー、推奨したものではありません。TypeSafe は独自のスキルを [typesafe-ai/skills](https://github.com/typesafe-ai/skills) で公開しています。[公式スキルとの違い](#公式スキルとの違い) も参照してください。
 
-コーディングエージェントは、Jev をチャットモデルの 1 つとして扱います。このスキルは、Jev に合わせた設計をエージェントに教えます。型付きの質問、較正された確信度、そして仕組みごとに整理した 150 を超えるコミュニティプロジェクトのライブラリです。Claude Code、Codex、Antigravity CLI にインストールできます。
+コーディングエージェントは、Jev をチャットモデルの 1 つとして扱います。このスキルは、Jev に合わせた設計をエージェントに教えます。型付きの質問、較正された確信度、そして仕組みごとに整理した 150 を超えるコミュニティプロジェクトへのリンクと、パターンごとのコードスケッチです。Claude Code、Codex、Antigravity CLI にインストールできます。
 
 [Jev](https://docs.typesafe.ai/introduction) は [System One](https://docs.typesafe.ai/concepts/system-one) モデルです。文章は書きません。コンテンツと型付きの質問のセットを送ると、Jev は各質問に値と較正された確率で答えます。通常は 100〜200 ms で返ります。
 

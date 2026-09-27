@@ -1,7 +1,7 @@
 <p align="center">
   <strong>Building with TypeSafe Jev</strong><br>
   <em>코딩 에이전트를 위한, 보정된 신뢰도를 갖춘 타입 있는 결정.</em><br>
-  <em>150개가 넘는 커뮤니티 프로젝트의 선행 사례를 형태별로 정리했습니다.</em>
+  <em>150개가 넘는 커뮤니티 프로젝트 링크를 형태별로 정리하고, 형태마다 코드 스케치를 담았습니다.</em>
 </p>
 
 <p align="center">
@@ -26,7 +26,7 @@
 > [!NOTE]
 > 이 스킬은 비공식 커뮤니티 스킬입니다. TypeSafe AI가 만들거나 검토하거나 보증한 것이 아닙니다. TypeSafe는 자체 스킬을 [typesafe-ai/skills](https://github.com/typesafe-ai/skills)에 공개하고 있습니다. [공식 스킬과 다른 점](#공식-스킬과-다른-점)을 참고하세요.
 
-코딩 에이전트는 Jev를 채팅 모델 하나쯤으로 다룹니다. 이 스킬은 에이전트가 Jev에 맞게 설계하도록 가르칩니다. 타입 있는 질문, 보정된 신뢰도, 그리고 동작 방식별로 정리한 150개가 넘는 커뮤니티 프로젝트 라이브러리를 담았습니다. Claude Code, Codex, Antigravity CLI에 설치할 수 있습니다.
+코딩 에이전트는 Jev를 채팅 모델 하나쯤으로 다룹니다. 이 스킬은 에이전트가 Jev에 맞게 설계하도록 가르칩니다. 타입 있는 질문, 보정된 신뢰도, 그리고 동작 방식별로 정리한 150개가 넘는 커뮤니티 프로젝트 링크와 패턴별 코드 스케치를 담았습니다. Claude Code, Codex, Antigravity CLI에 설치할 수 있습니다.
 
 [Jev](https://docs.typesafe.ai/introduction)는 [System One](https://docs.typesafe.ai/concepts/system-one) 모델입니다. 글을 쓰지 않습니다. 콘텐츠와 타입 있는 질문 몇 개를 보내면, 각 질문에 값과 보정된 확률로 답합니다. 보통 100~200ms가 걸립니다.
 

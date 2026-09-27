@@ -1,7 +1,7 @@
 <p align="center">
   <strong>Building with TypeSafe Jev</strong><br>
   <em>为你的编程智能体提供带校准置信度的类型化决策。</em><br>
-  <em>来自 150 多个社区项目的先例，按形态分类。</em>
+  <em>链接到 150 多个社区项目，按形态分类，每种形态附一个代码草图。</em>
 </p>
 
 <p align="center">
@@ -26,7 +26,7 @@
 > [!NOTE]
 > 这是一个非官方的社区技能。它不是由 TypeSafe AI 制作、审核或认可的。TypeSafe 在 [typesafe-ai/skills](https://github.com/typesafe-ai/skills) 发布了自己的技能。参见[与官方技能的区别](#与官方技能的区别)。
 
-编程智能体把 Jev 当作又一个聊天模型。这个技能教它们为 Jev 做设计：类型化的问题、校准过的置信度，以及一个收录 150 多个社区项目、按工作方式分类的库。它可以安装在 Claude Code、Codex 和 Antigravity CLI 中。
+编程智能体把 Jev 当作又一个聊天模型。这个技能教它们为 Jev 做设计：类型化的问题、校准过的置信度，以及指向 150 多个社区项目的链接，按工作方式分类，每种模式附一个代码草图。它可以安装在 Claude Code、Codex 和 Antigravity CLI 中。
 
 [Jev](https://docs.typesafe.ai/introduction) 是一个 [System One](https://docs.typesafe.ai/concepts/system-one) 模型。它不生成文本。你给它发送内容和一组类型化的问题，它对每个问题返回一个值和一个校准过的概率，通常在 100 到 200 毫秒内完成：
 

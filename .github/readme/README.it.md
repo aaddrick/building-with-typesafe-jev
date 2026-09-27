@@ -1,7 +1,7 @@
 <p align="center">
   <strong>Building with TypeSafe Jev</strong><br>
   <em>Decisioni tipizzate con confidenza calibrata, per il tuo agente di coding.</em><br>
-  <em>Esempi da oltre 150 progetti della community, ordinati per forma.</em>
+  <em>Link a oltre 150 progetti della community, ordinati per forma, con uno schema di codice per ciascuna.</em>
 </p>
 
 <p align="center">
@@ -26,7 +26,7 @@
 > [!NOTE]
 > Questa è una skill non ufficiale, della community. Non è creata, verificata o approvata da TypeSafe AI. TypeSafe pubblica la propria skill su [typesafe-ai/skills](https://github.com/typesafe-ai/skills). Vedi [In cosa differisce dalla skill ufficiale](#in-cosa-differisce-dalla-skill-ufficiale).
 
-Gli agenti di coding trattano Jev come l'ennesimo modello di chat. Questa skill insegna loro a progettare per Jev: domande tipizzate, confidenza calibrata e una libreria di oltre 150 progetti della community ordinati per come funzionano. Si installa in Claude Code, Codex e Antigravity CLI.
+Gli agenti di coding trattano Jev come l'ennesimo modello di chat. Questa skill insegna loro a progettare per Jev: domande tipizzate, confidenza calibrata e link a oltre 150 progetti della community, ordinati per come funzionano, con uno schema di codice per ogni pattern. Si installa in Claude Code, Codex e Antigravity CLI.
 
 [Jev](https://docs.typesafe.ai/introduction) è un modello [System One](https://docs.typesafe.ai/concepts/system-one). Non scrive testo. Gli invii un contenuto e un insieme di domande tipizzate, e lui risponde a ogni domanda con un valore e una probabilità calibrata, di solito in 100-200 ms:
 

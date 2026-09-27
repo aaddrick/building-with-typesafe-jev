@@ -1,7 +1,7 @@
 {
   "$schema": "https://www.schemastore.org/claude-code-marketplace.json",
   "name": "building-with-typesafe-jev",
-  "description": "Unofficial skill for building with TypeSafe AI's Jev: typed decisions, calibrated confidence, and prior art from 150+ community projects.",
+  "description": "Unofficial skill for building with TypeSafe AI's Jev: typed decisions, calibrated confidence, and links to 150+ community projects, with a code sketch per pattern.",
   "owner": {
     "name": "aaddrick",
     "url": "https://github.com/aaddrick"
