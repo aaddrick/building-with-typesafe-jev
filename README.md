@@ -303,17 +303,17 @@ The skill loads in layers, so the agent reads only what the task needs.
 
 Most catalogs sort projects by industry. This library sorts them by implementation shape. A game bot, a drone, and a trading bot share one shape: a control loop. Sorted that way, the three share one code sketch and one set of field lessons. The 11 shapes:
 
-- **Control loops**: games, drones, robots, markets.
-- **Select from candidates**: browser and phone agents, tool calling without an LLM, extraction, routers.
-- **Gates**: tool-call approval, "done" checks, CI, money, content.
-- **Stream filters**: slop filters, moderation, email, logs, bulk labels.
-- **Ranking and matching**: rerankers, entity matching, graph and taxonomy walks.
-- **Judges and evals**: rubric judges, trace grading, code review as triage.
-- **Incremental and real-time**: dubbing, voice, keystroke-driven interfaces.
-- **Agent context and memory**: compaction, memory gates, memory expiry, effort control.
-- **Pairing with an LLM**: planner and actor, verify-then-escalate, distillation.
-- **Answers as data**: features for classical models, research instruments, benchmarks.
-- **Embedding in infrastructure**: SQL functions, vector databases, CI hooks, Home Assistant.
+- **[Control loops](skills/building-with-typesafe-jev/prior-art/control-loops.md)**: games, drones, robots, markets.
+- **[Select from candidates](skills/building-with-typesafe-jev/prior-art/select-from-candidates.md)**: browser and phone agents, tool calling without an LLM, extraction, routers.
+- **[Gates](skills/building-with-typesafe-jev/prior-art/gates.md)**: tool-call approval, "done" checks, CI, money, content.
+- **[Stream filters](skills/building-with-typesafe-jev/prior-art/stream-filters.md)**: slop filters, moderation, email, logs, bulk labels.
+- **[Ranking and matching](skills/building-with-typesafe-jev/prior-art/ranking-and-matching.md)**: rerankers, entity matching, graph and taxonomy walks.
+- **[Judges and evals](skills/building-with-typesafe-jev/prior-art/judges-and-evals.md)**: rubric judges, trace grading, code review as triage.
+- **[Incremental and real-time](skills/building-with-typesafe-jev/prior-art/incremental-realtime.md)**: dubbing, voice, keystroke-driven interfaces.
+- **[Agent context and memory](skills/building-with-typesafe-jev/prior-art/agent-context-memory.md)**: compaction, memory gates, memory expiry, effort control.
+- **[Pairing with an LLM](skills/building-with-typesafe-jev/prior-art/llm-pairing.md)**: planner and actor, verify-then-escalate, distillation.
+- **[Answers as data](skills/building-with-typesafe-jev/prior-art/research-and-features.md)**: features for classical models, research instruments, benchmarks.
+- **[Embedding in infrastructure](skills/building-with-typesafe-jev/prior-art/embedding-in-infrastructure.md)**: SQL functions, vector databases, CI hooks, Home Assistant.
 
 The index also lists the ideas that failed in the field: chess, code review as the only reviewer, perception, and calibration taken on trust. A failed attempt saves the next builder from repeating it.
 

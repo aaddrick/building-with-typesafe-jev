@@ -303,17 +303,17 @@ Dock、スタートメニュー、デスクトップのランチャーから起�
 
 多くのカタログは、プロジェクトを業界で分類します。このライブラリは実装の形で分類します。ゲームのボット、ドローン、トレーディングボットは同じ形を共有します。制御ループです。こう分類すると、3 つは 1 つのコードスケッチと 1 組の現場の教訓を共有できます。11 の形は次のとおりです。
 
-- **制御ループ**: ゲーム、ドローン、ロボット、市場。
-- **候補から選ぶ**: ブラウザやスマートフォンのエージェント、LLM なしのツール呼び出し、抽出、ルーター。
-- **ゲート**: ツール呼び出しの承認、「完了」チェック、CI、お金、コンテンツ。
-- **ストリームフィルタ**: 低品質コンテンツのフィルタ、モデレーション、メール、ログ、一括ラベル付け。
-- **ランキングとマッチング**: リランカー、エンティティマッチング、グラフや分類体系の探索。
-- **ジャッジと評価**: ルーブリックによるジャッジ、トレースの採点、トリアージとしてのコードレビュー。
-- **逐次処理とリアルタイム**: 吹き替え、音声、キー入力で動くインターフェース。
-- **エージェントのコンテキストとメモリ**: コンパクション、メモリのゲート、メモリの期限切れ、労力の制御。
-- **LLM との組み合わせ**: プランナーとアクター、検証してからエスカレーション、蒸留。
-- **データとしての答え**: 古典的なモデルの特徴量、研究用の測定器、ベンチマーク。
-- **インフラへの組み込み**: SQL 関数、ベクトルデータベース、CI フック、Home Assistant。
+- **[制御ループ](../../skills/building-with-typesafe-jev/prior-art/control-loops.md)**: ゲーム、ドローン、ロボット、市場。
+- **[候補から選ぶ](../../skills/building-with-typesafe-jev/prior-art/select-from-candidates.md)**: ブラウザやスマートフォンのエージェント、LLM なしのツール呼び出し、抽出、ルーター。
+- **[ゲート](../../skills/building-with-typesafe-jev/prior-art/gates.md)**: ツール呼び出しの承認、「完了」チェック、CI、お金、コンテンツ。
+- **[ストリームフィルタ](../../skills/building-with-typesafe-jev/prior-art/stream-filters.md)**: 低品質コンテンツのフィルタ、モデレーション、メール、ログ、一括ラベル付け。
+- **[ランキングとマッチング](../../skills/building-with-typesafe-jev/prior-art/ranking-and-matching.md)**: リランカー、エンティティマッチング、グラフや分類体系の探索。
+- **[ジャッジと評価](../../skills/building-with-typesafe-jev/prior-art/judges-and-evals.md)**: ルーブリックによるジャッジ、トレースの採点、トリアージとしてのコードレビュー。
+- **[逐次処理とリアルタイム](../../skills/building-with-typesafe-jev/prior-art/incremental-realtime.md)**: 吹き替え、音声、キー入力で動くインターフェース。
+- **[エージェントのコンテキストとメモリ](../../skills/building-with-typesafe-jev/prior-art/agent-context-memory.md)**: コンパクション、メモリのゲート、メモリの期限切れ、労力の制御。
+- **[LLM との組み合わせ](../../skills/building-with-typesafe-jev/prior-art/llm-pairing.md)**: プランナーとアクター、検証してからエスカレーション、蒸留。
+- **[データとしての答え](../../skills/building-with-typesafe-jev/prior-art/research-and-features.md)**: 古典的なモデルの特徴量、研究用の測定器、ベンチマーク。
+- **[インフラへの組み込み](../../skills/building-with-typesafe-jev/prior-art/embedding-in-infrastructure.md)**: SQL 関数、ベクトルデータベース、CI フック、Home Assistant。
 
 インデックスには、現場で失敗したアイデアも載っています。チェス、唯一のレビュアーとしてのコードレビュー、知覚、そして鵜呑みにした較正です。失敗の記録があれば、次の作り手は同じ失敗を繰り返さずに済みます。
 

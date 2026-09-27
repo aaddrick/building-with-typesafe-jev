@@ -303,17 +303,17 @@ Dock, 시작 메뉴, 데스크톱 런처에서 시작한 앱은 셸 파일을 �
 
 대부분의 카탈로그는 프로젝트를 산업별로 나눕니다. 이 라이브러리는 구현 형태로 나눕니다. 게임 봇, 드론, 트레이딩 봇은 같은 형태를 공유합니다. 바로 제어 루프입니다. 이렇게 나누면 세 프로젝트가 코드 스케치 하나와 현장의 교훈 한 묶음을 공유합니다. 형태 11개는 다음과 같습니다.
 
-- **제어 루프**: 게임, 드론, 로봇, 시장.
-- **후보 중 선택**: 브라우저와 휴대폰 에이전트, LLM 없는 도구 호출, 추출, 라우터.
-- **게이트**: 도구 호출 승인, "완료" 확인, CI, 돈, 콘텐츠.
-- **스트림 필터**: 저품질 콘텐츠 필터, 모더레이션, 이메일, 로그, 대량 라벨.
-- **순위와 매칭**: 리랭커, 엔티티 매칭, 그래프와 분류 체계 탐색.
-- **심사와 평가**: 루브릭 심사, 트레이스 채점, 분류 작업으로서의 코드 리뷰.
-- **점진적 처리와 실시간**: 더빙, 음성, 키 입력으로 움직이는 인터페이스.
-- **에이전트 컨텍스트와 메모리**: 압축, 메모리 게이트, 메모리 만료, 노력 수준 조절.
-- **LLM과 짝짓기**: 계획자와 실행자, 검증 후 에스컬레이션, 증류.
-- **데이터로서의 답**: 고전 모델용 특징, 연구 도구, 벤치마크.
-- **인프라에 넣기**: SQL 함수, 벡터 데이터베이스, CI 훅, Home Assistant.
+- **[제어 루프](../../skills/building-with-typesafe-jev/prior-art/control-loops.md)**: 게임, 드론, 로봇, 시장.
+- **[후보 중 선택](../../skills/building-with-typesafe-jev/prior-art/select-from-candidates.md)**: 브라우저와 휴대폰 에이전트, LLM 없는 도구 호출, 추출, 라우터.
+- **[게이트](../../skills/building-with-typesafe-jev/prior-art/gates.md)**: 도구 호출 승인, "완료" 확인, CI, 돈, 콘텐츠.
+- **[스트림 필터](../../skills/building-with-typesafe-jev/prior-art/stream-filters.md)**: 저품질 콘텐츠 필터, 모더레이션, 이메일, 로그, 대량 라벨.
+- **[순위와 매칭](../../skills/building-with-typesafe-jev/prior-art/ranking-and-matching.md)**: 리랭커, 엔티티 매칭, 그래프와 분류 체계 탐색.
+- **[심사와 평가](../../skills/building-with-typesafe-jev/prior-art/judges-and-evals.md)**: 루브릭 심사, 트레이스 채점, 분류 작업으로서의 코드 리뷰.
+- **[점진적 처리와 실시간](../../skills/building-with-typesafe-jev/prior-art/incremental-realtime.md)**: 더빙, 음성, 키 입력으로 움직이는 인터페이스.
+- **[에이전트 컨텍스트와 메모리](../../skills/building-with-typesafe-jev/prior-art/agent-context-memory.md)**: 압축, 메모리 게이트, 메모리 만료, 노력 수준 조절.
+- **[LLM과 짝짓기](../../skills/building-with-typesafe-jev/prior-art/llm-pairing.md)**: 계획자와 실행자, 검증 후 에스컬레이션, 증류.
+- **[데이터로서의 답](../../skills/building-with-typesafe-jev/prior-art/research-and-features.md)**: 고전 모델용 특징, 연구 도구, 벤치마크.
+- **[인프라에 넣기](../../skills/building-with-typesafe-jev/prior-art/embedding-in-infrastructure.md)**: SQL 함수, 벡터 데이터베이스, CI 훅, Home Assistant.
 
 인덱스에는 현장에서 실패한 아이디어도 있습니다. 체스, 유일한 리뷰어로서의 코드 리뷰, 인식, 그리고 믿고 받아들인 보정입니다. 실패한 시도는 다음 빌더가 같은 실수를 반복하지 않게 해 줍니다.
 

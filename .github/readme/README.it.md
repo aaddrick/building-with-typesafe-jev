@@ -303,17 +303,17 @@ La skill si carica a livelli, così l'agente legge solo quello che serve al task
 
 La maggior parte dei cataloghi ordina i progetti per settore. Questa libreria li ordina per forma di implementazione. Un bot per videogiochi, un drone e un bot di trading hanno la stessa forma: un ciclo di controllo. Ordinati così, i tre condividono uno sketch di codice e un insieme di lezioni dal campo. Le 11 forme:
 
-- **Cicli di controllo**: giochi, droni, robot, mercati.
-- **Scelta tra candidati**: agenti per browser e telefono, tool calling senza LLM, estrazione, router.
-- **Gate**: approvazione delle chiamate ai tool, controlli di "fatto", CI, denaro, contenuti.
-- **Filtri di stream**: filtri anti-slop, moderazione, email, log, etichettatura in blocco.
-- **Ranking e matching**: reranker, entity matching, navigazione di grafi e tassonomie.
-- **Giudici e valutazioni**: giudici con rubrica, valutazione delle tracce, code review come triage.
-- **Incrementale e in tempo reale**: doppiaggio, voce, interfacce guidate dai tasti premuti.
-- **Contesto e memoria dell'agente**: compattazione, gate sulla memoria, scadenza della memoria, controllo dello sforzo.
-- **Abbinamento a un LLM**: pianificatore ed esecutore, verifica e poi escalation, distillazione.
-- **Risposte come dati**: feature per modelli classici, strumenti di ricerca, benchmark.
-- **Integrazione nell'infrastruttura**: funzioni SQL, database vettoriali, hook di CI, Home Assistant.
+- **[Cicli di controllo](../../skills/building-with-typesafe-jev/prior-art/control-loops.md)**: giochi, droni, robot, mercati.
+- **[Scelta tra candidati](../../skills/building-with-typesafe-jev/prior-art/select-from-candidates.md)**: agenti per browser e telefono, tool calling senza LLM, estrazione, router.
+- **[Gate](../../skills/building-with-typesafe-jev/prior-art/gates.md)**: approvazione delle chiamate ai tool, controlli di "fatto", CI, denaro, contenuti.
+- **[Filtri di stream](../../skills/building-with-typesafe-jev/prior-art/stream-filters.md)**: filtri anti-slop, moderazione, email, log, etichettatura in blocco.
+- **[Ranking e matching](../../skills/building-with-typesafe-jev/prior-art/ranking-and-matching.md)**: reranker, entity matching, navigazione di grafi e tassonomie.
+- **[Giudici e valutazioni](../../skills/building-with-typesafe-jev/prior-art/judges-and-evals.md)**: giudici con rubrica, valutazione delle tracce, code review come triage.
+- **[Incrementale e in tempo reale](../../skills/building-with-typesafe-jev/prior-art/incremental-realtime.md)**: doppiaggio, voce, interfacce guidate dai tasti premuti.
+- **[Contesto e memoria dell'agente](../../skills/building-with-typesafe-jev/prior-art/agent-context-memory.md)**: compattazione, gate sulla memoria, scadenza della memoria, controllo dello sforzo.
+- **[Abbinamento a un LLM](../../skills/building-with-typesafe-jev/prior-art/llm-pairing.md)**: pianificatore ed esecutore, verifica e poi escalation, distillazione.
+- **[Risposte come dati](../../skills/building-with-typesafe-jev/prior-art/research-and-features.md)**: feature per modelli classici, strumenti di ricerca, benchmark.
+- **[Integrazione nell'infrastruttura](../../skills/building-with-typesafe-jev/prior-art/embedding-in-infrastructure.md)**: funzioni SQL, database vettoriali, hook di CI, Home Assistant.
 
 L'indice elenca anche le idee che sul campo non hanno funzionato: scacchi, code review come unico revisore, percezione e calibrazione presa sulla fiducia. Un tentativo fallito evita al prossimo di ripeterlo.
 

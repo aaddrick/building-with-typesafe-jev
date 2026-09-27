@@ -303,17 +303,17 @@ Skill tải theo từng lớp, nên tác nhân chỉ đọc những gì tác v�
 
 Hầu hết các danh mục xếp dự án theo ngành. Thư viện này xếp chúng theo dạng triển khai. Một bot chơi game, một drone và một bot giao dịch có chung một dạng: vòng điều khiển. Xếp theo cách đó, cả ba dùng chung một đoạn code mẫu và một bộ bài học thực tế. 11 dạng:
 
-- **Vòng điều khiển**: game, drone, robot, thị trường.
-- **Chọn từ các ứng viên**: tác nhân trình duyệt và điện thoại, gọi công cụ không cần LLM, trích xuất, bộ định tuyến.
-- **Cổng kiểm soát**: duyệt lệnh gọi công cụ, kiểm tra "đã xong", CI, tiền, nội dung.
-- **Bộ lọc luồng**: lọc nội dung rác, kiểm duyệt, email, log, gán nhãn hàng loạt.
-- **Xếp hạng và so khớp**: reranker, so khớp thực thể, duyệt đồ thị và phân loại.
-- **Giám khảo và đánh giá**: giám khảo theo rubric, chấm trace, review code để phân loại.
-- **Tăng dần và thời gian thực**: lồng tiếng, giọng nói, giao diện chạy theo phím gõ.
-- **Ngữ cảnh và bộ nhớ của tác nhân**: nén ngữ cảnh, cổng bộ nhớ, hết hạn bộ nhớ, điều chỉnh mức nỗ lực.
-- **Kết hợp với LLM**: planner và actor, kiểm tra rồi mới chuyển lên, chưng cất (distillation).
-- **Câu trả lời là dữ liệu**: đặc trưng cho model cổ điển, công cụ nghiên cứu, benchmark.
-- **Nhúng vào hạ tầng**: hàm SQL, cơ sở dữ liệu vector, hook CI, Home Assistant.
+- **[Vòng điều khiển](../../skills/building-with-typesafe-jev/prior-art/control-loops.md)**: game, drone, robot, thị trường.
+- **[Chọn từ các ứng viên](../../skills/building-with-typesafe-jev/prior-art/select-from-candidates.md)**: tác nhân trình duyệt và điện thoại, gọi công cụ không cần LLM, trích xuất, bộ định tuyến.
+- **[Cổng kiểm soát](../../skills/building-with-typesafe-jev/prior-art/gates.md)**: duyệt lệnh gọi công cụ, kiểm tra "đã xong", CI, tiền, nội dung.
+- **[Bộ lọc luồng](../../skills/building-with-typesafe-jev/prior-art/stream-filters.md)**: lọc nội dung rác, kiểm duyệt, email, log, gán nhãn hàng loạt.
+- **[Xếp hạng và so khớp](../../skills/building-with-typesafe-jev/prior-art/ranking-and-matching.md)**: reranker, so khớp thực thể, duyệt đồ thị và phân loại.
+- **[Giám khảo và đánh giá](../../skills/building-with-typesafe-jev/prior-art/judges-and-evals.md)**: giám khảo theo rubric, chấm trace, review code để phân loại.
+- **[Tăng dần và thời gian thực](../../skills/building-with-typesafe-jev/prior-art/incremental-realtime.md)**: lồng tiếng, giọng nói, giao diện chạy theo phím gõ.
+- **[Ngữ cảnh và bộ nhớ của tác nhân](../../skills/building-with-typesafe-jev/prior-art/agent-context-memory.md)**: nén ngữ cảnh, cổng bộ nhớ, hết hạn bộ nhớ, điều chỉnh mức nỗ lực.
+- **[Kết hợp với LLM](../../skills/building-with-typesafe-jev/prior-art/llm-pairing.md)**: planner và actor, kiểm tra rồi mới chuyển lên, chưng cất (distillation).
+- **[Câu trả lời là dữ liệu](../../skills/building-with-typesafe-jev/prior-art/research-and-features.md)**: đặc trưng cho model cổ điển, công cụ nghiên cứu, benchmark.
+- **[Nhúng vào hạ tầng](../../skills/building-with-typesafe-jev/prior-art/embedding-in-infrastructure.md)**: hàm SQL, cơ sở dữ liệu vector, hook CI, Home Assistant.
 
 Chỉ mục cũng liệt kê các ý tưởng đã thất bại trong thực tế: cờ vua, review code khi Jev là người review duy nhất, nhận thức hình ảnh, và tin vào hiệu chỉnh mà không kiểm tra. Một lần thử thất bại giúp người làm sau khỏi lặp lại nó.
 

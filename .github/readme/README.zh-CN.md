@@ -303,17 +303,17 @@ $env:TYPESAFE_API_KEY.Length
 
 大多数目录按行业给项目分类。这个库按实现形态分类。游戏机器人、无人机和交易机器人是同一种形态：控制循环。这样分类后，三者共用一份代码草图和一套实战经验。11 种形态如下：
 
-- **控制循环**：游戏、无人机、机器人、市场。
-- **从候选中选择**：浏览器和手机智能体、不用 LLM 的工具调用、信息抽取、路由器。
-- **闸门**：工具调用审批、"完成"检查、CI、资金、内容。
-- **流过滤**：垃圾内容过滤、内容审核、邮件、日志、批量标注。
-- **排序与匹配**：重排序器、实体匹配、图和分类体系遍历。
-- **评判与评估**：基于评分标准的评判、轨迹评分、把代码审查当作分诊。
-- **增量与实时**：配音、语音、由按键驱动的界面。
-- **智能体上下文与记忆**：压缩、记忆闸门、记忆过期、投入度控制。
-- **与 LLM 搭配**：规划者与执行者、先验证再升级、蒸馏。
-- **把答案当数据**：经典模型的特征、研究工具、基准测试。
-- **嵌入基础设施**：SQL 函数、向量数据库、CI 钩子、Home Assistant。
+- **[控制循环](../../skills/building-with-typesafe-jev/prior-art/control-loops.md)**：游戏、无人机、机器人、市场。
+- **[从候选中选择](../../skills/building-with-typesafe-jev/prior-art/select-from-candidates.md)**：浏览器和手机智能体、不用 LLM 的工具调用、信息抽取、路由器。
+- **[闸门](../../skills/building-with-typesafe-jev/prior-art/gates.md)**：工具调用审批、"完成"检查、CI、资金、内容。
+- **[流过滤](../../skills/building-with-typesafe-jev/prior-art/stream-filters.md)**：垃圾内容过滤、内容审核、邮件、日志、批量标注。
+- **[排序与匹配](../../skills/building-with-typesafe-jev/prior-art/ranking-and-matching.md)**：重排序器、实体匹配、图和分类体系遍历。
+- **[评判与评估](../../skills/building-with-typesafe-jev/prior-art/judges-and-evals.md)**：基于评分标准的评判、轨迹评分、把代码审查当作分诊。
+- **[增量与实时](../../skills/building-with-typesafe-jev/prior-art/incremental-realtime.md)**：配音、语音、由按键驱动的界面。
+- **[智能体上下文与记忆](../../skills/building-with-typesafe-jev/prior-art/agent-context-memory.md)**：压缩、记忆闸门、记忆过期、投入度控制。
+- **[与 LLM 搭配](../../skills/building-with-typesafe-jev/prior-art/llm-pairing.md)**：规划者与执行者、先验证再升级、蒸馏。
+- **[把答案当数据](../../skills/building-with-typesafe-jev/prior-art/research-and-features.md)**：经典模型的特征、研究工具、基准测试。
+- **[嵌入基础设施](../../skills/building-with-typesafe-jev/prior-art/embedding-in-infrastructure.md)**：SQL 函数、向量数据库、CI 钩子、Home Assistant。
 
 索引还列出了在实战中失败的想法：国际象棋、把代码审查当作唯一审查者、感知任务，以及不加验证就相信校准。一次失败的尝试，能让下一个开发者不必重蹈覆辙。
 
