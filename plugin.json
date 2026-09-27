@@ -1,6 +1,6 @@
 {
   "$schema": "https://antigravity.google/schemas/v1/plugin.json",
   "name": "building-with-typesafe-jev",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Unofficial skill for building with TypeSafe AI's Jev: typed Choice/Score/Noul decisions, calibrated-confidence routing, and prior art from 150+ community projects."
 }
