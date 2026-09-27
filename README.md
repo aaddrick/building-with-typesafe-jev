@@ -259,7 +259,9 @@ We gave a coding agent six Jev tasks, such as a support-ticket triage function a
 |---|---:|---:|---:|
 | Average score | 0.65 ± 0.05 | **0.96 ± 0.02** | 0.77 ± 0.04 |
 
-A score is the share of checks a run passed; each ± is a 95% range. Checks where this skill beat at least one other arm by more than chance, as passing runs out of 10:
+Score is the share of checks passed, averaged over 10 runs per task.
+
+**Where the skill made the difference** (runs out of 10 that passed):
 
 | The agent's code... | No skill | This skill | Official skill |
 |---|---:|---:|---:|
@@ -270,6 +272,8 @@ A score is the share of checks a run passed; each ± is a 95% range. Checks wher
 | kept more than one path while walking 1,200 categories | 1 | 10 | 7 |
 | kept a plain-code backstop for destructive commands | 7 | 10 | 2 |
 | read `score` as a position from 0 to n-1 | 9 | 10 | 5 |
+
+Each row beats no skill, the official skill, or both by more than chance at 95%. [results.md](evals/docs/results.md) has the method and every other check.
 
 One check did not move: routing on `confidence` passed 2 of 10 runs with and without the skill, because the task never said where an uncertain ticket should go. The task now names a fallback for the next batch.
 
