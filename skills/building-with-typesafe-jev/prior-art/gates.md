@@ -19,7 +19,7 @@ from typesafe_sdk import Noul, NoulCriteria, Score, TypeSafeClient
 POLICY = {"review": 0.35, "block": 0.70, "severity_block": 1.5}   # one place, reviewable
 # Exact conditions whose miss cannot be undone. Jev cannot override these.
 DENY = [re.compile(p) for p in (
-    r"\brm\s+-[a-zA-Z]*[rf][a-zA-Z]*\s+(/|~|\$HOME)(\s|$)",   # rm -rf on / or home
+    r"\brm\s+(-\S+\s+)+(/|~|\$HOME)/?\*?(\s|$)",             # rm -rf on / or home, incl. ~/ and /*
     r"\bgit\s+push\b.*(--force|-f)\b",                          # force push
     r"\b(mkfs|dd\s+if=)",                                        # overwrite a disk
     r"\bDROP\s+(TABLE|DATABASE)\b",

@@ -119,7 +119,7 @@ r.model, r.usage.input_tokens, r.request_id, r.raw_http_response
 ```
 
 - Signature: `system_one(state, questions, *, model=None, retry=None, timeout=None, extra_headers=None, extra_body=None, response_model=None)`. `state` and `questions` also work positionally.
-- Client: `TypeSafeClient(api_key=None, model=None, retry=None, timeout=None, headers=None, transport=None, http_client=None, base_url=None)`. Default timeout 10.0 s per HTTP operation. A bad key raises `TypeSafeError` at construction.
+- Client: `TypeSafeClient(api_key=None, model=None, retry=None, timeout=None, headers=None, transport=None, http_client=None, base_url=None)`. Default timeout 10.0 s per HTTP operation. A missing key, or one with whitespace or non-printable characters, raises `TypeSafeError` at construction. A wrong key passes construction and raises `TypeSafeAuthenticationError` (401) on the first call.
 - Lifecycle: create one client and reuse it for all calls, from threads too. Use `with TypeSafeClient() as client:` for a script. In a service, keep one long-lived client and call `client.close()` at shutdown. Do not create a client per request.
 - Async: `async with AsyncTypeSafeClient() as client: r = await client.system_one(...)`.
 - Raw dict questions (`{"type": "noul", "instructions": "..."}`) mix freely with objects.

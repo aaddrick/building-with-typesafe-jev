@@ -44,7 +44,7 @@ Use `{"entity_a": ..., "entity_b": ...}`, `{"query": ..., "passage": ...}`, or `
 Seven Choices in one call: mode (absolute / relative / none), month, day, year (with `none` and `out_of_range`), day_anchor, weekday, week_offset. Code assembles the date and does all calendar math, with `TODAY` pinned. The confidence of the date is the minimum over the parts used. Review below 0.60, or when the assembled date is impossible.
 
 **Hierarchical classification** (`hierarchical_classification`, `classification_using_confidence`).
-- Use one Choice per tree level: `criteria={f"c{i}": label}`, or subtrees as the option values. Skip nodes with one child.
+- Use one Choice per tree level: `criteria={f"c{i}": label}`, or each child's label plus its subtree as the option value. An opaque key hides the label, so never send the subtree alone. Skip nodes with one child.
 - Beam search (K=3) scores each path as `prod(p) ** (1/decisions)`. The beam got 4/4 correct, greedy got 2/4.
 - Cheaper alternative: when `confidence < 0.9`, report the parent category instead of the leaf. No second call.
 
