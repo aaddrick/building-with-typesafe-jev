@@ -1,8 +1,4 @@
 <p align="center">
-  <img src=".github/assets/hero.png" alt="Building with TypeSafe Jev: typed decisions with calibrated confidence, for your coding agent. Prior art from 150+ community projects, sorted by shape. Two panels. On the left, an LLM with Structured Outputs returns valid JSON: department billing, severity medium, refund false in red, and a confidence of 0.95 that is generated, not calibrated. On the right, one Jev call returns three typed answers: a Choice (department: billing, confidence 0.88), a Score (severity: 1.43 of 2), and a Noul (refund: 0.99)." width="100%">
-</p>
-
-<p align="center">
   <strong>Building with TypeSafe Jev</strong><br>
   <em>Typed decisions with calibrated confidence, for your coding agent.</em><br>
   <em>Prior art from 150+ community projects, sorted by shape.</em>
@@ -32,12 +28,16 @@
 
 Coding agents treat Jev like one more chat model. This skill teaches them to design for it: typed questions, calibrated confidence, and a library of 150+ community projects sorted by how they work. It installs in Claude Code, Codex, and Antigravity CLI.
 
+[Jev](https://docs.typesafe.ai/introduction) is a [System One](https://docs.typesafe.ai/concepts/system-one) model. It does not write text. You send it content and a set of typed questions, and it answers each one with a value and a calibrated probability, usually in 100 to 200 ms:
+
+- **Choice** picks one option from a list. Example: route a ticket to billing, shipping, or support.
+- **Score** places the content on a scale you describe. Example: grade a pull request from "ignores the spec" to "meets the spec".
+- **Noul** gives the probability that a yes/no statement is true. Example: "this shell command deletes files outside the project."
+
 ## Install
 
 <details>
 <summary><strong>Claude Code</strong></summary>
-
-Run these two commands in your terminal:
 
 ```bash
 claude plugin marketplace add aaddrick/building-with-typesafe-jev
@@ -52,8 +52,6 @@ The skill loads on its own when you work on Jev code. To load it by hand, type:
 ```
 /building-with-typesafe-jev:building-with-typesafe-jev
 ```
-
-The install may say that a plugin option is not set yet. That is live testing, which stays off until you turn it on. See [Set up an API key](#set-up-an-api-key-optional-recommended).
 
 </details>
 
@@ -95,7 +93,7 @@ Start a new session. Antigravity CLI loads the skill when the task matches. To l
 /building-with-typesafe-jev:building-with-typesafe-jev
 ```
 
-Coming from Gemini CLI? If `agy plugin import gemini` brought this extension over, run the install command above anyway. It replaces the imported copy, whose settings command does not work in Antigravity CLI.
+Coming from Gemini CLI? If `agy plugin import gemini` brought this extension over, run the install command above anyway so the current copy replaces the imported one.
 
 </details>
 
@@ -108,9 +106,12 @@ Copy the `skills/building-with-typesafe-jev/` folder into your agent's skills fo
 
 ## Set up an API key (optional, recommended)
 
-The skill works without a key. It still picks the primitives, writes the questions and the code, and checks them against its API reference. With a key, it also tests each design with real API calls before the code reaches your project. That catches wrong field names and questions Jev reads differently than you meant. Each call costs a fraction of a cent, so we strongly suggest a key.
+The skill works without a key. With `TYPESAFE_API_KEY` set in the agent's shell, the agent can check its design against the live API before the code reaches your project. That catches wrong field names, and questions Jev reads differently than you meant. Each call costs a fraction of a cent.
 
-Live testing is off until you turn it on. While it is off, the skill never looks for a key. When it is on, it reads the key only from the environment variable you name (`TYPESAFE_API_KEY` unless you pick another), tells you before its first call, and keeps to about 10 test calls per task. Three steps: create a key, store it, and turn on live testing.
+<details>
+<summary><strong>Create, store, and troubleshoot a key</strong></summary>
+
+<br>
 
 <details>
 <summary><strong>Create a key</strong> (four steps in the TypeSafe console)</summary>
@@ -136,7 +137,7 @@ Live testing is off until you turn it on. While it is off, the skill never looks
 <details>
 <summary><strong>Store the key</strong> (macOS, Linux, Windows)</summary>
 
-Keep the key in its own file, readable only by you. The skill reads the key from an environment variable, never from a file, so the variable must be set in the shells your agent starts. Agents often start shells without a terminal, so each section puts the key where those shells can see it. Pick your system.
+Keep the key in its own file, readable only by you, and export it as `TYPESAFE_API_KEY`. Agents often start shells without a terminal, so each section puts the key where those shells can see it. Pick your system.
 
 <details>
 <summary><strong>macOS</strong> (zsh, the default shell)</summary>
@@ -239,174 +240,74 @@ An app you start from the dock, the start menu, or a desktop launcher does not r
 </details>
 
 <details>
-<summary><strong>Turn on live testing</strong> (Claude Code, Codex, Antigravity CLI)</summary>
-
-Each agent keeps two settings: live testing (`on` or `off`, default `off`) and the name of the variable that holds your key (default `TYPESAFE_API_KEY`). Set them once. They apply from the next session. The helper scripts need Python 3; the Codex one needs 3.11 or later.
-
-**Claude Code.** Run this in your terminal:
-
-```bash
-claude plugin install building-with-typesafe-jev@building-with-typesafe-jev --config live_testing=on
-```
-
-If your key is in a variable with another name, add `--config key_env_var=YOUR_VARIABLE`. In a session, `/plugin configure building-with-typesafe-jev@building-with-typesafe-jev` changes the same settings.
-
-**Codex.** Codex has no plugin settings, so the skill keeps them in `~/.codex/config.toml`, which Codex passes to every shell the agent starts. In a session, type:
-
-```
-$building-with-typesafe-jev:jev-settings live on
-```
-
-Codex asks to approve the write. To make the change by hand, add these lines to `~/.codex/config.toml`:
-
-```toml
-[shell_environment_policy.set]
-JEV_LIVE_TESTING = "on"
-JEV_KEY_ENV_VAR = "TYPESAFE_API_KEY"
-```
-
-Codex also asks you to trust the plugin's session-start hook once. At the start of each session, the hook tells the agent whether live testing is on and whether your key variable is set, never the key itself. In a session, type `/hooks` and trust it. Codex asks again when an update changes the hook. Until you trust it, the hook does not run, and the skill still checks the settings itself.
-
-**Antigravity CLI.** Antigravity CLI has no plugin settings, but the agent's shell inherits the environment of the terminal that started `agy`. So the settings are two environment variables, set where you stored the key. With the key in `~/.config/typesafe/env`, run this, then open a new terminal and restart `agy`:
-
-```bash
-echo 'export JEV_LIVE_TESTING=on' >> ~/.config/typesafe/env
-```
-
-If your key is in a variable with another name, add `export JEV_KEY_ENV_VAR=YOUR_VARIABLE` the same way. On fish or Windows, set `JEV_LIVE_TESTING` to `on` the way you stored the key.
-
-**Check it.** Start a new session and run the settings command: `/building-with-typesafe-jev:jev-settings` in Claude Code, `$building-with-typesafe-jev:jev-settings` in Codex, or `/building-with-typesafe-jev:jev-settings` in Antigravity CLI. It shows both settings and whether the agent's shell can see the key. It prints the key's length, never the key.
-
-**CI and containers.** The environment variables `JEV_LIVE_TESTING` and `JEV_KEY_ENV_VAR` override the saved settings in every agent.
-
-</details>
-
-<details>
 <summary><strong>If the agent cannot see the key</strong></summary>
 
-The settings command says `key: not set in this shell` when the agent's shell has no such variable. Check these in order:
+Ask the agent to run `echo ${#TYPESAFE_API_KEY}` (or `$env:TYPESAFE_API_KEY.Length` on Windows). If it prints `0` or nothing, check these in order:
 
 - **You started the agent before you stored the key.** Agent shells copy the environment of the program that started them. Quit the agent and start it from a new terminal.
 - **You started the agent from the dock, the start menu, or an IDE.** Those apps do not read your shell files. See "Desktop apps and IDE extensions" above.
-- **Codex filters the environment.** If `~/.codex/config.toml` sets `include_only` under `[shell_environment_policy]`, add your key variable, `JEV_LIVE_TESTING`, and `JEV_KEY_ENV_VAR` to it. If it sets `ignore_default_excludes = false`, Codex drops every variable with `KEY` in its name. Remove that line.
+- **Codex filters the environment.** If `~/.codex/config.toml` sets `include_only` under `[shell_environment_policy]`, add `TYPESAFE_API_KEY` to it. If it sets `ignore_default_excludes = false`, Codex drops every variable with `KEY` in its name. Remove that line.
 - **WSL.** Windows variables do not reach WSL. Store the key inside WSL with the Linux steps.
 
 </details>
 
-The skill never prints, logs, or hardcodes the key. It reads only the variable you name, and it hands the key to each test command without putting the key on a command line.
+</details>
 
-## What it does
+## How it was tested
 
-An LLM can return JSON, and with Structured Outputs the JSON parses every time. It can still be wrong, and nothing in the output tells you how often. A schema fixes the shape of the answer, not the answer. The department field says "billing" whether the model knew or guessed. If you add a confidence field, the model writes that number the same way it writes the answer. The number is not calibrated against anything.
-
-[Jev](https://docs.typesafe.ai/introduction) is a [System One](https://docs.typesafe.ai/concepts/system-one) model from TypeSafe AI. It does not write text. Its probabilities are optimized against outcomes, not sampled from a decoder, and most queries return in 100 to 200 ms. You send it some content, such as a support ticket, and a set of questions. It answers each question with a typed value and a calibrated probability. There is no text to parse. A question comes in one of three types:
-
-- **Choice** picks one option from a list you give. Example: an agent's next step, from search the docs, run the tests, or ask the user. That is tool routing with no LLM in the loop.
-- **Score** places the content on a scale that you describe step by step. Example: grade an agent's pull request on the scale ignores the spec → partly meets the spec → meets the spec. It lands at 1.6, most of the way to meeting the spec.
-- **Noul** gives the probability that a yes/no statement is true. Example: "this shell command deletes files outside the project" comes back as 0.97, and an approval gate stops the command before it runs.
-
-Reading the API reference is the easy part. The hard part is designing for a model that does not write text. An agent without this skill finds one tutorial, guesses the rest of the API, and brings prompt-and-parse habits to a model built to replace them. This skill gives the agent the API, the design rules, the known failure modes, and a map of what other people already built. The docs describe the model. The skill shows how to design for it.
-
-## What changes
-
-We gave a coding agent six Jev tasks, such as a support-ticket triage function and an approval gate for shell commands. The agent had the docs but no API key, so graders checked the code it wrote, not what that code did against Jev. Each task ran 10 times in each of three setups, all started together in one eval batch.
+We gave a coding agent six Jev tasks, such as a support-ticket triage function and an approval gate for shell commands. Each task ran 10 times with this skill, with no skill, and with the official skill, each arm in its own isolated container. The agent had the docs but no API key, so graders checked the code it wrote. Checks that need judgment went to three LLM judges from three providers (Claude Opus, GPT-6 Sol, Kimi K3), and the majority decided.
 
 | | No skill | This skill | Official skill |
 |---|---:|---:|---:|
-| Average score | 0.65 | 0.96 | 0.77 |
+| Average score | 0.65 ± 0.05 | **0.96 ± 0.02** | 0.77 ± 0.04 |
 
-A score is the share of checks a run passed. Each average is accurate to within 0.05, at 95% confidence.
+Score is the share of checks passed, averaged over 10 runs per task.
 
-### Where this skill made the difference
-
-These are the checks where the gap between this skill and no skill is too large to be chance, by a 95% test on the pass counts. Each number is how many of 10 runs passed.
+**Where the skill made the difference** (runs out of 10 that passed):
 
 | The agent's code... | No skill | This skill | Official skill |
 |---|---:|---:|---:|
 | counted in code, instead of asking Jev for a number | 1 | 8 | 0 |
 | named a field of the input in its questions | 0 | 10 | 1 |
 | pinned or logged the Jev model version | 0 | 10 | 0 |
-| kept more than one path while walking 1,200 categories | 1 | 10 | 7 |
 | gave the department list a catch-all option | 3 | 10 | 6 |
-| asked the command gate more than one yes/no question | 5 | 10 | 9 |
-| asked one question per rubric item and computed the grade in code | 5 | 10 | 10 |
+| kept more than one path while walking 1,200 categories | 1 | 10 | 7 |
+| kept a plain-code backstop for destructive commands | 7 | 10 | 2 |
+| read `score` as a position from 0 to n-1 | 9 | 10 | 5 |
 
-A pattern match grades three of these checks. The other four go to three LLM judges from three providers, Claude Opus, GPT-6 Sol, and Kimi K3, and the majority decides. The agent is a Claude model, so a Claude judge never decides alone.
+[See every check →](evals/docs/results.md#every-check)
 
-One more check leads, by two judges to one, so it is not in the table. With Opus and GPT-6 Sol, this skill kept the agent's own reason from approving a command in 10 runs, against 5 with no skill. Kimi K3 passed 9 of those 10 no-skill runs.
+Each of these rows beats no skill, the official skill, or both by more than chance at 95%.
 
-### Against the official skill
+**More detail:**
 
-By the same test, this skill passed more often than the official skill on eight checks. Four are in the table: counting, field names, model version, and the catch-all. The other four:
-
-- kept a plain-code rule that blocks a destructive command, or sends it to a person, whatever Jev says: 10 runs against 2
-- read the severity probabilities by their integer keys: 10 against 4
-- read `score` as a position from 0 to n-1: 10 against 5
-- kept the log labeler to 8 or fewer requests at once: 10 against 6
-
-### Where it made no difference
-
-- Routing on `confidence` passed 2 of 10 runs with this skill and 2 of 10 with no skill. The task never said where an uncertain ticket should go, so most agents returned the confidence value and left the decision to the caller. The skill itself says that is fine when code only picks the best option. The task now names a fallback, and the next eval batch will test it.
-- Every other check either passed in almost every run in all three setups, or differed by less than chance.
-
-[evals/docs/results.md](evals/docs/results.md) has every check. The [evals README](evals/README.md) says how to run the suite.
+- [evals/README.md](evals/README.md): results by case, and how to run the suite
+- [evals/docs/results.md](evals/docs/results.md): every check, each judge's scores, cost, tokens, and method
+- [evals/docs/cases.md](evals/docs/cases.md): the six tasks and what each check looks for
+- [evals/docs/harness.md](evals/docs/harness.md): how a run works, the isolated containers, and how to keep a batch
+- [evals/docs/lessons.md](evals/docs/lessons.md): what broke while the suite was being built
 
 ## What is inside
 
-The skill loads in layers, so the agent reads only what the task needs. One big file would cost the agent tokens and attention on every task, before it writes a line of code.
+The skill loads in layers, so the agent reads only what the task needs.
 
 | File | What it holds | When the agent reads it |
 |---|---|---|
-| `SKILL.md` | Which primitive to pick, 11 design rules, how to use probabilities and confidence, what to do when an answer is wrong, common mistakes | Every Jev task |
+| `SKILL.md` | Which primitive to pick, 11 design rules, how to use probabilities and confidence, common mistakes | Every Jev task |
 | `api-reference.md` | HTTP API, Python and JavaScript SDKs, limits, errors, environment variables | When it writes the code |
 | `patterns.md` | The 4 official patterns and techniques from 18 cookbooks, with their thresholds | When it designs a workflow |
 | `prior-art/INDEX.md` | A map from "what I want to build" to a shape, plus ideas that failed | Before it designs something new |
 | `prior-art/*.md` | 11 shape files: a code sketch, field lessons, and linked projects | One or two per design |
-| `scripts/jev_live.py` | Reads the live-testing settings, and runs a test command with the key | Before a live test call |
-| `../jev-settings/` | The settings command for Claude Code, Codex, and Antigravity CLI | When you run it |
 
-## The prior-art library
-
-Most catalogs sort projects by industry. This library sorts them by implementation shape. A game bot, a drone, and a trading bot share one shape: a control loop. Sorted that way, the three share one code sketch and one set of field lessons. The 11 shapes:
-
-- **Control loops**: games, drones, robots, markets.
-- **Select from candidates**: browser and phone agents, tool calling without an LLM, extraction, routers.
-- **Gates**: tool-call approval, "done" checks, CI, money, content.
-- **Stream filters**: slop filters, moderation, email, logs, bulk labels.
-- **Ranking and matching**: rerankers, entity matching, graph and taxonomy walks.
-- **Judges and evals**: rubric judges, trace grading, code review as triage.
-- **Incremental and real-time**: dubbing, voice, keystroke-driven interfaces.
-- **Agent context and memory**: compaction, memory gates, memory expiry, effort control.
-- **Pairing with an LLM**: planner and actor, verify-then-escalate, distillation.
-- **Answers as data**: features for classical models, research instruments, benchmarks.
-- **Embedding in infrastructure**: SQL functions, vector databases, CI hooks, Home Assistant.
-
-The index also lists the ideas that failed in the field: chess, code review as the only reviewer, perception, and calibration taken on trust. A failed attempt saves the next builder from repeating it.
-
-## How it was tested
-
-We tested the skill the way you test code: watch it fail first, then fix it.
-
-1. We ran a triage task with no skill and wrote down every guess and every mistake.
-2. We wrote the skill to fix those mistakes.
-3. A fresh agent ran the same task with the skill, then listed what was unclear. We fixed six gaps.
-4. We checked the API facts in the skill against the live API, with Python SDK 0.7.1 and model `jev-1.13.0`.
-5. We ran three of the prior-art code sketches against the live API. One run showed that Jev reads hallucination checks literally, and that lesson is now in the skill.
-6. A fresh agent tried three new designs with only the index. It found the right shape for each and reported two gaps. We fixed both.
-7. We installed the plugin in Claude Code, Codex, and Antigravity CLI, and checked that each one loads the skill.
-8. We ran six eval cases ten times each with this skill, with no skill, and with the official skill, each arm in its own isolated container. See [What changes](#what-changes) and the [evals README](evals/README.md).
-
-## Keep it current
-
-Jev changes fast. The skill is a snapshot of [docs.typesafe.ai](https://docs.typesafe.ai/llms.txt) and of the community on 2026-09-25. It tells the agent that the live docs win on any conflict, and it shows how to fetch them as Markdown. When a fact in the skill is wrong, please open an issue with a link to the source.
+The prior-art library sorts projects by how they work, not by industry. A game bot, a drone, and a trading bot are all **control loops**, so they share one sketch and one set of lessons. The other shapes: select from candidates, gates, stream filters, ranking and matching, judges and evals, incremental and real-time, agent context and memory, pairing with an LLM, answers as data, and embedding in infrastructure. The index also lists ideas that failed in the field.
 
 ## How this differs from the official skill
 
-The [official TypeSafe skill](https://github.com/typesafe-ai/skills) is short and points the agent at the live docs. It is the right source for current API details. Install it too if you want.
+The [official TypeSafe skill](https://github.com/typesafe-ai/skills) is one file of design guidance. For API details, it sends the agent to the live docs on every task. The two skills have different names and do not conflict, so you can install both, though the evals did not test them together.
 
-This skill holds more inside the skill itself: the exact API shapes, the thresholds from the cookbooks, the failure modes from the community, and the prior-art library. An agent can design without a network round trip, and it can find what others built before it starts.
+This skill holds more inside the skill itself: exact API shapes, cookbook thresholds, community failure modes, and the prior-art library. The agent can design without a network round trip and see what others built first.
 
-On the six eval tasks, the official skill scored 0.77 ± 0.04, against 0.65 ± 0.05 with no skill and 0.96 ± 0.02 with this one. See the [evals README](evals/README.md).
+Jev changes fast. The skill is a snapshot of [docs.typesafe.ai](https://docs.typesafe.ai/llms.txt) and the community on 2026-09-25, and it tells the agent the live docs win on any conflict. If a fact is wrong, please open an issue with a link to the source.
 
 ## Credits
 

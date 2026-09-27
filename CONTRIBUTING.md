@@ -23,7 +23,7 @@ python3 scripts/check_configs.py
 python3 -m unittest discover -s tests -v
 ```
 
-If you change an install command or a numbered step in `README.md`, change it in every file under `.github/readme/` too. The tests check that the commands match.
+If you change an install command in `README.md`, change it in every file under `.github/readme/` too. The tests check that the commands match.
 
 If you change the hero text, regenerate the card with `python3 scripts/make_card.py` (needs Pillow and NumPy) and commit the PNG.
 

@@ -2,7 +2,7 @@
 
 A translation drifts in silence: an install command changes, and the English
 README is the only file anyone rereads. These assertions cover the drifts that
-reach a reader as a wrong command, a renamed identifier, or a missing step.
+reach a reader as a wrong command or a renamed identifier.
 They do not check the prose. A translator still owns that.
 """
 
@@ -17,7 +17,6 @@ ENGLISH = ROOT / "README.md"
 TRANSLATIONS = sorted((ROOT / ".github" / "readme").glob("README.*.md"))
 LANGUAGES = {"zh-CN", "ja", "ko", "vi", "pt-BR", "it"}
 
-NUMBERED_ITEM = re.compile(r"^(\d+)\. ")
 INLINE_CODE = re.compile(r"`([^`\n]+)`")
 # A fence in one of these languages holds commands or settings. Every README
 # must carry it character for character, whatever the surrounding prose.
@@ -38,10 +37,6 @@ def fenced_lines(text: str) -> list[str]:
 
 def inline_code(text: str) -> collections.Counter:
     return collections.Counter(INLINE_CODE.findall(text))
-
-
-def numbered_items(text: str) -> list[int]:
-    return [int(m.group(1)) for line in text.split("\n") if (m := NUMBERED_ITEM.match(line))]
 
 
 class ReadmeTest(unittest.TestCase):
@@ -68,13 +63,6 @@ class ReadmeTest(unittest.TestCase):
                 found = inline_code(path.read_text(encoding="utf-8"))
                 self.assertEqual(expected, found,
                                  f"missing: {expected - found} / extra: {found - expected}")
-
-    def test_every_readme_has_the_same_numbered_steps(self):
-        expected = numbered_items(self.english)
-        self.assertTrue(expected)
-        for path in TRANSLATIONS:
-            with self.subTest(readme=path.name):
-                self.assertEqual(expected, numbered_items(path.read_text(encoding="utf-8")))
 
     def test_every_readme_links_every_language(self):
         for path in [ENGLISH, *TRANSLATIONS]:

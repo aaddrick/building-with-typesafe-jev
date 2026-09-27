@@ -1,8 +1,4 @@
 <p align="center">
-  <img src="../assets/hero.png" alt="Building with TypeSafe Jev: decisões tipadas com confiança calibrada, para o seu agente de código. Referências de mais de 150 projetos da comunidade, organizadas por formato. Dois painéis. À esquerda, um LLM com Structured Outputs devolve JSON válido: departamento billing, gravidade medium, reembolso false (em vermelho) e confiança 0,95, mas essa confiança é gerada, não calibrada. À direita, uma chamada ao Jev devolve três respostas tipadas: uma Choice (departamento: billing, confiança 0,88), um Score (gravidade: 1,43 de 2) e um Noul (reembolso: 0,99)." width="100%">
-</p>
-
-<p align="center">
   <strong>Building with TypeSafe Jev</strong><br>
   <em>Decisões tipadas com confiança calibrada, para o seu agente de código.</em><br>
   <em>Referências de mais de 150 projetos da comunidade, organizadas por formato.</em>
@@ -32,12 +28,16 @@
 
 Os agentes de código tratam o Jev como mais um modelo de chat. Esta skill ensina o agente a projetar para ele: perguntas tipadas, confiança calibrada e uma biblioteca de mais de 150 projetos da comunidade, organizados pela forma como funcionam. Ela se instala no Claude Code, no Codex e no Antigravity CLI.
 
+O [Jev](https://docs.typesafe.ai/introduction) é um modelo [System One](https://docs.typesafe.ai/concepts/system-one). Ele não escreve texto. Você envia um conteúdo e um conjunto de perguntas tipadas, e ele responde a cada uma com um valor e uma probabilidade calibrada, normalmente em 100 a 200 ms:
+
+- **Choice** escolhe uma opção de uma lista. Exemplo: encaminhar um ticket para cobrança, envio ou suporte.
+- **Score** posiciona o conteúdo numa escala que você descreve. Exemplo: avaliar um pull request de "ignora a especificação" a "atende a especificação".
+- **Noul** dá a probabilidade de uma afirmação de sim ou não ser verdadeira. Exemplo: "este comando de shell apaga arquivos fora do projeto."
+
 ## Instalação
 
 <details>
 <summary><strong>Claude Code</strong></summary>
-
-Rode estes dois comandos no terminal:
 
 ```bash
 claude plugin marketplace add aaddrick/building-with-typesafe-jev
@@ -52,8 +52,6 @@ A skill carrega sozinha quando você trabalha com código do Jev. Para carregá-
 ```
 /building-with-typesafe-jev:building-with-typesafe-jev
 ```
-
-A instalação pode avisar que uma opção do plugin ainda não foi definida. É o teste ao vivo, que fica desligado até você ligá-lo. Veja [Configure uma chave de API](#configure-uma-chave-de-api-opcional-recomendado).
 
 </details>
 
@@ -95,7 +93,7 @@ Abra uma nova sessão. O Antigravity CLI carrega a skill quando a tarefa combina
 /building-with-typesafe-jev:building-with-typesafe-jev
 ```
 
-Vindo do Gemini CLI? Se o `agy plugin import gemini` trouxe esta extensão, rode o comando de instalação acima mesmo assim. Ele substitui a cópia importada, cujo comando de configurações não funciona no Antigravity CLI.
+Vindo do Gemini CLI? Se o `agy plugin import gemini` trouxe esta extensão, rode o comando de instalação acima mesmo assim, para que a cópia atual substitua a importada.
 
 </details>
 
@@ -108,9 +106,12 @@ Copie a pasta `skills/building-with-typesafe-jev/` para a pasta de skills do seu
 
 ## Configure uma chave de API (opcional, recomendado)
 
-A skill funciona sem chave. Ela continua escolhendo as primitivas, escrevendo as perguntas e o código e conferindo tudo contra a referência da API. Com uma chave, ela também testa cada design com chamadas reais à API antes de o código chegar ao seu projeto. Isso pega nomes de campo errados e perguntas que o Jev lê de um jeito diferente do que você queria. Cada chamada custa uma fração de centavo, então recomendamos fortemente usar uma chave.
+A skill funciona sem chave. Com `TYPESAFE_API_KEY` definida no shell do agente, o agente pode conferir o design contra a API ao vivo antes de o código chegar ao seu projeto. Isso pega nomes de campo errados e perguntas que o Jev lê de um jeito diferente do que você queria. Cada chamada custa uma fração de centavo.
 
-O teste ao vivo fica desligado até você ligá-lo. Enquanto ele está desligado, a skill nunca procura uma chave. Quando está ligado, ela lê a chave só da variável de ambiente que você indicar (`TYPESAFE_API_KEY`, a menos que você escolha outra), avisa antes da primeira chamada e se limita a cerca de 10 chamadas de teste por tarefa. São três passos: criar uma chave, guardá-la e ligar o teste ao vivo.
+<details>
+<summary><strong>Crie, guarde e resolva problemas com uma chave</strong></summary>
+
+<br>
 
 <details>
 <summary><strong>Crie uma chave</strong> (quatro passos no console da TypeSafe)</summary>
@@ -136,7 +137,7 @@ O teste ao vivo fica desligado até você ligá-lo. Enquanto ele está desligado
 <details>
 <summary><strong>Guarde a chave</strong> (macOS, Linux, Windows)</summary>
 
-Mantenha a chave num arquivo próprio, que só você possa ler. A skill lê a chave de uma variável de ambiente, nunca de um arquivo, então a variável precisa estar definida nos shells que o seu agente abre. Os agentes costumam abrir shells sem terminal, então cada seção coloca a chave onde esses shells conseguem vê-la. Escolha o seu sistema.
+Mantenha a chave num arquivo próprio, que só você possa ler, e exporte-a como `TYPESAFE_API_KEY`. Os agentes costumam abrir shells sem terminal, então cada seção coloca a chave onde esses shells conseguem vê-la. Escolha o seu sistema.
 
 <details>
 <summary><strong>macOS</strong> (zsh, o shell padrão)</summary>
@@ -239,174 +240,74 @@ Um aplicativo que você abre pelo dock, pelo menu Iniciar ou por um atalho da á
 </details>
 
 <details>
-<summary><strong>Ligue o teste ao vivo</strong> (Claude Code, Codex, Antigravity CLI)</summary>
-
-Cada agente guarda duas configurações: o teste ao vivo (`on` ou `off`, padrão `off`) e o nome da variável que guarda a sua chave (padrão `TYPESAFE_API_KEY`). Defina-as uma vez. Elas valem a partir da próxima sessão. Os scripts auxiliares precisam de Python 3; o do Codex precisa da versão 3.11 ou mais nova.
-
-**Claude Code.** Rode isto no terminal:
-
-```bash
-claude plugin install building-with-typesafe-jev@building-with-typesafe-jev --config live_testing=on
-```
-
-Se a sua chave estiver numa variável com outro nome, adicione `--config key_env_var=YOUR_VARIABLE`. Numa sessão, `/plugin configure building-with-typesafe-jev@building-with-typesafe-jev` muda as mesmas configurações.
-
-**Codex.** O Codex não tem configurações de plugin, então a skill as guarda em `~/.codex/config.toml`, que o Codex repassa a todo shell que o agente abre. Numa sessão, digite:
-
-```
-$building-with-typesafe-jev:jev-settings live on
-```
-
-O Codex pede para aprovar a gravação. Para fazer a mudança manualmente, adicione estas linhas ao `~/.codex/config.toml`:
-
-```toml
-[shell_environment_policy.set]
-JEV_LIVE_TESTING = "on"
-JEV_KEY_ENV_VAR = "TYPESAFE_API_KEY"
-```
-
-O Codex também pede que você confie uma vez no hook de início de sessão do plugin. No começo de cada sessão, o hook diz ao agente se o teste ao vivo está ligado e se a variável da chave está definida, nunca a chave em si. Numa sessão, digite `/hooks` e confie nele. O Codex pede de novo quando uma atualização muda o hook. Até você confiar, o hook não roda, e a skill continua verificando as configurações por conta própria.
-
-**Antigravity CLI.** O Antigravity CLI não tem configurações de plugin, mas o shell do agente herda o ambiente do terminal que iniciou o `agy`. Então as configurações são duas variáveis de ambiente, definidas onde você guardou a chave. Com a chave em `~/.config/typesafe/env`, rode isto, depois abra um novo terminal e reinicie o `agy`:
-
-```bash
-echo 'export JEV_LIVE_TESTING=on' >> ~/.config/typesafe/env
-```
-
-Se a sua chave está numa variável com outro nome, adicione `export JEV_KEY_ENV_VAR=YOUR_VARIABLE` do mesmo jeito. No fish ou no Windows, defina `JEV_LIVE_TESTING` como `on` do jeito que você guardou a chave.
-
-**Confira.** Abra uma nova sessão e rode o comando de configurações: `/building-with-typesafe-jev:jev-settings` no Claude Code, `$building-with-typesafe-jev:jev-settings` no Codex ou `/building-with-typesafe-jev:jev-settings` no Antigravity CLI. Ele mostra as duas configurações e se o shell do agente consegue ver a chave. Ele imprime o tamanho da chave, nunca a chave.
-
-**CI e contêineres.** As variáveis de ambiente `JEV_LIVE_TESTING` e `JEV_KEY_ENV_VAR` sobrepõem as configurações salvas em todos os agentes.
-
-</details>
-
-<details>
 <summary><strong>Se o agente não consegue ver a chave</strong></summary>
 
-O comando de configurações diz `key: not set in this shell` quando o shell do agente não tem essa variável. Verifique estes pontos, nesta ordem:
+Peça ao agente para rodar `echo ${#TYPESAFE_API_KEY}` (ou `$env:TYPESAFE_API_KEY.Length` no Windows). Se ele imprimir `0` ou nada, verifique estes pontos, nesta ordem:
 
 - **Você abriu o agente antes de guardar a chave.** Os shells do agente copiam o ambiente do programa que os abriu. Feche o agente e abra-o a partir de um novo terminal.
 - **Você abriu o agente pelo dock, pelo menu Iniciar ou por uma IDE.** Esses aplicativos não leem os seus arquivos de shell. Veja "Aplicativos de desktop e extensões de IDE" acima.
-- **O Codex filtra o ambiente.** Se o `~/.codex/config.toml` define `include_only` em `[shell_environment_policy]`, adicione a ele a variável da sua chave, `JEV_LIVE_TESTING` e `JEV_KEY_ENV_VAR`. Se ele define `ignore_default_excludes = false`, o Codex descarta toda variável com `KEY` no nome. Remova essa linha.
+- **O Codex filtra o ambiente.** Se o `~/.codex/config.toml` define `include_only` em `[shell_environment_policy]`, adicione `TYPESAFE_API_KEY` a ele. Se ele define `ignore_default_excludes = false`, o Codex descarta toda variável com `KEY` no nome. Remova essa linha.
 - **WSL.** As variáveis do Windows não chegam ao WSL. Guarde a chave dentro do WSL com os passos de Linux.
 
 </details>
 
-A skill nunca imprime, registra em log ou deixa a chave fixa no código. Ela lê só a variável que você indicar e passa a chave para cada comando de teste sem colocá-la numa linha de comando.
+</details>
 
-## O que ela faz
+## Como foi testada
 
-Um LLM consegue devolver JSON, e com Structured Outputs o JSON é válido toda vez. Mesmo assim ele pode estar errado, e nada na saída diz com que frequência. Um schema fixa o formato da resposta, não a resposta. O campo de departamento diz "billing" tanto quando o modelo sabia quanto quando chutou. Se você adicionar um campo de confiança, o modelo escreve esse número do mesmo jeito que escreve a resposta. O número não é calibrado contra nada.
-
-O [Jev](https://docs.typesafe.ai/introduction) é um modelo [System One](https://docs.typesafe.ai/concepts/system-one) da TypeSafe AI. Ele não escreve texto. As probabilidades dele são otimizadas contra resultados reais, não amostradas de um decodificador, e a maioria das consultas volta em 100 a 200 ms. Você envia um conteúdo, como um ticket de suporte, e um conjunto de perguntas. Ele responde a cada pergunta com um valor tipado e uma probabilidade calibrada. Não há texto para parsear. Uma pergunta pode ser de um de três tipos:
-
-- **Choice** escolhe uma opção de uma lista que você fornece. Exemplo: o próximo passo de um agente, entre buscar na documentação, rodar os testes ou perguntar ao usuário. Isso é roteamento de ferramentas sem nenhum LLM no circuito.
-- **Score** posiciona o conteúdo numa escala que você descreve passo a passo. Exemplo: avaliar o pull request de um agente na escala ignora a especificação → atende parte da especificação → atende a especificação. Ele fica em 1.6, quase atendendo a especificação.
-- **Noul** dá a probabilidade de uma afirmação de sim ou não ser verdadeira. Exemplo: "este comando de shell apaga arquivos fora do projeto" volta como 0.97, e um portão de aprovação barra o comando antes de ele rodar.
-
-Ler a referência da API é a parte fácil. A parte difícil é projetar para um modelo que não escreve texto. Um agente sem esta skill encontra um tutorial, chuta o resto da API e leva hábitos de prompt e parsing para um modelo feito para substituí-los. Esta skill entrega ao agente a API, as regras de design, as falhas conhecidas e um mapa do que outras pessoas já construíram. A documentação descreve o modelo. A skill mostra como projetar para ele.
-
-## O que muda
-
-Demos a um agente de código seis tarefas com o Jev, como uma função de triagem de tickets de suporte e um portão de aprovação para comandos de shell. O agente tinha a documentação, mas nenhuma chave de API, então os avaliadores conferiram o código que ele escreveu, não o que esse código fez contra o Jev. Cada tarefa rodou 10 vezes em cada uma de três configurações, tudo iniciado junto num mesmo lote de eval.
+Demos a um agente de código seis tarefas com o Jev, como uma função de triagem de tickets de suporte e um portão de aprovação para comandos de shell. Cada tarefa rodou 10 vezes com esta skill, sem nenhuma skill e com a skill oficial, cada lado no seu próprio contêiner isolado. O agente tinha a documentação, mas nenhuma chave de API, então os avaliadores conferiram o código que ele escreveu. As verificações que exigem julgamento foram para três avaliadores LLM de três provedores (Claude Opus, GPT-6 Sol, Kimi K3), e a maioria decidiu.
 
 | | Sem skill | Esta skill | Skill oficial |
 |---|---:|---:|---:|
-| Pontuação média | 0.65 | 0.96 | 0.77 |
+| Pontuação média | 0.65 ± 0.05 | **0.96 ± 0.02** | 0.77 ± 0.04 |
 
-A pontuação é a fração das verificações em que uma execução passou. Cada média tem precisão de 0.05 para mais ou para menos, com 95% de confiança.
+A pontuação é a fração das verificações aprovadas, na média de 10 execuções por tarefa.
 
-### Onde esta skill fez a diferença
-
-Estas são as verificações em que a diferença entre esta skill e nenhuma skill é grande demais para ser acaso, por um teste de 95% sobre as contagens de aprovação. Cada número é quantas de 10 execuções passaram.
+**Onde a skill fez a diferença** (execuções aprovadas, de 10):
 
 | O código do agente... | Sem skill | Esta skill | Skill oficial |
 |---|---:|---:|---:|
 | contou no código, em vez de pedir um número ao Jev | 1 | 8 | 0 |
 | citou um campo da entrada nas suas perguntas | 0 | 10 | 1 |
 | fixou ou registrou a versão do modelo do Jev | 0 | 10 | 0 |
-| manteve mais de um caminho ao percorrer 1,200 categorias | 1 | 10 | 7 |
 | deu à lista de departamentos uma opção genérica | 3 | 10 | 6 |
-| fez ao portão de comandos mais de uma pergunta de sim ou não | 5 | 10 | 9 |
-| fez uma pergunta por item da rubrica e calculou a nota no código | 5 | 10 | 10 |
+| manteve mais de um caminho ao percorrer 1,200 categorias | 1 | 10 | 7 |
+| manteve uma proteção em código simples para comandos destrutivos | 7 | 10 | 2 |
+| leu `score` como uma posição de 0 a n-1 | 9 | 10 | 5 |
 
-Uma correspondência de padrão avalia três dessas verificações. As outras quatro vão para três avaliadores LLM de três provedores, Claude Opus, GPT-6 Sol e Kimi K3, e a maioria decide. O agente é um modelo Claude, então um avaliador Claude nunca decide sozinho.
+[Veja todas as verificações →](../../evals/docs/results.md#every-check)
 
-Mais uma verificação fica à frente, por dois avaliadores contra um, então não está na tabela. Com o Opus e o GPT-6 Sol, esta skill não deixou o motivo do próprio agente aprovar um comando em 10 execuções, contra 5 sem nenhuma skill. O Kimi K3 aprovou 9 dessas 10 execuções sem nenhuma skill.
+Cada uma dessas linhas supera a ausência de skill, a skill oficial ou as duas por mais do que o acaso explicaria, a 95%.
 
-### Contra a skill oficial
+**Mais detalhes:**
 
-Pelo mesmo teste, esta skill passou mais vezes que a skill oficial em oito verificações. Quatro estão na tabela: contagem, nomes de campo, versão do modelo e a opção genérica. As outras quatro:
-
-- manteve uma regra em código simples que barra um comando destrutivo, ou o envia a uma pessoa, diga o Jev o que disser: 10 execuções contra 2
-- leu as probabilidades de gravidade pelas suas chaves inteiras: 10 contra 4
-- leu `score` como uma posição de 0 a n-1: 10 contra 5
-- manteve o rotulador de logs em 8 ou menos requisições simultâneas: 10 contra 6
-
-### Onde não fez diferença
-
-- Rotear por `confidence` passou em 2 de 10 execuções com esta skill e em 2 de 10 sem nenhuma skill. A tarefa nunca disse para onde um ticket incerto deveria ir, então a maioria dos agentes devolveu o valor de confiança e deixou a decisão para quem chama. A própria skill diz que isso está certo quando o código só escolhe a melhor opção. A tarefa agora define um fallback, e o próximo lote de eval vai testá-lo.
-- Todas as outras verificações ou passaram em quase todas as execuções nas três configurações, ou diferiram menos do que o acaso explicaria.
-
-O [evals/docs/results.md](../../evals/docs/results.md) tem todas as verificações. O [README dos evals](../../evals/README.md) explica como rodar a suíte.
+- [evals/README.md](../../evals/README.md): resultados por caso e como rodar a suíte
+- [evals/docs/results.md](../../evals/docs/results.md): todas as verificações, as notas de cada avaliador, custo, tokens e método
+- [evals/docs/cases.md](../../evals/docs/cases.md): as seis tarefas e o que cada verificação procura
+- [evals/docs/harness.md](../../evals/docs/harness.md): como uma execução funciona, os contêineres isolados e como guardar um lote
+- [evals/docs/lessons.md](../../evals/docs/lessons.md): o que quebrou enquanto a suíte era construída
 
 ## O que tem dentro
 
-A skill carrega em camadas, então o agente lê só o que a tarefa pede. Um único arquivo grande custaria tokens e atenção do agente em toda tarefa, antes de ele escrever uma linha de código.
+A skill carrega em camadas, então o agente lê só o que a tarefa pede.
 
 | Arquivo | O que contém | Quando o agente lê |
 |---|---|---|
-| `SKILL.md` | Qual primitiva escolher, 11 regras de design, como usar probabilidades e confiança, o que fazer quando uma resposta está errada, erros comuns | Em toda tarefa com o Jev |
+| `SKILL.md` | Qual primitiva escolher, 11 regras de design, como usar probabilidades e confiança, erros comuns | Em toda tarefa com o Jev |
 | `api-reference.md` | API HTTP, SDKs de Python e JavaScript, limites, erros, variáveis de ambiente | Quando escreve o código |
 | `patterns.md` | Os 4 padrões oficiais e as técnicas de 18 cookbooks, com seus limiares | Quando projeta um fluxo |
 | `prior-art/INDEX.md` | Um mapa de "o que eu quero construir" para um formato, mais as ideias que falharam | Antes de projetar algo novo |
 | `prior-art/*.md` | 11 arquivos de formato: um esboço de código, lições de campo e projetos com link | Um ou dois por design |
-| `scripts/jev_live.py` | Lê as configurações do teste ao vivo e roda um comando de teste com a chave | Antes de uma chamada de teste ao vivo |
-| `../jev-settings/` | O comando de configurações para Claude Code, Codex e Antigravity CLI | Quando você o roda |
 
-## A biblioteca de referências
-
-A maioria dos catálogos organiza os projetos por setor. Esta biblioteca os organiza pelo formato da implementação. Um bot de jogo, um drone e um bot de trading compartilham o mesmo formato: um loop de controle. Organizados assim, os três compartilham um esboço de código e um conjunto de lições de campo. Os 11 formatos:
-
-- **Loops de controle**: jogos, drones, robôs, mercados.
-- **Seleção entre candidatos**: agentes de navegador e de celular, tool calling sem LLM, extração, roteadores.
-- **Portões**: aprovação de tool calls, verificações de "pronto", CI, dinheiro, conteúdo.
-- **Filtros de fluxo**: filtros de conteúdo genérico, moderação, e-mail, logs, rotulagem em massa.
-- **Ranqueamento e correspondência**: rerankers, correspondência de entidades, percursos em grafos e taxonomias.
-- **Juízes e avaliações**: juízes com rubrica, avaliação de traces, code review como triagem.
-- **Incremental e em tempo real**: dublagem, voz, interfaces guiadas pela digitação.
-- **Contexto e memória de agentes**: compactação, portões de memória, expiração de memória, controle de esforço.
-- **Parceria com um LLM**: planejador e executor, verificar e depois escalar, destilação.
-- **Respostas como dados**: features para modelos clássicos, instrumentos de pesquisa, benchmarks.
-- **Embutido na infraestrutura**: funções SQL, bancos de dados vetoriais, hooks de CI, Home Assistant.
-
-O índice também lista as ideias que falharam na prática: xadrez, code review como único revisor, percepção e calibração aceita sem verificação. Uma tentativa que falhou poupa o próximo construtor de repeti-la.
-
-## Como foi testada
-
-Testamos a skill do jeito que se testa código: primeiro vê-la falhar, depois corrigir.
-
-1. Rodamos uma tarefa de triagem sem a skill e anotamos cada chute e cada erro.
-2. Escrevemos a skill para corrigir esses erros.
-3. Um agente novo rodou a mesma tarefa com a skill e depois listou o que não estava claro. Corrigimos seis lacunas.
-4. Conferimos os fatos da API na skill contra a API ao vivo, com o SDK de Python 0.7.1 e o modelo `jev-1.13.0`.
-5. Rodamos três dos esboços de código das referências contra a API ao vivo. Uma execução mostrou que o Jev lê verificações de alucinação ao pé da letra, e essa lição agora está na skill.
-6. Um agente novo testou três designs novos só com o índice. Ele achou o formato certo para cada um e relatou duas lacunas. Corrigimos as duas.
-7. Instalamos o plugin no Claude Code, no Codex e no Antigravity CLI, e conferimos que cada um carrega a skill.
-8. Rodamos seis casos de eval dez vezes cada com esta skill, sem nenhuma skill e com a skill oficial, cada lado no seu próprio contêiner isolado. Veja [O que muda](#o-que-muda) e o [README dos evals](../../evals/README.md).
-
-## Mantenha atualizada
-
-O Jev muda rápido. A skill é um retrato de [docs.typesafe.ai](https://docs.typesafe.ai/llms.txt) e da comunidade em 2026-09-25. Ela diz ao agente que a documentação ao vivo prevalece em qualquer conflito e mostra como baixá-la em Markdown. Se algum fato na skill estiver errado, abra uma issue com um link para a fonte.
+A biblioteca de referências organiza os projetos pela forma como funcionam, não por setor. Um bot de jogo, um drone e um bot de trading são todos **loops de controle**, então compartilham um esboço e um conjunto de lições. Os outros formatos: seleção entre candidatos, portões, filtros de fluxo, ranqueamento e correspondência, juízes e avaliações, incremental e em tempo real, contexto e memória de agentes, parceria com um LLM, respostas como dados e embutido na infraestrutura. O índice também lista as ideias que falharam na prática.
 
 ## Como ela difere da skill oficial
 
-A [skill oficial da TypeSafe](https://github.com/typesafe-ai/skills) é curta e aponta o agente para a documentação ao vivo. Ela é a fonte certa para os detalhes atuais da API. Instale-a também, se quiser.
+A [skill oficial da TypeSafe](https://github.com/typesafe-ai/skills) é um único arquivo de orientações de design. Para os detalhes da API, ela manda o agente para a documentação ao vivo em toda tarefa. As duas skills têm nomes diferentes e não entram em conflito, então você pode instalar as duas, embora as avaliações não as tenham testado juntas.
 
-Esta skill guarda mais coisa dentro dela mesma: os formatos exatos da API, os limiares dos cookbooks, as falhas relatadas pela comunidade e a biblioteca de referências. Um agente consegue projetar sem ir à rede e consegue ver o que outros já construíram antes de começar.
+Esta skill guarda mais coisa dentro dela mesma: os formatos exatos da API, os limiares dos cookbooks, as falhas relatadas pela comunidade e a biblioteca de referências. O agente consegue projetar sem ir à rede e ver o que outros já construíram antes.
 
-Nas seis tarefas de eval, a skill oficial fez 0.77 ± 0.04, contra 0.65 ± 0.05 sem nenhuma skill e 0.96 ± 0.02 com esta. Veja o [README dos evals](../../evals/README.md).
+O Jev muda rápido. A skill é um retrato de [docs.typesafe.ai](https://docs.typesafe.ai/llms.txt) e da comunidade em 2026-09-25, e ela diz ao agente que a documentação ao vivo prevalece em qualquer conflito. Se algum fato estiver errado, abra uma issue com um link para a fonte.
 
 ## Créditos
 
