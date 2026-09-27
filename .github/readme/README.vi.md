@@ -303,7 +303,7 @@ Thư viện tham khảo xếp dự án theo cách chúng hoạt động, không 
 
 ## Khác biệt so với skill chính thức
 
-[Skill chính thức của TypeSafe](https://github.com/typesafe-ai/skills) ngắn gọn và trỏ tác nhân tới tài liệu trực tuyến. Đó là nguồn đúng cho chi tiết API hiện tại, và bạn có thể cài cả hai.
+[Skill chính thức của TypeSafe](https://github.com/typesafe-ai/skills) là một tệp hướng dẫn thiết kế. Với chi tiết API, nó đưa tác nhân tới tài liệu trực tuyến ở mọi tác vụ. Hai skill có tên khác nhau và không xung đột, nên bạn có thể cài cả hai, dù các bài đánh giá chưa thử chúng cùng lúc.
 
 Skill này chứa nhiều hơn ngay bên trong: hình dạng chính xác của API, các ngưỡng từ cookbook, các lỗi mà cộng đồng gặp phải, và thư viện tham khảo. Tác nhân có thể thiết kế mà không cần gọi mạng, và xem những gì người khác đã làm trước.
 

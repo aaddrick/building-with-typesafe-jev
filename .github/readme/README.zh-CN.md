@@ -303,7 +303,7 @@ $env:TYPESAFE_API_KEY.Length
 
 ## 与官方技能的区别
 
-[TypeSafe 官方技能](https://github.com/typesafe-ai/skills)很简短，它把智能体引向线上文档。要了解当前的 API 细节，它是合适的来源，你也可以两个都安装。
+[TypeSafe 官方技能](https://github.com/typesafe-ai/skills)是一个只包含设计指导的文件。涉及 API 细节时，它会在每个任务中让智能体去读线上文档。两个技能名称不同，互不冲突，所以你可以两个都安装，不过评估没有测试过两者同时安装的情况。
 
 这个技能本身包含更多内容：确切的 API 结构、cookbook 里的阈值、社区总结的失败模式，以及先例库。智能体不用联网就能做设计，也能先看到别人已经做过什么。
 

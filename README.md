@@ -303,7 +303,7 @@ The prior-art library sorts projects by how they work, not by industry. A game b
 
 ## How this differs from the official skill
 
-The [official TypeSafe skill](https://github.com/typesafe-ai/skills) is short and points the agent at the live docs. It is the right source for current API details, and you can install both.
+The [official TypeSafe skill](https://github.com/typesafe-ai/skills) is one file of design guidance. For API details, it sends the agent to the live docs on every task. The two skills have different names and do not conflict, so you can install both, though the evals did not test them together.
 
 This skill holds more inside the skill itself: exact API shapes, cookbook thresholds, community failure modes, and the prior-art library. The agent can design without a network round trip and see what others built first.
 

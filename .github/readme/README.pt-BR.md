@@ -303,7 +303,7 @@ A biblioteca de referências organiza os projetos pela forma como funcionam, nã
 
 ## Como ela difere da skill oficial
 
-A [skill oficial da TypeSafe](https://github.com/typesafe-ai/skills) é curta e aponta o agente para a documentação ao vivo. Ela é a fonte certa para os detalhes atuais da API, e você pode instalar as duas.
+A [skill oficial da TypeSafe](https://github.com/typesafe-ai/skills) é um único arquivo de orientações de design. Para os detalhes da API, ela manda o agente para a documentação ao vivo em toda tarefa. As duas skills têm nomes diferentes e não entram em conflito, então você pode instalar as duas, embora as avaliações não as tenham testado juntas.
 
 Esta skill guarda mais coisa dentro dela mesma: os formatos exatos da API, os limiares dos cookbooks, as falhas relatadas pela comunidade e a biblioteca de referências. O agente consegue projetar sem ir à rede e ver o que outros já construíram antes.
 

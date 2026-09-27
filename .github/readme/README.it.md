@@ -303,7 +303,7 @@ La libreria di esempi ordina i progetti per come funzionano, non per settore. Un
 
 ## In cosa differisce dalla skill ufficiale
 
-La [skill ufficiale di TypeSafe](https://github.com/typesafe-ai/skills) è breve e rimanda l'agente alla documentazione live. È la fonte giusta per i dettagli aggiornati dell'API, e puoi installarle entrambe.
+La [skill ufficiale di TypeSafe](https://github.com/typesafe-ai/skills) è un unico file di indicazioni di design. Per i dettagli dell'API, rimanda l'agente alla documentazione live in ogni task. Le due skill hanno nomi diversi e non vanno in conflitto, quindi puoi installarle entrambe, anche se le valutazioni non le hanno testate insieme.
 
 Questa skill contiene di più al suo interno: le forme esatte dell'API, le soglie dei cookbook, i casi di errore raccolti dalla community e la libreria di esempi. L'agente può progettare senza passare dalla rete e vedere quello che altri hanno costruito prima.
 
