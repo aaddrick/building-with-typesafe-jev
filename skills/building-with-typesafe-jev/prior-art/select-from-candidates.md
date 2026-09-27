@@ -56,7 +56,7 @@ def pick(client: TypeSafeClient, goal: str, elements: list[dict]) -> dict | None
 - Mac computer use with OCR, no screenshots, about $0.0002 per step, an LLM only for free text: [awlevin/typesafe-computer-use](https://github.com/awlevin/typesafe-computer-use)
 - Accessibility-tree browser agent, 10–40 refs per step, 21–23 decisions all correct for about $0.001: [HN](https://news.ycombinator.com/item?id=49758669)
 - macOS Accessibility tree, with voice control: [savka777/jev-use](https://github.com/savka777/jev-use). CUA's separate Jev example: [trycua/cua](https://github.com/trycua/cua) `libs/cua-driver/examples/jev-use`
-- Droidrun mobile-jev, 9 Uber actions on a real phone in 21 s (via MarkTechPost launch article). iOS/Android jev-phone: [HN](https://news.ycombinator.com/item?id=49831841)
+- Droidrun mobile-jev, 9 Uber actions on a real phone in 21 s: [droidrun/mobile-jev](https://github.com/droidrun/mobile-jev). iOS/Android jev-phone: [HN](https://news.ycombinator.com/item?id=49831841)
 - Rental search across Craigslist, FB Marketplace, Redfin, Zillow: Hearth, [Nancy-Chauhan/hearth-jev-rental-search](https://github.com/Nancy-Chauhan/hearth-jev-rental-search)
 - Distilled form-filler that beats Jev: [HN](https://news.ycombinator.com/item?id=49767564)
 

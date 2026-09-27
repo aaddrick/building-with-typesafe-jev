@@ -70,7 +70,7 @@ db.create_function("jev", 2, _jev, deterministic=True)
 
 **Home and desktop**
 - HA-Jev (sensors, automation actions, Assist agent): [AboveColin/HA-Jev](https://github.com/AboveColin/HA-Jev)
-- Self-sorting Downloads folder (X demo): [walidboulanouar/awesome-jev-use-cases](https://github.com/walidboulanouar/awesome-jev-use-cases)
+- Self-sorting Downloads folder: [x.com/marcelpociot](https://x.com/marcelpociot/status/2100906882365788167)
 
 **Ecosystem ports** (for non-Python/JS hosts)
 - Community SDKs in Go ([Stumble/jev-go](https://github.com/Stumble/jev-go)), Rust (jev-rs [HN](https://news.ycombinator.com/item?id=49814797)), Java/Spring ([HN](https://news.ycombinator.com/item?id=49762324)), .NET ([Hawxy/TypeSafeAI.Net](https://github.com/Hawxy/TypeSafeAI.Net)), Ruby ([HN](https://news.ycombinator.com/item?id=49757734)), PHP/Laravel ([Butochnikov/laravel-typesafe-jev](https://github.com/Butochnikov/laravel-typesafe-jev)), Elixir/OTP ([dannote/jev](https://github.com/dannote/jev)), Swift ([d-date/swift-jev](https://github.com/d-date/swift-jev)), R ([mountainMath/JevR](https://github.com/mountainMath/JevR)), PowerShell ([dfinke/Jev](https://github.com/dfinke/Jev)), Dart ([Solido/jev_dart](https://github.com/Solido/jev_dart)), Haskell ([realbogart/jev](https://github.com/realbogart/jev)), C++ ([pewriebontal/typesafe-sdk-cpp](https://github.com/pewriebontal/typesafe-sdk-cpp))

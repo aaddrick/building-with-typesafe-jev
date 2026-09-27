@@ -55,7 +55,7 @@ hidden = [p for p, l in zip(posts, labels) if max(l["ai"], l["promo"]) > 0.8]
 - slop-filter, weights fit to your labels: [adamnroman/slop-filter](https://github.com/adamnroman/slop-filter)
 - Slop Mop (LinkedIn): [HN](https://news.ycombinator.com/item?id=49819820). Sniffslop: [HN](https://news.ycombinator.com/item?id=49813985)
 - Ad blocker by meaning: [realZachi/typesafe-adblock](https://github.com/realZachi/typesafe-adblock)
-- X demos: scroll-time slop detector, YouTube sponsor skipper, plain-language X post hiding, Doomscroll Filter, reply-guy filter ([walidboulanouar/awesome-jev-use-cases](https://github.com/walidboulanouar/awesome-jev-use-cases))
+- Scroll-time slop detector [x.com/RBilgil](https://x.com/RBilgil/status/2100976648552169805), YouTube sponsor skipper [x.com/tdinh_me](https://x.com/tdinh_me/status/2100793777103466615), plain-language X post hiding [x.com/marcelpociot](https://x.com/marcelpociot/status/2100520134481735729), Doomscroll Filter [x.com/robj3d3](https://x.com/robj3d3/status/2101074194260000982), reply-guy filter [x.com/iannuttall](https://x.com/iannuttall/status/2100888635943883244)
 - Ground Truth article-framing overlay: [x.com](https://x.com/jagenaujagenau/status/2100622352333574460). Privacy Facts policy labels: [thenewpotato/privacy-facts](https://github.com/thenewpotato/privacy-facts)
 
 **Moderation and anti-spam**

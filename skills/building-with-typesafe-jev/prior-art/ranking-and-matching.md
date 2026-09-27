@@ -76,6 +76,6 @@ def walk(client: TypeSafeClient, doc: str, tree: dict, k: int = 3) -> list[tuple
 
 **Ranking people and things**
 - Composite scoring (resume screening weights): [docs.typesafe.ai](https://docs.typesafe.ai/patterns/composite-scoring.md)
-- 700 leads scored in 40 s, 400 companies matched to one candidate (X demos): [walidboulanouar/awesome-jev-use-cases](https://github.com/walidboulanouar/awesome-jev-use-cases)
+- 700 leads scored in 40 s: [x.com/romanbuildsaas](https://x.com/romanbuildsaas/status/2100891604735099103). 400 companies matched to one candidate: [x.com/sarvagya_kul](https://x.com/sarvagya_kul/status/2100980770206879849)
 - Nifty 50 re-rank every 15 s: [arimanyus/warrenduffer](https://github.com/arimanyus/warrenduffer)
 - "Poor man's ranking", top 5 of 1,000 articles (idea): [HN](https://news.ycombinator.com/item?id=49722440)
