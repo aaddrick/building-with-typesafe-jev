@@ -11,37 +11,16 @@ Jev is a **System One model**: it takes a `state` plus named, typed questions an
 
 **Before you design anything new, check prior art:** open `prior-art/INDEX.md`. It maps intents (control loop, gate, rerank, stream filter, incremental, agent memory, LLM pairing, and more) to shape files. Each shape file has a code sketch, field lessons, and linked community projects. Or grep `prior-art/` for a domain word. It also lists the known bad fits.
 
-Exact request/response shapes, SDK signatures, limits, and errors: see `api-reference.md`. It ends with a map of which live docs page to read for which task. Patterns and the cookbook index: see `patterns.md`. The live docs win on conflict: fetch `https://docs.typesafe.ai/llms.txt`, and append `.md` to any page path. Do not guess field names. Check them there. If the docs cannot be reached, read the installed SDK's types, tell the user you did, and do not invent details that depend on the version. If live testing is on (see below), run real calls to check shapes and wording. One call costs a fraction of a cent (input tokens only, 4.2 cents per million).
+Exact request/response shapes, SDK signatures, limits, and errors: see `api-reference.md`. It ends with a map of which live docs page to read for which task. Patterns and the cookbook index: see `patterns.md`. The live docs win on conflict: fetch `https://docs.typesafe.ai/llms.txt`, and append `.md` to any page path. Do not guess field names. Check them there. If the docs cannot be reached, read the installed SDK's types, tell the user you did, and do not invent details that depend on the version.
 
 **Open-ended request** ("where could AI help in this app?"): work backward from what the app should show, select, change, or hand off. Offer two or three directions from `prior-art/INDEX.md` and recommend one. **Concrete request:** pick the shape and build. Either way, keep the user's stack and scope, and add Jev only where code needs a judgment.
 
-## Live API testing: check the settings first
+## Test against the live API when you can
 
-Live testing is **off** by default, and only the status script in step 1 can tell whether the user turned it on. Never tell the user it is on or off without running that script. Until it prints `ready: yes`, do not look for a key: no environment dumps, no reading `.env` files, shell profiles, or key files. Design from `api-reference.md` and say that you did.
-
-**1. Check once per task, before the first test call.** `<dir>` is this skill's folder: `${CLAUDE_SKILL_DIR}` if your harness filled it in, or else the folder that holds this SKILL.md. Your shell does not start there, so write the full path. Copy the quoted arguments exactly as they appear, including any that still read `${...}`. Do not blank or remove them. Your harness fills in its own, and the script ignores the rest.
-
-```bash
-python3 <dir>/scripts/jev_live.py status --live '${user_config.live_testing}' --live '${JEV_LIVE_TESTING}' --key-var '${user_config.key_env_var}' --key-var '${JEV_KEY_ENV_VAR}'
-```
-
-On Windows, use `python` or `py -3` if `python3` is not found. If no Python runs at all, treat live testing as off.
-
-**2. Act on the last line.**
-- `ready: no`, live testing off: work offline. Tell the user once: "Live testing is off. To turn it on, run `/building-with-typesafe-jev:jev-settings` in Claude Code or Antigravity CLI, or `$building-with-typesafe-jev:jev-settings` in Codex."
-- `ready: no`, `key: not set in this shell`: name the missing variable, point the user to the README section "If the agent cannot see the key", and work offline. Do not look for the key anywhere else.
-- `ready: yes`: tell the user in one line, for example: "Live testing is on: about 5 test calls against `jev-1.13.0` with the key in `TYPESAFE_API_KEY`, each well under a tenth of a cent."
-
-**3. Run each test through `exec`,** with the key variable from the status output:
-
-```bash
-python3 <dir>/scripts/jev_live.py exec --key-var TYPESAFE_API_KEY -- uv run --with typesafe-sdk python probe.py
-```
-
-`exec` copies that variable into `TYPESAFE_API_KEY` for this one command only, and fails if the variable is not set. Wrap test commands only (a probe, a test run), never a server or a watcher. For a raw HTTP check, wrap `sh -c 'curl ... -H "Authorization: Bearer $TYPESAFE_API_KEY" ...'` the same way.
+You get better results when you check a design against the real endpoint. A live call catches a wrong field name, and it shows when Jev reads a question differently than you meant. If `TYPESAFE_API_KEY` is set in your shell, run a small probe before the code reaches the project. One call costs a fraction of a cent (input tokens only, 4.2 cents per million). If the key is not set, design from `api-reference.md` and say that you did. Do not go looking for the key in `.env` files, shell profiles, or key files. Point the user to the README section "If the agent cannot see the key".
 
 **Rules for the key:**
-- Do not print, echo, log, or commit it. The status line shows its length, which is enough.
+- Do not print, echo, log, or commit it.
 - Do not hardcode it or pass `api_key=` in code. Let the SDK read `TYPESAFE_API_KEY`. Keep it server-side.
 - `TYPESAFE_LOG_LEVEL=debug` logs request bodies without redaction. Headers stay redacted.
 - A `401` or `TypeSafeAuthenticationError` means the key is wrong or rotated. Ask the user to replace it where they stored it, never in the chat.

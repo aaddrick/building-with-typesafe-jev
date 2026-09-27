@@ -4,9 +4,8 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
-# No TypeSafe key is passed to a run, so live testing stays off. The container
-# also keeps your home out of reach. Use evals/container/run.sh for scores you
-# keep.
+# No TypeSafe key is passed to a run. The container also keeps your home out
+# of reach. Use evals/container/run.sh for scores you keep.
 
 source evals/lib/provenance.sh
 results=$(new_results_dir host)

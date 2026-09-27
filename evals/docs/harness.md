@@ -77,8 +77,7 @@ rootless podman.
 
 - **The repo is read-only.** Only `evals/results` is writable, and kept run
   directories land in `evals/results/tmp/` on the host.
-- **No TypeSafe key.** Live testing stays off, and every arm works from the same
-  docs.
+- **No TypeSafe key.** Every arm works from the same docs, with no live calls.
 - **Plugins come from GitHub at an exact commit.** The container clones over
   HTTPS, checks out the commit, and installs from that checkout's marketplace.
   `run.sh` refuses to test this plugin until its commit is pushed and nothing

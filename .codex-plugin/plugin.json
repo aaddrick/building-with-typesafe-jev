@@ -18,7 +18,6 @@
     "codex"
   ],
   "skills": "./skills/",
-  "hooks": "./hooks/codex-hooks.json",
   "interface": {
     "displayName": "Building with TypeSafe Jev",
     "shortDescription": "Typed decisions with calibrated confidence",
