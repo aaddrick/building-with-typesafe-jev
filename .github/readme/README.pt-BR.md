@@ -98,6 +98,19 @@ Vindo do Gemini CLI? Se o `agy plugin import gemini` trouxe esta extensão, rode
 </details>
 
 <details>
+<summary><strong>Muse (muse.ai)</strong></summary>
+
+O Muse carrega skills de `~/workspace/skills/` no próprio computador. Cole este comando em um chat do Muse e peça para o Muse executá-lo:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/aaddrick/building-with-typesafe-jev/main/scripts/install_muse.sh | bash
+```
+
+O script copia a pasta da skill para lá e reescreve o cabeçalho do `SKILL.md` no formato que o Muse lê. Abra um novo chat. O Muse carrega a skill quando a tarefa corresponde. Para atualizar, rode o comando de novo.
+
+</details>
+
+<details>
 <summary><strong>Qualquer outro agente que leia SKILL.md</strong></summary>
 
 Copie a pasta `skills/building-with-typesafe-jev/` para a pasta de skills do seu agente. Mantenha a pasta inteira. O `SKILL.md` aponta para os arquivos ao lado dele.

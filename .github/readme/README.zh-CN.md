@@ -98,6 +98,19 @@ agy plugin list
 </details>
 
 <details>
+<summary><strong>Muse (muse.ai)</strong></summary>
+
+Muse 从它自己电脑上的 `~/workspace/skills/` 加载技能。把这条命令粘贴到 Muse 对话里，让 Muse 运行它：
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/aaddrick/building-with-typesafe-jev/main/scripts/install_muse.sh | bash
+```
+
+脚本会把技能文件夹复制到那里，并把 `SKILL.md` 的头部改写成 Muse 能读取的格式。开始一个新对话。任务匹配时，Muse 会加载这个技能。要更新，再运行一次这条命令。
+
+</details>
+
+<details>
 <summary><strong>其他任何能读取 SKILL.md 的智能体</strong></summary>
 
 把 `skills/building-with-typesafe-jev/` 文件夹复制到你的智能体的技能文件夹里。保留整个文件夹。`SKILL.md` 会链接到它旁边的文件。

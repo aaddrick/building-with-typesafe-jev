@@ -98,6 +98,19 @@ Chuyển từ Gemini CLI sang? Nếu `agy plugin import gemini` đã mang extens
 </details>
 
 <details>
+<summary><strong>Muse (muse.ai)</strong></summary>
+
+Muse nạp skill từ `~/workspace/skills/` trên máy tính riêng của nó. Dán lệnh này vào một cuộc trò chuyện với Muse và yêu cầu Muse chạy nó:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/aaddrick/building-with-typesafe-jev/main/scripts/install_muse.sh | bash
+```
+
+Script sao chép thư mục skill vào đó và viết lại phần đầu của `SKILL.md` theo dạng Muse đọc được. Mở một cuộc trò chuyện mới. Muse nạp skill khi tác vụ phù hợp. Để cập nhật, chạy lại lệnh.
+
+</details>
+
+<details>
 <summary><strong>Tác nhân khác có đọc SKILL.md</strong></summary>
 
 Sao chép thư mục `skills/building-with-typesafe-jev/` vào thư mục skill của tác nhân. Giữ nguyên cả thư mục. `SKILL.md` liên kết tới các file nằm cạnh nó.

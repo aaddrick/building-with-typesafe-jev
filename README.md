@@ -98,6 +98,19 @@ Coming from Gemini CLI? If `agy plugin import gemini` brought this extension ove
 </details>
 
 <details>
+<summary><strong>Muse (muse.ai)</strong></summary>
+
+Muse loads skills from `~/workspace/skills/` on its own computer. Paste this command into a Muse chat and ask Muse to run it:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/aaddrick/building-with-typesafe-jev/main/scripts/install_muse.sh | bash
+```
+
+The script copies the skill folder there and rewrites the `SKILL.md` header into the shape Muse reads. Start a new chat. Muse loads the skill when the task matches. To update, run the command again.
+
+</details>
+
+<details>
 <summary><strong>Any other agent that reads SKILL.md</strong></summary>
 
 Copy the `skills/building-with-typesafe-jev/` folder into your agent's skills folder. Keep the whole folder. `SKILL.md` links to the files beside it.

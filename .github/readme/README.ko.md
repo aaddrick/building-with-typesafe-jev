@@ -98,6 +98,19 @@ Gemini CLI에서 옮겨 오셨나요? `agy plugin import gemini`로 이 확장�
 </details>
 
 <details>
+<summary><strong>Muse (muse.ai)</strong></summary>
+
+Muse는 자체 컴퓨터의 `~/workspace/skills/`에서 스킬을 불러옵니다. 이 명령을 Muse 채팅에 붙여 넣고 Muse에게 실행해 달라고 요청하세요:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/aaddrick/building-with-typesafe-jev/main/scripts/install_muse.sh | bash
+```
+
+스크립트가 스킬 폴더를 그곳에 복사하고 `SKILL.md`의 머리말을 Muse가 읽는 형태로 다시 씁니다. 새 채팅을 시작하세요. 작업이 맞으면 Muse가 스킬을 불러옵니다. 업데이트하려면 명령을 다시 실행하세요.
+
+</details>
+
+<details>
 <summary><strong>SKILL.md를 읽는 다른 에이전트</strong></summary>
 
 `skills/building-with-typesafe-jev/` 폴더를 에이전트의 스킬 폴더에 복사하세요. 폴더 전체를 유지하세요. `SKILL.md`는 옆에 있는 파일들을 링크합니다.

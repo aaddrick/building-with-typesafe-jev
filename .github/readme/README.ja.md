@@ -98,6 +98,19 @@ Gemini CLI から移行しましたか？ `agy plugin import gemini` でこの�
 </details>
 
 <details>
+<summary><strong>Muse (muse.ai)</strong></summary>
+
+Muse は自分専用のコンピューター上の `~/workspace/skills/` からスキルを読み込みます。このコマンドを Muse のチャットに貼り付け、実行するよう Muse に頼んでください：
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/aaddrick/building-with-typesafe-jev/main/scripts/install_muse.sh | bash
+```
+
+スクリプトはスキルフォルダをそこへコピーし、`SKILL.md` のヘッダーを Muse が読める形に書き換えます。新しいチャットを始めてください。タスクが合えば Muse がスキルを読み込みます。更新するときは、同じコマンドをもう一度実行します。
+
+</details>
+
+<details>
 <summary><strong>SKILL.md を読むその他のエージェント</strong></summary>
 
 `skills/building-with-typesafe-jev/` フォルダを、エージェントのスキルフォルダにコピーします。フォルダは丸ごと残してください。`SKILL.md` は隣にあるファイルへリンクしています。
