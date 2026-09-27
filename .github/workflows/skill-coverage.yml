@@ -1,0 +1,215 @@
+name: skill coverage
+
+# Asks Claude to bring the skill up to date with the cached TypeSafe docs and
+# opens (or refreshes) one pull request with the result. docs-cache.yml calls
+# this when the cache is newer than the copy the skill was last reviewed
+# against; run it by hand to retry a failed run.
+#
+# The diff runs from the copy named in upstream/typesafe-docs/skill-synced (a
+# git blob id) to the current cache, so docs changes that pile up while a
+# pull request waits are all in the next run. The pull request moves the
+# marker forward; merging it records the skill as reviewed.
+#
+# Needs the ANTHROPIC_API_KEY secret. GH_PAT is optional: a pull request that
+# GITHUB_TOKEN opens does not start the checks workflow, one GH_PAT opens
+# does. With only GITHUB_TOKEN, allow Actions to create pull requests under
+# Settings > Actions > General.
+on:
+  workflow_call:
+  workflow_dispatch:
+    inputs:
+      force:
+        description: Run even when the skill is marked as reviewed against the current cache
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: skill-coverage
+  cancel-in-progress: false
+
+env:
+  CACHE: upstream/typesafe-docs/llms-full.txt
+  SYNCED: upstream/typesafe-docs/skill-synced
+  SKILL: skills/building-with-typesafe-jev
+  BRANCH: docs-sync/skill-coverage
+  # Pinned like plugin-load-check.yml, so a CLI release changes this job only
+  # on the commit that bumps the pin.
+  CLAUDE_CODE_VERSION: "2.1.283"
+  MODEL: ${{ vars.SKILL_COVERAGE_MODEL || 'claude-opus-5-5' }}
+  MAX_BUDGET_USD: "8"
+
+jobs:
+  update-skill:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # A caller's github.sha predates the cache commit it just pushed.
+          ref: ${{ github.event.repository.default_branch }}
+          # The old copy is read back from history by its blob id.
+          fetch-depth: 0
+          token: ${{ secrets.GH_PAT || github.token }}
+
+      - name: Decide whether there is anything to review
+        id: plan
+        env:
+          FORCE: ${{ inputs.force || false }}
+          GH_TOKEN: ${{ secrets.GH_PAT || github.token }}
+        run: |
+          current=$(git hash-object "$CACHE")
+          synced=$(tr -d '[:space:]' < "$SYNCED")
+          echo "current=$current" >> "$GITHUB_OUTPUT"
+          echo "synced=$synced" >> "$GITHUB_OUTPUT"
+
+          if [[ "$FORCE" != "true" ]]; then
+            if [[ "$current" == "$synced" ]]; then
+              echo "The skill is already reviewed against the cached docs."
+              echo "run=false" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+            open=$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number // empty')
+            if [[ -n "$open" ]] && git fetch --quiet origin "$BRANCH" \
+                && [[ "$(git show "origin/$BRANCH:$SYNCED" | tr -d '[:space:]')" == "$current" ]]; then
+              echo "Pull request #$open already covers the cached docs."
+              echo "run=false" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+          fi
+          echo "run=true" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/setup-python@v5
+        if: steps.plan.outputs.run == 'true'
+        with:
+          python-version: "3.12"
+
+      - name: Build the change report
+        if: steps.plan.outputs.run == 'true'
+        env:
+          SYNCED_BLOB: ${{ steps.plan.outputs.synced }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/coverage"
+          # A marker whose blob is not in history (hand-edited, or empty)
+          # yields no old copy, so every page reads as added.
+          git cat-file -p "$SYNCED_BLOB" > "$RUNNER_TEMP/coverage/old.txt" 2>/dev/null || : > "$RUNNER_TEMP/coverage/old.txt"
+          python3 scripts/docs_diff.py report --old "$RUNNER_TEMP/coverage/old.txt" --new "$CACHE" \
+            > "$RUNNER_TEMP/coverage/report.md"
+          sed '/^## Diffs of changed pages/,$d' "$RUNNER_TEMP/coverage/report.md" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Install Claude Code
+        if: steps.plan.outputs.run == 'true'
+        run: npm install -g "@anthropic-ai/claude-code@$CLAUDE_CODE_VERSION"
+
+      # The prompt carries third-party docs text, so the toolset is an
+      # explicit allowlist with no Bash: an injected instruction can edit
+      # files, which the next step confines to the skill, but cannot run
+      # commands or reach the API key. The prompt goes in on stdin because
+      # one argv string caps at 128 KiB.
+      - name: Ask Claude to update the skill
+        if: steps.plan.outputs.run == 'true'
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          if [[ -z "$ANTHROPIC_API_KEY" ]]; then
+            echo "::error::The ANTHROPIC_API_KEY secret is not set"
+            exit 1
+          fi
+          cat .github/skill-coverage-prompt.md "$RUNNER_TEMP/coverage/report.md" > "$RUNNER_TEMP/coverage/prompt.md"
+
+          if timeout 1800s claude -p \
+              --allowedTools "Read,Grep,Glob,Edit,Write" \
+              --output-format json \
+              --model "$MODEL" \
+              --max-budget-usd "$MAX_BUDGET_USD" \
+              < "$RUNNER_TEMP/coverage/prompt.md" \
+              > "$RUNNER_TEMP/coverage/claude.json" \
+              2> "$RUNNER_TEMP/coverage/claude-stderr.log"; then
+            :
+          else
+            code=$?
+            echo "::error::claude exited $code"
+            tail -n 50 "$RUNNER_TEMP/coverage/claude-stderr.log"
+            exit 1
+          fi
+
+          jq -r '.result // empty' "$RUNNER_TEMP/coverage/claude.json" > "$RUNNER_TEMP/coverage/summary.md"
+          jq -r '"Claude: \(.num_turns // "?") turns, $\(.total_cost_usd // "?")"' "$RUNNER_TEMP/coverage/claude.json"
+          if [[ "$(jq -r '.is_error // false' "$RUNNER_TEMP/coverage/claude.json")" == "true" ]]; then
+            echo "::error::Claude reported an error"
+            cat "$RUNNER_TEMP/coverage/summary.md"
+            exit 1
+          fi
+          cat "$RUNNER_TEMP/coverage/summary.md" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Confine the edits to the skill
+        if: steps.plan.outputs.run == 'true'
+        run: |
+          outside=$(git status --porcelain --untracked-files=all | cut -c4- | grep -v "^$SKILL/" || true)
+          if [[ -n "$outside" ]]; then
+            echo "::error::Claude changed files outside $SKILL:"
+            echo "$outside"
+            exit 1
+          fi
+
+      - name: Mark the skill as reviewed against this copy
+        if: steps.plan.outputs.run == 'true'
+        run: echo "${{ steps.plan.outputs.current }}" > "$SYNCED"
+
+      - name: Checks
+        if: steps.plan.outputs.run == 'true'
+        run: |
+          python3 scripts/check_configs.py
+          python3 -m unittest discover -s tests
+
+      - name: Open or update the pull request
+        if: steps.plan.outputs.run == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT || github.token }}
+          BASE: ${{ github.event.repository.default_branch }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git switch -C "$BRANCH"
+          git add -A "$SKILL" "$SYNCED"
+          if git diff --cached --quiet "$SKILL"; then
+            subject="Review the skill against the TypeSafe docs of $(date -u +%F): no edits"
+          else
+            subject="Update the skill for the TypeSafe docs of $(date -u +%F)"
+          fi
+          git commit -m "$subject" -m "Generated by .github/workflows/skill-coverage.yml."
+          # One standing branch: a newer run replaces an unmerged older one,
+          # and its diff already spans both docs changes.
+          git push --force origin "$BRANCH"
+
+          {
+            cat "$RUNNER_TEMP/coverage/summary.md"
+            echo
+            echo "<details><summary>Docs change report</summary>"
+            echo
+            sed '/^## Diffs of changed pages/,$d' "$RUNNER_TEMP/coverage/report.md" | head -c 40000
+            echo
+            echo "</details>"
+            echo
+            echo "Merging moves \`$SYNCED\` to this copy of the docs. Closing without merging leaves it, so the next run reviews these changes again."
+            echo
+            echo "🤖 Generated with [Claude Code](https://claude.com/claude-code) by [skill-coverage]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID)"
+          } > "$RUNNER_TEMP/coverage/body.md"
+
+          open=$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number // empty')
+          if [[ -n "$open" ]]; then
+            gh pr edit "$open" --title "$subject" --body-file "$RUNNER_TEMP/coverage/body.md"
+            echo "Updated pull request #$open"
+          else
+            gh pr create --base "$BASE" --head "$BRANCH" --title "$subject" --body-file "$RUNNER_TEMP/coverage/body.md"
+          fi
+
+      - name: Keep the run's files
+        if: always() && steps.plan.outputs.run == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: skill-coverage
+          path: ${{ runner.temp }}/coverage/
+          if-no-files-found: ignore
