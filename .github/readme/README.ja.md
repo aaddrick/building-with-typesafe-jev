@@ -1,7 +1,7 @@
 <p align="center">
   <strong>Building with TypeSafe Jev</strong><br>
   <em>コーディングエージェントのための、較正された確信度つきの型付き判断。</em><br>
-  <em>150 を超えるコミュニティプロジェクトの先行事例を、形ごとに整理。</em>
+  <em>150 を超えるコミュニティプロジェクトへのリンクを形ごとに整理し、形ごとにコードスケッチ付き。</em>
 </p>
 
 <p align="center">
@@ -26,7 +26,7 @@
 > [!NOTE]
 > これは非公式のコミュニティ製スキルです。TypeSafe AI が作成、レビュー、推奨したものではありません。TypeSafe は独自のスキルを [typesafe-ai/skills](https://github.com/typesafe-ai/skills) で公開しています。[公式スキルとの違い](#公式スキルとの違い) も参照してください。
 
-コーディングエージェントは、Jev をチャットモデルの 1 つとして扱います。このスキルは、Jev に合わせた設計をエージェントに教えます。型付きの質問、較正された確信度、そして仕組みごとに整理した 150 を超えるコミュニティプロジェクトのライブラリです。Claude Code、Codex、Antigravity CLI にインストールできます。
+コーディングエージェントは、Jev をチャットモデルの 1 つとして扱います。このスキルは、Jev に合わせた設計をエージェントに教えます。型付きの質問、較正された確信度、そして仕組みごとに整理した 150 を超えるコミュニティプロジェクトへのリンクと、パターンごとのコードスケッチです。Claude Code、Codex、Antigravity CLI にインストールできます。
 
 [Jev](https://docs.typesafe.ai/introduction) は [System One](https://docs.typesafe.ai/concepts/system-one) モデルです。文章は書きません。コンテンツと型付きの質問のセットを送ると、Jev は各質問に値と較正された確率で答えます。通常は 100〜200 ms で返ります。
 
@@ -299,7 +299,23 @@ Dock、スタートメニュー、デスクトップのランチャーから起�
 | `prior-art/INDEX.md` | 「作りたいもの」から形への地図と、失敗したアイデア | 新しいものを設計する前 |
 | `prior-art/*.md` | 11 の形のファイル。コードのスケッチ、現場の教訓、リンク付きのプロジェクト | 1 つの設計につき 1〜2 個 |
 
-先行事例ライブラリは、プロジェクトを業界ではなく仕組みで分類します。ゲームのボット、ドローン、トレーディングボットはどれも**制御ループ**なので、1 つのスケッチと 1 組の教訓を共有します。ほかの形は、候補から選ぶ、ゲート、ストリームフィルタ、ランキングとマッチング、ジャッジと評価、逐次処理とリアルタイム、エージェントのコンテキストとメモリ、LLM との組み合わせ、データとしての答え、インフラへの組み込みです。インデックスには、現場で失敗したアイデアも載っています。
+## 先行事例ライブラリ
+
+多くのカタログは、プロジェクトを業界で分類します。このライブラリは実装の形で分類します。ゲームのボット、ドローン、トレーディングボットは同じ形を共有します。制御ループです。こう分類すると、3 つは 1 つのコードスケッチと 1 組の現場の教訓を共有できます。11 の形は次のとおりです。
+
+- **[制御ループ](../../skills/building-with-typesafe-jev/prior-art/control-loops.md)**: ゲーム、ドローン、ロボット、市場。
+- **[候補から選ぶ](../../skills/building-with-typesafe-jev/prior-art/select-from-candidates.md)**: ブラウザやスマートフォンのエージェント、LLM なしのツール呼び出し、抽出、ルーター。
+- **[ゲート](../../skills/building-with-typesafe-jev/prior-art/gates.md)**: ツール呼び出しの承認、「完了」チェック、CI、お金、コンテンツ。
+- **[ストリームフィルタ](../../skills/building-with-typesafe-jev/prior-art/stream-filters.md)**: 低品質コンテンツのフィルタ、モデレーション、メール、ログ、一括ラベル付け。
+- **[ランキングとマッチング](../../skills/building-with-typesafe-jev/prior-art/ranking-and-matching.md)**: リランカー、エンティティマッチング、グラフや分類体系の探索。
+- **[ジャッジと評価](../../skills/building-with-typesafe-jev/prior-art/judges-and-evals.md)**: ルーブリックによるジャッジ、トレースの採点、トリアージとしてのコードレビュー。
+- **[逐次処理とリアルタイム](../../skills/building-with-typesafe-jev/prior-art/incremental-realtime.md)**: 吹き替え、音声、キー入力で動くインターフェース。
+- **[エージェントのコンテキストとメモリ](../../skills/building-with-typesafe-jev/prior-art/agent-context-memory.md)**: コンパクション、メモリのゲート、メモリの期限切れ、労力の制御。
+- **[LLM との組み合わせ](../../skills/building-with-typesafe-jev/prior-art/llm-pairing.md)**: プランナーとアクター、検証してからエスカレーション、蒸留。
+- **[データとしての答え](../../skills/building-with-typesafe-jev/prior-art/research-and-features.md)**: 古典的なモデルの特徴量、研究用の測定器、ベンチマーク。
+- **[インフラへの組み込み](../../skills/building-with-typesafe-jev/prior-art/embedding-in-infrastructure.md)**: SQL 関数、ベクトルデータベース、CI フック、Home Assistant。
+
+インデックスには、現場で失敗したアイデアも載っています。チェス、唯一のレビュアーとしてのコードレビュー、知覚、そして鵜呑みにした較正です。失敗の記録があれば、次の作り手は同じ失敗を繰り返さずに済みます。
 
 ## 公式スキルとの違い
 

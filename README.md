@@ -1,7 +1,7 @@
 <p align="center">
   <strong>Building with TypeSafe Jev</strong><br>
   <em>Typed decisions with calibrated confidence, for your coding agent.</em><br>
-  <em>Prior art from 150+ community projects, sorted by shape.</em>
+  <em>Links to 150+ community projects, sorted by shape, with a code sketch for each.</em>
 </p>
 
 <p align="center">
@@ -26,7 +26,7 @@
 > [!NOTE]
 > This is an unofficial, community skill. It is not made, reviewed, or endorsed by TypeSafe AI. TypeSafe publishes its own skill at [typesafe-ai/skills](https://github.com/typesafe-ai/skills). See [How this differs from the official skill](#how-this-differs-from-the-official-skill).
 
-Coding agents treat Jev like one more chat model. This skill teaches them to design for it: typed questions, calibrated confidence, and a library of 150+ community projects sorted by how they work. It installs in Claude Code, Codex, and Antigravity CLI.
+Coding agents treat Jev like one more chat model. This skill teaches them to design for it: typed questions, calibrated confidence, and links to 150+ community projects, sorted by how they work, with a code sketch for each pattern. It installs in Claude Code, Codex, and Antigravity CLI.
 
 [Jev](https://docs.typesafe.ai/introduction) is a [System One](https://docs.typesafe.ai/concepts/system-one) model. It does not write text. You send it content and a set of typed questions, and it answers each one with a value and a calibrated probability, usually in 100 to 200 ms:
 
@@ -299,7 +299,23 @@ The skill loads in layers, so the agent reads only what the task needs.
 | `prior-art/INDEX.md` | A map from "what I want to build" to a shape, plus ideas that failed | Before it designs something new |
 | `prior-art/*.md` | 11 shape files: a code sketch, field lessons, and linked projects | One or two per design |
 
-The prior-art library sorts projects by how they work, not by industry. A game bot, a drone, and a trading bot are all **control loops**, so they share one sketch and one set of lessons. The other shapes: select from candidates, gates, stream filters, ranking and matching, judges and evals, incremental and real-time, agent context and memory, pairing with an LLM, answers as data, and embedding in infrastructure. The index also lists ideas that failed in the field.
+## The prior-art library
+
+Most catalogs sort projects by industry. This library sorts them by implementation shape. A game bot, a drone, and a trading bot share one shape: a control loop. Sorted that way, the three share one code sketch and one set of field lessons. The 11 shapes:
+
+- **[Control loops](skills/building-with-typesafe-jev/prior-art/control-loops.md)**: games, drones, robots, markets.
+- **[Select from candidates](skills/building-with-typesafe-jev/prior-art/select-from-candidates.md)**: browser and phone agents, tool calling without an LLM, extraction, routers.
+- **[Gates](skills/building-with-typesafe-jev/prior-art/gates.md)**: tool-call approval, "done" checks, CI, money, content.
+- **[Stream filters](skills/building-with-typesafe-jev/prior-art/stream-filters.md)**: slop filters, moderation, email, logs, bulk labels.
+- **[Ranking and matching](skills/building-with-typesafe-jev/prior-art/ranking-and-matching.md)**: rerankers, entity matching, graph and taxonomy walks.
+- **[Judges and evals](skills/building-with-typesafe-jev/prior-art/judges-and-evals.md)**: rubric judges, trace grading, code review as triage.
+- **[Incremental and real-time](skills/building-with-typesafe-jev/prior-art/incremental-realtime.md)**: dubbing, voice, keystroke-driven interfaces.
+- **[Agent context and memory](skills/building-with-typesafe-jev/prior-art/agent-context-memory.md)**: compaction, memory gates, memory expiry, effort control.
+- **[Pairing with an LLM](skills/building-with-typesafe-jev/prior-art/llm-pairing.md)**: planner and actor, verify-then-escalate, distillation.
+- **[Answers as data](skills/building-with-typesafe-jev/prior-art/research-and-features.md)**: features for classical models, research instruments, benchmarks.
+- **[Embedding in infrastructure](skills/building-with-typesafe-jev/prior-art/embedding-in-infrastructure.md)**: SQL functions, vector databases, CI hooks, Home Assistant.
+
+The index also lists the ideas that failed in the field: chess, code review as the only reviewer, perception, and calibration taken on trust. A failed attempt saves the next builder from repeating it.
 
 ## How this differs from the official skill
 

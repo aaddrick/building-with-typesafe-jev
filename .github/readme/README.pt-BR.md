@@ -1,7 +1,7 @@
 <p align="center">
   <strong>Building with TypeSafe Jev</strong><br>
   <em>Decisões tipadas com confiança calibrada, para o seu agente de código.</em><br>
-  <em>Referências de mais de 150 projetos da comunidade, organizadas por formato.</em>
+  <em>Links para mais de 150 projetos da comunidade, organizados por formato, com um esboço de código para cada um.</em>
 </p>
 
 <p align="center">
@@ -26,7 +26,7 @@
 > [!NOTE]
 > Esta é uma skill não oficial, feita pela comunidade. A TypeSafe AI não criou, não revisou e não endossa este projeto. A TypeSafe publica a própria skill em [typesafe-ai/skills](https://github.com/typesafe-ai/skills). Veja [Como ela difere da skill oficial](#como-ela-difere-da-skill-oficial).
 
-Os agentes de código tratam o Jev como mais um modelo de chat. Esta skill ensina o agente a projetar para ele: perguntas tipadas, confiança calibrada e uma biblioteca de mais de 150 projetos da comunidade, organizados pela forma como funcionam. Ela se instala no Claude Code, no Codex e no Antigravity CLI.
+Os agentes de código tratam o Jev como mais um modelo de chat. Esta skill ensina o agente a projetar para ele: perguntas tipadas, confiança calibrada e links para mais de 150 projetos da comunidade, organizados pela forma como funcionam, com um esboço de código para cada padrão. Ela se instala no Claude Code, no Codex e no Antigravity CLI.
 
 O [Jev](https://docs.typesafe.ai/introduction) é um modelo [System One](https://docs.typesafe.ai/concepts/system-one). Ele não escreve texto. Você envia um conteúdo e um conjunto de perguntas tipadas, e ele responde a cada uma com um valor e uma probabilidade calibrada, normalmente em 100 a 200 ms:
 
@@ -299,7 +299,23 @@ A skill carrega em camadas, então o agente lê só o que a tarefa pede.
 | `prior-art/INDEX.md` | Um mapa de "o que eu quero construir" para um formato, mais as ideias que falharam | Antes de projetar algo novo |
 | `prior-art/*.md` | 11 arquivos de formato: um esboço de código, lições de campo e projetos com link | Um ou dois por design |
 
-A biblioteca de referências organiza os projetos pela forma como funcionam, não por setor. Um bot de jogo, um drone e um bot de trading são todos **loops de controle**, então compartilham um esboço e um conjunto de lições. Os outros formatos: seleção entre candidatos, portões, filtros de fluxo, ranqueamento e correspondência, juízes e avaliações, incremental e em tempo real, contexto e memória de agentes, parceria com um LLM, respostas como dados e embutido na infraestrutura. O índice também lista as ideias que falharam na prática.
+## A biblioteca de referências
+
+A maioria dos catálogos organiza os projetos por setor. Esta biblioteca os organiza pelo formato da implementação. Um bot de jogo, um drone e um bot de trading compartilham o mesmo formato: um loop de controle. Organizados assim, os três compartilham um esboço de código e um conjunto de lições de campo. Os 11 formatos:
+
+- **[Loops de controle](../../skills/building-with-typesafe-jev/prior-art/control-loops.md)**: jogos, drones, robôs, mercados.
+- **[Seleção entre candidatos](../../skills/building-with-typesafe-jev/prior-art/select-from-candidates.md)**: agentes de navegador e de celular, tool calling sem LLM, extração, roteadores.
+- **[Portões](../../skills/building-with-typesafe-jev/prior-art/gates.md)**: aprovação de tool calls, verificações de "pronto", CI, dinheiro, conteúdo.
+- **[Filtros de fluxo](../../skills/building-with-typesafe-jev/prior-art/stream-filters.md)**: filtros de conteúdo genérico, moderação, e-mail, logs, rotulagem em massa.
+- **[Ranqueamento e correspondência](../../skills/building-with-typesafe-jev/prior-art/ranking-and-matching.md)**: rerankers, correspondência de entidades, percursos em grafos e taxonomias.
+- **[Juízes e avaliações](../../skills/building-with-typesafe-jev/prior-art/judges-and-evals.md)**: juízes com rubrica, avaliação de traces, code review como triagem.
+- **[Incremental e em tempo real](../../skills/building-with-typesafe-jev/prior-art/incremental-realtime.md)**: dublagem, voz, interfaces guiadas pela digitação.
+- **[Contexto e memória de agentes](../../skills/building-with-typesafe-jev/prior-art/agent-context-memory.md)**: compactação, portões de memória, expiração de memória, controle de esforço.
+- **[Parceria com um LLM](../../skills/building-with-typesafe-jev/prior-art/llm-pairing.md)**: planejador e executor, verificar e depois escalar, destilação.
+- **[Respostas como dados](../../skills/building-with-typesafe-jev/prior-art/research-and-features.md)**: features para modelos clássicos, instrumentos de pesquisa, benchmarks.
+- **[Embutido na infraestrutura](../../skills/building-with-typesafe-jev/prior-art/embedding-in-infrastructure.md)**: funções SQL, bancos de dados vetoriais, hooks de CI, Home Assistant.
+
+O índice também lista as ideias que falharam na prática: xadrez, code review como único revisor, percepção e calibração aceita sem verificação. Uma tentativa que falhou poupa o próximo construtor de repeti-la.
 
 ## Como ela difere da skill oficial
 

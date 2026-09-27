@@ -37,26 +37,26 @@ def to_features(r) -> dict[str, float]:
 ## Prior art
 
 **Features and prediction**
-- Autoresearch feature discovery (LLM proposes → Jev answers → CatBoost): https://docs.typesafe.ai/cookbooks/autoresearch_feature_discovery.md
-- 67 numeric columns from Jev answers (suggested): https://flaviocopes.com/jev/
-- Demand forecasting and predictive features (idea): https://docs.typesafe.ai/concepts/use-case-map.md
+- Autoresearch feature discovery (LLM proposes → Jev answers → CatBoost): [docs.typesafe.ai](https://docs.typesafe.ai/cookbooks/autoresearch_feature_discovery.md)
+- 67 numeric columns from Jev answers (suggested): [flaviocopes.com](https://flaviocopes.com/jev/)
+- Demand forecasting and predictive features (idea): [docs.typesafe.ai](https://docs.typesafe.ai/concepts/use-case-map.md)
 
 **Research instruments**
-- ENEM exam distractor psychometrics (option probabilities vs. real student choices): gh:Paulo83-dev/ARTIGO---PSICOMETRIA---JEV-CC-
-- RST discourse relation labelling (34 labels, 2 Choices per span pair): gh:mkrupo/som_rst_parsing
-- Jev-Mem agent-memory paper (UT Dallas): gh:libingzheren/Jev-Mem
-- Clinical variable extraction, Jev as a baseline: gh:JunMa11/MedJev
-- Systematic-review extraction with verbatim quotes: jev-reviewer (awesome-jev-typesafe)
-- Engineering: CAD routing, FEM triage, DFM, BOM alignment: jev-for-engineers (awesome-jev-typesafe)
+- ENEM exam distractor psychometrics (option probabilities vs. real student choices): [Paulo83-dev/ARTIGO---PSICOMETRIA---JEV-CC-](https://github.com/Paulo83-dev/ARTIGO---PSICOMETRIA---JEV-CC-)
+- RST discourse relation labelling (34 labels, 2 Choices per span pair): [mkrupo/som_rst_parsing](https://github.com/mkrupo/som_rst_parsing)
+- Jev-Mem agent-memory paper (UT Dallas): [libingzheren/Jev-Mem](https://github.com/libingzheren/Jev-Mem)
+- Clinical variable extraction, Jev as a baseline: [JunMa11/MedJev](https://github.com/JunMa11/MedJev)
+- Systematic-review extraction with verbatim quotes: [choxos/jev-reviewer](https://github.com/choxos/jev-reviewer)
+- Engineering: CAD routing, FEM triage, DFM, BOM alignment: [Foadsf/jev-for-engineers](https://github.com/Foadsf/jev-for-engineers)
 
 **Data curation**
-- jev-curate, Rust streaming of Parquet/JSONL rubrics at >1,500 rows/s: gh:AkashPriyadarshii/jev-curate
-- "blask datos labelling", the top app on OpenRouter's Jev page (about 26.7B tokens): https://openrouter.ai/typesafe/jev-1.13
+- jev-curate, Rust streaming of Parquet/JSONL rubrics at >1,500 rows/s: [AkashPriyadarshii/jev-curate](https://github.com/AkashPriyadarshii/jev-curate)
+- "blask datos labelling", the top app on OpenRouter's Jev page (about 26.7B tokens): [openrouter.ai](https://openrouter.ai/typesafe/jev-1.13)
 
 **Benchmarks of Jev**
-- OpenSanctions entity resolution: gh:panios/jev-opensanctions-benchmark
-- Chess vs. NPC-addressee detection (out-of-lane vs. in-lane): gh:wondertwins/jev-benchmark
-- Parallel vs. separate questions (identical answers, 12× cheaper batched): https://docs.typesafe.ai/cookbooks/parallel_questions.md
-- Self-consistency vs. LLMs: https://docs.typesafe.ai/cookbooks/consistency_choice_cookbook.md
-- Calibration critiques (fair die, "30% risk"): HN:49830385, HN:49816899
-- jevbench leaderboard (decider-4b slightly above Jev 1.13): HN:49849014
+- OpenSanctions entity resolution: [panios/jev-opensanctions-benchmark](https://github.com/panios/jev-opensanctions-benchmark)
+- Chess vs. NPC-addressee detection (out-of-lane vs. in-lane): [wondertwins/jev-benchmark](https://github.com/wondertwins/jev-benchmark)
+- Parallel vs. separate questions (identical answers, 12× cheaper batched): [docs.typesafe.ai](https://docs.typesafe.ai/cookbooks/parallel_questions.md)
+- Self-consistency vs. LLMs: [docs.typesafe.ai](https://docs.typesafe.ai/cookbooks/consistency_choice_cookbook.md)
+- Calibration critiques (fair die, "30% risk"): [HN](https://news.ycombinator.com/item?id=49830385), [HN](https://news.ycombinator.com/item?id=49816899)
+- jevbench leaderboard (decider-4b slightly above Jev 1.13): [HN](https://news.ycombinator.com/item?id=49849014)

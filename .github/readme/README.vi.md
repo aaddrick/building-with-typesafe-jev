@@ -1,7 +1,7 @@
 <p align="center">
   <strong>Building with TypeSafe Jev</strong><br>
   <em>Quyết định có kiểu với độ tin cậy đã hiệu chỉnh, dành cho tác nhân lập trình của bạn.</em><br>
-  <em>Tham khảo từ hơn 150 dự án cộng đồng, xếp theo dạng.</em>
+  <em>Liên kết tới hơn 150 dự án cộng đồng, xếp theo dạng, mỗi dạng có một bản phác thảo code.</em>
 </p>
 
 <p align="center">
@@ -26,7 +26,7 @@
 > [!NOTE]
 > Đây là một skill không chính thức do cộng đồng làm. TypeSafe AI không làm, không duyệt và không bảo trợ nó. TypeSafe có skill riêng tại [typesafe-ai/skills](https://github.com/typesafe-ai/skills). Xem [Khác biệt so với skill chính thức](#khác-biệt-so-với-skill-chính-thức).
 
-Các tác nhân lập trình đối xử với Jev như thêm một chat model nữa. Skill này dạy chúng thiết kế cho nó: câu hỏi có kiểu, độ tin cậy đã hiệu chỉnh, và một thư viện hơn 150 dự án cộng đồng xếp theo cách chúng hoạt động. Nó cài được trong Claude Code, Codex và Antigravity CLI.
+Các tác nhân lập trình đối xử với Jev như thêm một chat model nữa. Skill này dạy chúng thiết kế cho nó: câu hỏi có kiểu, độ tin cậy đã hiệu chỉnh, và liên kết tới hơn 150 dự án cộng đồng, xếp theo cách chúng hoạt động, mỗi mẫu có một bản phác thảo code. Nó cài được trong Claude Code, Codex và Antigravity CLI.
 
 [Jev](https://docs.typesafe.ai/introduction) là một model [System One](https://docs.typesafe.ai/concepts/system-one). Nó không viết văn bản. Bạn gửi cho nó một nội dung cùng một bộ câu hỏi có kiểu, và nó trả lời mỗi câu hỏi bằng một giá trị kèm xác suất đã hiệu chỉnh, thường trong 100 tới 200 ms:
 
@@ -299,7 +299,23 @@ Skill tải theo từng lớp, nên tác nhân chỉ đọc những gì tác v�
 | `prior-art/INDEX.md` | Bản đồ từ "thứ tôi muốn làm" tới một dạng, cùng các ý tưởng đã thất bại | Trước khi thiết kế thứ gì mới |
 | `prior-art/*.md` | 11 file dạng: một đoạn code mẫu, bài học thực tế, và các dự án liên kết | Một hoặc hai file cho mỗi thiết kế |
 
-Thư viện tham khảo xếp dự án theo cách chúng hoạt động, không theo ngành. Một bot chơi game, một drone và một bot giao dịch đều là **vòng điều khiển**, nên chúng dùng chung một đoạn code mẫu và một bộ bài học. Các dạng còn lại: chọn từ các ứng viên, cổng kiểm soát, bộ lọc luồng, xếp hạng và so khớp, giám khảo và đánh giá, tăng dần và thời gian thực, ngữ cảnh và bộ nhớ của tác nhân, kết hợp với LLM, câu trả lời là dữ liệu, và nhúng vào hạ tầng. Chỉ mục cũng liệt kê các ý tưởng đã thất bại trong thực tế.
+## Thư viện tham khảo
+
+Hầu hết các danh mục xếp dự án theo ngành. Thư viện này xếp chúng theo dạng triển khai. Một bot chơi game, một drone và một bot giao dịch có chung một dạng: vòng điều khiển. Xếp theo cách đó, cả ba dùng chung một đoạn code mẫu và một bộ bài học thực tế. 11 dạng:
+
+- **[Vòng điều khiển](../../skills/building-with-typesafe-jev/prior-art/control-loops.md)**: game, drone, robot, thị trường.
+- **[Chọn từ các ứng viên](../../skills/building-with-typesafe-jev/prior-art/select-from-candidates.md)**: tác nhân trình duyệt và điện thoại, gọi công cụ không cần LLM, trích xuất, bộ định tuyến.
+- **[Cổng kiểm soát](../../skills/building-with-typesafe-jev/prior-art/gates.md)**: duyệt lệnh gọi công cụ, kiểm tra "đã xong", CI, tiền, nội dung.
+- **[Bộ lọc luồng](../../skills/building-with-typesafe-jev/prior-art/stream-filters.md)**: lọc nội dung rác, kiểm duyệt, email, log, gán nhãn hàng loạt.
+- **[Xếp hạng và so khớp](../../skills/building-with-typesafe-jev/prior-art/ranking-and-matching.md)**: reranker, so khớp thực thể, duyệt đồ thị và phân loại.
+- **[Giám khảo và đánh giá](../../skills/building-with-typesafe-jev/prior-art/judges-and-evals.md)**: giám khảo theo rubric, chấm trace, review code để phân loại.
+- **[Tăng dần và thời gian thực](../../skills/building-with-typesafe-jev/prior-art/incremental-realtime.md)**: lồng tiếng, giọng nói, giao diện chạy theo phím gõ.
+- **[Ngữ cảnh và bộ nhớ của tác nhân](../../skills/building-with-typesafe-jev/prior-art/agent-context-memory.md)**: nén ngữ cảnh, cổng bộ nhớ, hết hạn bộ nhớ, điều chỉnh mức nỗ lực.
+- **[Kết hợp với LLM](../../skills/building-with-typesafe-jev/prior-art/llm-pairing.md)**: planner và actor, kiểm tra rồi mới chuyển lên, chưng cất (distillation).
+- **[Câu trả lời là dữ liệu](../../skills/building-with-typesafe-jev/prior-art/research-and-features.md)**: đặc trưng cho model cổ điển, công cụ nghiên cứu, benchmark.
+- **[Nhúng vào hạ tầng](../../skills/building-with-typesafe-jev/prior-art/embedding-in-infrastructure.md)**: hàm SQL, cơ sở dữ liệu vector, hook CI, Home Assistant.
+
+Chỉ mục cũng liệt kê các ý tưởng đã thất bại trong thực tế: cờ vua, review code khi Jev là người review duy nhất, nhận thức hình ảnh, và tin vào hiệu chỉnh mà không kiểm tra. Một lần thử thất bại giúp người làm sau khỏi lặp lại nó.
 
 ## Khác biệt so với skill chính thức
 

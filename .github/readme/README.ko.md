@@ -1,7 +1,7 @@
 <p align="center">
   <strong>Building with TypeSafe Jev</strong><br>
   <em>코딩 에이전트를 위한, 보정된 신뢰도를 갖춘 타입 있는 결정.</em><br>
-  <em>150개가 넘는 커뮤니티 프로젝트의 선행 사례를 형태별로 정리했습니다.</em>
+  <em>150개가 넘는 커뮤니티 프로젝트 링크를 형태별로 정리하고, 형태마다 코드 스케치를 담았습니다.</em>
 </p>
 
 <p align="center">
@@ -26,7 +26,7 @@
 > [!NOTE]
 > 이 스킬은 비공식 커뮤니티 스킬입니다. TypeSafe AI가 만들거나 검토하거나 보증한 것이 아닙니다. TypeSafe는 자체 스킬을 [typesafe-ai/skills](https://github.com/typesafe-ai/skills)에 공개하고 있습니다. [공식 스킬과 다른 점](#공식-스킬과-다른-점)을 참고하세요.
 
-코딩 에이전트는 Jev를 채팅 모델 하나쯤으로 다룹니다. 이 스킬은 에이전트가 Jev에 맞게 설계하도록 가르칩니다. 타입 있는 질문, 보정된 신뢰도, 그리고 동작 방식별로 정리한 150개가 넘는 커뮤니티 프로젝트 라이브러리를 담았습니다. Claude Code, Codex, Antigravity CLI에 설치할 수 있습니다.
+코딩 에이전트는 Jev를 채팅 모델 하나쯤으로 다룹니다. 이 스킬은 에이전트가 Jev에 맞게 설계하도록 가르칩니다. 타입 있는 질문, 보정된 신뢰도, 그리고 동작 방식별로 정리한 150개가 넘는 커뮤니티 프로젝트 링크와 패턴별 코드 스케치를 담았습니다. Claude Code, Codex, Antigravity CLI에 설치할 수 있습니다.
 
 [Jev](https://docs.typesafe.ai/introduction)는 [System One](https://docs.typesafe.ai/concepts/system-one) 모델입니다. 글을 쓰지 않습니다. 콘텐츠와 타입 있는 질문 몇 개를 보내면, 각 질문에 값과 보정된 확률로 답합니다. 보통 100~200ms가 걸립니다.
 
@@ -299,7 +299,23 @@ Dock, 시작 메뉴, 데스크톱 런처에서 시작한 앱은 셸 파일을 �
 | `prior-art/INDEX.md` | "만들고 싶은 것"에서 형태로 가는 지도, 그리고 실패한 아이디어 | 새로운 것을 설계하기 전 |
 | `prior-art/*.md` | 형태 파일 11개: 코드 스케치, 현장의 교훈, 링크된 프로젝트 | 설계마다 한두 개 |
 
-선행 사례 라이브러리는 프로젝트를 산업별이 아니라 동작 방식별로 나눕니다. 게임 봇, 드론, 트레이딩 봇은 모두 **제어 루프**이므로, 코드 스케치 하나와 교훈 한 묶음을 공유합니다. 나머지 형태는 후보 중 선택, 게이트, 스트림 필터, 순위와 매칭, 심사와 평가, 점진적 처리와 실시간, 에이전트 컨텍스트와 메모리, LLM과 짝짓기, 데이터로서의 답, 인프라에 넣기입니다. 인덱스에는 현장에서 실패한 아이디어도 있습니다.
+## 선행 사례 라이브러리
+
+대부분의 카탈로그는 프로젝트를 산업별로 나눕니다. 이 라이브러리는 구현 형태로 나눕니다. 게임 봇, 드론, 트레이딩 봇은 같은 형태를 공유합니다. 바로 제어 루프입니다. 이렇게 나누면 세 프로젝트가 코드 스케치 하나와 현장의 교훈 한 묶음을 공유합니다. 형태 11개는 다음과 같습니다.
+
+- **[제어 루프](../../skills/building-with-typesafe-jev/prior-art/control-loops.md)**: 게임, 드론, 로봇, 시장.
+- **[후보 중 선택](../../skills/building-with-typesafe-jev/prior-art/select-from-candidates.md)**: 브라우저와 휴대폰 에이전트, LLM 없는 도구 호출, 추출, 라우터.
+- **[게이트](../../skills/building-with-typesafe-jev/prior-art/gates.md)**: 도구 호출 승인, "완료" 확인, CI, 돈, 콘텐츠.
+- **[스트림 필터](../../skills/building-with-typesafe-jev/prior-art/stream-filters.md)**: 저품질 콘텐츠 필터, 모더레이션, 이메일, 로그, 대량 라벨.
+- **[순위와 매칭](../../skills/building-with-typesafe-jev/prior-art/ranking-and-matching.md)**: 리랭커, 엔티티 매칭, 그래프와 분류 체계 탐색.
+- **[심사와 평가](../../skills/building-with-typesafe-jev/prior-art/judges-and-evals.md)**: 루브릭 심사, 트레이스 채점, 분류 작업으로서의 코드 리뷰.
+- **[점진적 처리와 실시간](../../skills/building-with-typesafe-jev/prior-art/incremental-realtime.md)**: 더빙, 음성, 키 입력으로 움직이는 인터페이스.
+- **[에이전트 컨텍스트와 메모리](../../skills/building-with-typesafe-jev/prior-art/agent-context-memory.md)**: 압축, 메모리 게이트, 메모리 만료, 노력 수준 조절.
+- **[LLM과 짝짓기](../../skills/building-with-typesafe-jev/prior-art/llm-pairing.md)**: 계획자와 실행자, 검증 후 에스컬레이션, 증류.
+- **[데이터로서의 답](../../skills/building-with-typesafe-jev/prior-art/research-and-features.md)**: 고전 모델용 특징, 연구 도구, 벤치마크.
+- **[인프라에 넣기](../../skills/building-with-typesafe-jev/prior-art/embedding-in-infrastructure.md)**: SQL 함수, 벡터 데이터베이스, CI 훅, Home Assistant.
+
+인덱스에는 현장에서 실패한 아이디어도 있습니다. 체스, 유일한 리뷰어로서의 코드 리뷰, 인식, 그리고 믿고 받아들인 보정입니다. 실패한 시도는 다음 빌더가 같은 실수를 반복하지 않게 해 줍니다.
 
 ## 공식 스킬과 다른 점
 

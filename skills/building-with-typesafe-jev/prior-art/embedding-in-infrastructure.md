@@ -46,32 +46,32 @@ db.create_function("jev", 2, _jev, deterministic=True)
 ## Prior art
 
 **Databases and search**
-- pg-jev (Postgres extension): gh:realZachi/pg-jev, pgjev.com
-- sqlite-jev (extension + virtual table): gh:mgaitan/sqlite-jev
-- mysql-ailike (`AILIKE` plugin): gh:maayanlevy/mysql-ailike, HN:49774592
-- duckdb-jev, JevQL, vgi-typesafe (awesome-jev-typesafe, https://flaviocopes.com/jev/)
-- neo4jev (graph walking): gh:jexp/neo4jev
-- LanceDB `TypeSafeReranker`, OpenViking reranker (in OSS)
+- pg-jev (Postgres extension): [realZachi/pg-jev](https://github.com/realZachi/pg-jev), [pgjev.com](https://pgjev.com)
+- sqlite-jev (extension + virtual table): [mgaitan/sqlite-jev](https://github.com/mgaitan/sqlite-jev)
+- mysql-ailike (`AILIKE` plugin): [maayanlevy/mysql-ailike](https://github.com/maayanlevy/mysql-ailike), [HN](https://news.ycombinator.com/item?id=49774592)
+- duckdb-jev: [colliber/duckdb-jev](https://github.com/colliber/duckdb-jev). JevQL: [kylemclaren/jevql](https://github.com/kylemclaren/jevql), [flaviocopes.com](https://flaviocopes.com/jev/). vgi-typesafe: [Query-farm/vgi-typesafe](https://github.com/Query-farm/vgi-typesafe)
+- neo4jev (graph walking): [jexp/neo4jev](https://github.com/jexp/neo4jev)
+- LanceDB `TypeSafeReranker`: [lancedb/lancedb](https://github.com/lancedb/lancedb) `python/python/lancedb/rerankers/typesafe.py`. OpenViking reranker: [volcengine/OpenViking](https://github.com/volcengine/OpenViking)
 
 **Frameworks and agent stacks**
-- LangChain middleware (auto mode, model routing): https://www.langchain.com/blog/building-a-harness-with-jev
-- Pydantic AI provider: https://pydantic.dev/docs/ai/models/typesafe/
-- Vercel AI Gateway: https://vercel.com/changelog/typesafe-ai-jev-now-available-on-ai-gateway. Cloudflare: https://developers.cloudflare.com/ai/models/typesafe/jev/. Netlify: https://www.netlify.com/changelog/typesafe-jev-ai-gateway/
-- AutoGPT blocks, Composio provider, pipecat classifier, fastmcp transform, dspy, OpenClaw plugin, deer-flow guardrails, oh-my-claudecode hooks (in OSS; found by code search)
-- ai-hedge-fund provider adapter (typed answers → existing JSON contract): virattt/ai-hedge-fund `hedge_fund/llm/client.py`
-- jevexpress (Express router), Mastra moderation (npm / GitHub)
-- MCP servers wrapping Jev (jkudish, blakestone-x, burnigtm). Simon Willison's `llm-typesafe`: https://simonwillison.net/2026/Sep/22/llm-typesafe/
+- LangChain middleware (auto mode, model routing): [langchain.com](https://www.langchain.com/blog/building-a-harness-with-jev)
+- Pydantic AI provider: [pydantic.dev](https://pydantic.dev/docs/ai/models/typesafe/)
+- Vercel AI Gateway: [vercel.com](https://vercel.com/changelog/typesafe-ai-jev-now-available-on-ai-gateway). Cloudflare: [developers.cloudflare.com](https://developers.cloudflare.com/ai/models/typesafe/jev/). Netlify: [netlify.com](https://www.netlify.com/changelog/typesafe-jev-ai-gateway/)
+- AutoGPT blocks ([Significant-Gravitas/AutoGPT](https://github.com/Significant-Gravitas/AutoGPT)), Composio provider ([ComposioHQ/composio](https://github.com/ComposioHQ/composio)), pipecat classifier ([pipecat-ai/pipecat](https://github.com/pipecat-ai/pipecat)), fastmcp transform ([PrefectHQ/fastmcp](https://github.com/PrefectHQ/fastmcp)), dspy ([stanfordnlp/dspy](https://github.com/stanfordnlp/dspy)), OpenClaw plugin ([openclaw/openclaw](https://github.com/openclaw/openclaw)), deer-flow guardrails ([bytedance/deer-flow](https://github.com/bytedance/deer-flow)), oh-my-claudecode hooks ([Yeachan-Heo/oh-my-claudecode](https://github.com/Yeachan-Heo/oh-my-claudecode))
+- ai-hedge-fund provider adapter (typed answers → existing JSON contract): [virattt/ai-hedge-fund](https://github.com/virattt/ai-hedge-fund) `hedge_fund/llm/client.py`
+- jevexpress (Express router): [carllippert/jev-router](https://github.com/carllippert/jev-router). Mastra moderation: [CodeAlive-AI/mastra-jev-moderation](https://github.com/CodeAlive-AI/mastra-jev-moderation)
+- MCP servers wrapping Jev: [jkudish/jev-mcp](https://github.com/jkudish/jev-mcp), [blakestone-x/jev-mcp](https://github.com/blakestone-x/jev-mcp), [burnigtm/jev-mcp](https://github.com/burnigtm/jev-mcp). Simon Willison's `llm-typesafe`: [simonwillison.net](https://simonwillison.net/2026/Sep/22/llm-typesafe/)
 
 **Products embedding Jev**
-- Chatwoot, inbox-zero, worldmonitor, PostHog (experiments only), twenty CRM, Lightdash, OneDev, pdf-craft, Math-To-Manim (found by code search)
+- Chatwoot ([chatwoot/chatwoot](https://github.com/chatwoot/chatwoot)), inbox-zero ([elie222/inbox-zero](https://github.com/elie222/inbox-zero)), worldmonitor ([koala73/worldmonitor](https://github.com/koala73/worldmonitor)), PostHog (experiments only; [PostHog/posthog](https://github.com/PostHog/posthog)), twenty CRM ([twentyhq/twenty](https://github.com/twentyhq/twenty)), Lightdash ([lightdash/lightdash](https://github.com/lightdash/lightdash)), OneDev ([theonedev/onedev](https://github.com/theonedev/onedev)), pdf-craft ([oomol-lab/pdf-craft](https://github.com/oomol-lab/pdf-craft)), Math-To-Manim ([HarleyCoops/Math-To-Manim](https://github.com/HarleyCoops/Math-To-Manim))
 
 **CI and dev loop**
-- Migration guard: gh:opaielsheikh/typesafe-migration-guard. jev-commit, pytest-jev, oxlint-plugin-jev, Perch
+- Migration guard: [opaielsheikh/typesafe-migration-guard](https://github.com/opaielsheikh/typesafe-migration-guard). jev-commit: [valentynkit/jev-commit](https://github.com/valentynkit/jev-commit). pytest-jev: [allebee/pytest-jev](https://github.com/allebee/pytest-jev). oxlint-plugin-jev: [wobsoriano/oxlint-plugin-jev](https://github.com/wobsoriano/oxlint-plugin-jev). Perch: [lakeday-org/perch](https://github.com/lakeday-org/perch)
 
 **Home and desktop**
-- HA-Jev (sensors, automation actions, Assist agent): gh:AboveColin/HA-Jev
-- Self-sorting Downloads folder (X demo): https://github.com/walidboulanouar/awesome-jev-use-cases
+- HA-Jev (sensors, automation actions, Assist agent): [AboveColin/HA-Jev](https://github.com/AboveColin/HA-Jev)
+- Self-sorting Downloads folder: [x.com/marcelpociot](https://x.com/marcelpociot/status/2100906882365788167)
 
 **Ecosystem ports** (for non-Python/JS hosts)
-- Community SDKs in Go, Rust (jev-rs HN:49814797), Java/Spring (HN:49762324), .NET, Ruby (HN:49757734), PHP/Laravel, Elixir/OTP, Swift, R, PowerShell, Dart, Haskell, C++
-- Local and open clones for offline hosts: Ollaya (HN:49848269), Laya (HN:49767430), decider-4b, NanoJev
+- Community SDKs in Go ([Stumble/jev-go](https://github.com/Stumble/jev-go)), Rust (jev-rs [HN](https://news.ycombinator.com/item?id=49814797)), Java/Spring ([HN](https://news.ycombinator.com/item?id=49762324)), .NET ([Hawxy/TypeSafeAI.Net](https://github.com/Hawxy/TypeSafeAI.Net)), Ruby ([HN](https://news.ycombinator.com/item?id=49757734)), PHP/Laravel ([Butochnikov/laravel-typesafe-jev](https://github.com/Butochnikov/laravel-typesafe-jev)), Elixir/OTP ([dannote/jev](https://github.com/dannote/jev)), Swift ([d-date/swift-jev](https://github.com/d-date/swift-jev)), R ([mountainMath/JevR](https://github.com/mountainMath/JevR)), PowerShell ([dfinke/Jev](https://github.com/dfinke/Jev)), Dart ([Solido/jev_dart](https://github.com/Solido/jev_dart)), Haskell ([realbogart/jev](https://github.com/realbogart/jev)), C++ ([pewriebontal/typesafe-sdk-cpp](https://github.com/pewriebontal/typesafe-sdk-cpp))
+- Local and open clones for offline hosts: Ollaya ([HN](https://news.ycombinator.com/item?id=49848269)), Laya ([HN](https://news.ycombinator.com/item?id=49767430)), decider-4b ([Mapika/decider](https://github.com/Mapika/decider)), NanoJev ([TianyuCodings/NanoJev](https://github.com/TianyuCodings/NanoJev))

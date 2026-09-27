@@ -74,32 +74,32 @@ def gate(client: TypeSafeClient, command: str, cwd: str) -> str:
 ## Prior art
 
 **Agent tool and command gates**
-- LangChain AutoModeMiddleware, a Noul blocks risky tool calls: https://www.langchain.com/blog/building-a-harness-with-jev
-- hermes-jev-approvals, 8.7× faster, 4.4× fewer prompts: gh:anpicasso/hermes-jev-approvals
-- jev-guard, three questions before every call (deny/ask/allow): gh:blacksinisterx/jev-guard
-- actionreflex: gh:eyenpi/actionreflex. pi-warden (awesome-jev-typesafe)
-- Agent Chaperone, tool calls + results + injection: HN:49789538
-- Vercel command-safety classifier (Pranit Sharma): https://techcrunch.com/2026/09/18/a-new-kind-of-ai-model-from-a-chatgpt-inventor-is-thrilling-developers/
-- OpenRouter cookbooks "Gate Agent Tool Calls" and "Auto-Approve Coding Agent Permission Prompts": https://openrouter.ai/typesafe
-- Pydantic AI harmful-request example: https://pydantic.dev/docs/ai/models/typesafe/
-- claude-code-templates jev-auto-mode security judge (davila7)
+- LangChain AutoModeMiddleware, a Noul blocks risky tool calls: [langchain.com](https://www.langchain.com/blog/building-a-harness-with-jev)
+- hermes-jev-approvals, 8.7× faster, 4.4× fewer prompts: [anpicasso/hermes-jev-approvals](https://github.com/anpicasso/hermes-jev-approvals)
+- jev-guard, three questions before every call (deny/ask/allow): [blacksinisterx/jev-guard](https://github.com/blacksinisterx/jev-guard)
+- actionreflex: [eyenpi/actionreflex](https://github.com/eyenpi/actionreflex). pi-warden: [DevMortimer/pi-warden](https://github.com/DevMortimer/pi-warden)
+- Agent Chaperone, tool calls + results + injection: [HN](https://news.ycombinator.com/item?id=49789538)
+- Vercel command-safety classifier (Pranit Sharma): [techcrunch.com](https://techcrunch.com/2026/09/18/a-new-kind-of-ai-model-from-a-chatgpt-inventor-is-thrilling-developers/)
+- OpenRouter cookbooks "Gate Agent Tool Calls" and "Auto-Approve Coding Agent Permission Prompts": [openrouter.ai](https://openrouter.ai/typesafe)
+- Pydantic AI harmful-request example: [pydantic.dev](https://pydantic.dev/docs/ai/models/typesafe/)
+- claude-code-templates jev-auto-mode security judge: [davila7/claude-code-templates](https://github.com/davila7/claude-code-templates)
 
 **Completion and "done" gates**
-- ralph-jev, the loop won't stop until the Jev judge agrees: gh:flaviomartil/ralph-jev
-- jev-belay (4 evidence questions), limpet (awesome-jev-typesafe)
-- Overseer rubric for CLI agents (idea): HN:49723571
+- ralph-jev, the loop won't stop until the Jev judge agrees: [flaviomartil/ralph-jev](https://github.com/flaviomartil/ralph-jev)
+- jev-belay (4 evidence questions): [valentynkit/jev-belay](https://github.com/valentynkit/jev-belay), limpet: [noplan-inc/limpet](https://github.com/noplan-inc/limpet)
+- Overseer rubric for CLI agents (idea): [HN](https://news.ycombinator.com/item?id=49723571)
 
 **Code and CI gates**
-- Destructive migration blocker: gh:opaielsheikh/typesafe-migration-guard
-- Commit message vs. diff + secrets: jev-commit. Test claims: pytest-jev (awesome-jev-typesafe)
-- Math-To-Manim stage approval: `astra/jev.py` in Math-To-Manim
+- Destructive migration blocker: [opaielsheikh/typesafe-migration-guard](https://github.com/opaielsheikh/typesafe-migration-guard)
+- Commit message vs. diff + secrets: [valentynkit/jev-commit](https://github.com/valentynkit/jev-commit). Test claims: [allebee/pytest-jev](https://github.com/allebee/pytest-jev)
+- Math-To-Manim stage approval: [`astra/jev.py`](https://github.com/HarleyCoops/Math-To-Manim/blob/main/astra/jev.py) in [HarleyCoops/Math-To-Manim](https://github.com/HarleyCoops/Math-To-Manim)
 
 **Money and risk gates**
-- Rust MT4 service behind a deterministic risk gate: gh:iamngoni/veyra
-- QuantDinger pre-trade gate: https://gist.github.com/drillan/6916b16e8ea31a8ec36c8f59d6483150
-- Refund branching at >85% confidence: https://www.tomshardware.com/tech-industry/artificial-intelligence/typesafe-ais-jev-offers-an-alternative-to-llms-that-claims-to-be-193x-faster-and-445x-cheaper-system-one-type-model-is-bespoke-for-probabilistic-decision-making
-- Voice banking, confidence rising with the stakes: https://docs.typesafe.ai/patterns/confidence-routing.md
+- Rust MT4 service behind a deterministic risk gate: [iamngoni/veyra](https://github.com/iamngoni/veyra)
+- QuantDinger pre-trade gate: [gist.github.com](https://gist.github.com/drillan/6916b16e8ea31a8ec36c8f59d6483150)
+- Refund branching at >85% confidence: [tomshardware.com](https://www.tomshardware.com/tech-industry/artificial-intelligence/typesafe-ais-jev-offers-an-alternative-to-llms-that-claims-to-be-193x-faster-and-445x-cheaper-system-one-type-model-is-bespoke-for-probabilistic-decision-making)
+- Voice banking, confidence rising with the stakes: [docs.typesafe.ai](https://docs.typesafe.ai/patterns/confidence-routing.md)
 
 **Content gates**
-- LLM guardrails cookbook (strict/permissive policies): https://docs.typesafe.ai/cookbooks/llm_guardrails.md
-- deer-flow guardrails, LiteLLM TypeSafe guardrail hook (in OSS)
+- LLM guardrails cookbook (strict/permissive policies): [docs.typesafe.ai](https://docs.typesafe.ai/cookbooks/llm_guardrails.md)
+- deer-flow guardrails: [`backend/packages/harness/deerflow/guardrails/typesafe.py`](https://github.com/bytedance/deer-flow/blob/main/backend/packages/harness/deerflow/guardrails/typesafe.py) in [bytedance/deer-flow](https://github.com/bytedance/deer-flow), LiteLLM TypeSafe guardrail hook: [`litellm/proxy/guardrails/guardrail_hooks/typesafe/typesafe.py`](https://github.com/BerriAI/litellm/blob/main/litellm/proxy/guardrails/guardrail_hooks/typesafe/typesafe.py) in [BerriAI/litellm](https://github.com/BerriAI/litellm)

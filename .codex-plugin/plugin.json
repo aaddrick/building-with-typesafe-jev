@@ -1,7 +1,7 @@
 {
   "name": "building-with-typesafe-jev",
   "version": "0.3.0",
-  "description": "Unofficial Codex skill for building with TypeSafe AI's Jev: the typed Choice/Score/Noul API, calibrated-confidence routing, field-tested anti-patterns, and a prior-art library of 150+ community projects sorted by implementation shape.",
+  "description": "Unofficial Codex skill for building with TypeSafe AI's Jev: the typed Choice/Score/Noul API, calibrated-confidence routing, field-tested anti-patterns, and links to 150+ community projects sorted by implementation shape, with a code sketch per pattern.",
   "author": {
     "name": "aaddrick",
     "url": "https://github.com/aaddrick"
@@ -21,7 +21,7 @@
   "interface": {
     "displayName": "Building with TypeSafe Jev",
     "shortDescription": "Typed decisions with calibrated confidence",
-    "longDescription": "Write correct TypeSafe Jev integrations: pick Choice, Score, or Noul; batch speculative questions in one call; route on calibrated confidence; avoid the known failure modes; and find prior art from 150+ community projects before designing something new.",
+    "longDescription": "Write correct TypeSafe Jev integrations: pick Choice, Score, or Noul; batch speculative questions in one call; route on calibrated confidence; avoid the known failure modes; and find prior art among 150+ linked community projects, each pattern with a code sketch, before designing something new.",
     "developerName": "aaddrick",
     "category": "Coding",
     "capabilities": [
