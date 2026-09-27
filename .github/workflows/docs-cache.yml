@@ -5,12 +5,12 @@ name: docs cache
 # DOCS_LATEST repository variable at it. When the skill was last reviewed
 # against an older copy (DOCS_SKILL_REVIEWED), hand off to
 # skill-coverage.yml, which asks Claude to update the skill and opens a pull
-# request.
+# request. Emails an alert when either job fails.
 #
-# Both variables hold a ref: {"run_id", "artifact_id", "sha256", "pages"}.
-# scripts/docs_artifact.sh reads them. Artifacts expire after 90 days, so a
-# run re-uploads an unchanged copy once its artifact is within 14 days of
-# expiring.
+# The decisions live in scripts/docs_pipeline.py (tested in
+# tests/test_docs_pipeline.py), which also documents the refs the two
+# variables hold. Artifacts expire after 90 days, so a run re-uploads an
+# unchanged copy once its artifact is within 14 days of expiring.
 #
 # Needs the GH_PAT secret: GITHUB_TOKEN cannot write repository variables.
 # A fine-grained token with Variables: read and write on this repository is
@@ -33,14 +33,13 @@ env:
   DOCS_URL: https://docs.typesafe.ai/llms-full.txt
   LATEST: ${{ vars.DOCS_LATEST }}
   REVIEWED: ${{ vars.DOCS_SKILL_REVIEWED }}
-  RENEW_WITHIN_DAYS: "14"
 
 jobs:
   refresh:
     runs-on: ubuntu-latest
     outputs:
-      latest: ${{ steps.vars.outputs.latest }}
-      stale: ${{ steps.vars.outputs.stale }}
+      latest: ${{ steps.record.outputs.latest }}
+      stale: ${{ steps.record.outputs.stale }}
     steps:
       - uses: actions/checkout@v4
 
@@ -49,99 +48,36 @@ jobs:
           python-version: "3.12"
 
       - name: Fetch the docs
-        id: fetch
         run: |
           mkdir -p "$RUNNER_TEMP/docs"
           curl -fsSL --retry 3 --retry-all-errors --max-time 120 \
             -o "$RUNNER_TEMP/docs/llms-full.txt" "$DOCS_URL"
-          # An error page or a cut-off body must never become the cached copy.
-          pages=$(python3 scripts/docs_diff.py validate "$RUNNER_TEMP/docs/llms-full.txt" \
-            --previous-pages "$(scripts/docs_artifact.sh field "$LATEST" pages)")
-          echo "pages=$pages" >> "$GITHUB_OUTPUT"
-          echo "sha256=$(sha256sum "$RUNNER_TEMP/docs/llms-full.txt" | cut -d' ' -f1)" >> "$GITHUB_OUTPUT"
 
       - name: Compare with the last copy
         id: compare
         env:
           GH_TOKEN: ${{ github.token }}
-          SHA256: ${{ steps.fetch.outputs.sha256 }}
-        run: |
-          if [[ "$SHA256" != "$(scripts/docs_artifact.sh field "$LATEST" sha256)" ]]; then
-            echo "The docs changed."
-            echo "changed=true" >> "$GITHUB_OUTPUT"
-            echo "upload=true" >> "$GITHUB_OUTPUT"
-            # The summary shows what changed when the last copy is still around.
-            if scripts/docs_artifact.sh download "$LATEST" "$RUNNER_TEMP/previous.txt"; then
-              python3 scripts/docs_diff.py report --old "$RUNNER_TEMP/previous.txt" \
-                --new "$RUNNER_TEMP/docs/llms-full.txt" \
-                | sed '/^## Diffs of changed pages/,$d' >> "$GITHUB_STEP_SUMMARY"
-            fi
-            exit 0
-          fi
-
-          echo "changed=false" >> "$GITHUB_OUTPUT"
-          expires=$(scripts/docs_artifact.sh expires "$LATEST")
-          if [[ "$expires" == "gone" ]] \
-              || (( $(date -d "$expires" +%s) - $(date +%s) < RENEW_WITHIN_DAYS * 86400 )); then
-            echo "Docs unchanged; renewing the artifact (expires: $expires)."
-            echo "upload=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "Docs unchanged."
-            echo "upload=false" >> "$GITHUB_OUTPUT"
-          fi
+        run: python3 scripts/docs_pipeline.py compare --fetched "$RUNNER_TEMP/docs/llms-full.txt" --latest "$LATEST"
 
       - name: Keep this copy as an artifact
         id: upload
         if: steps.compare.outputs.upload == 'true'
         uses: actions/upload-artifact@v4
         with:
-          name: typesafe-docs-${{ steps.fetch.outputs.sha256 }}
+          name: typesafe-docs-${{ steps.compare.outputs.sha256 }}
           path: ${{ runner.temp }}/docs/llms-full.txt
           retention-days: 90
           if-no-files-found: error
 
       - name: Point the variables at it
-        id: vars
+        id: record
         env:
-          GH_TOKEN: ${{ secrets.GH_PAT }}
-          UPLOADED: ${{ steps.compare.outputs.upload }}
-          ARTIFACT_ID: ${{ steps.upload.outputs.artifact-id }}
-          SHA256: ${{ steps.fetch.outputs.sha256 }}
-          PAGES: ${{ steps.fetch.outputs.pages }}
+          VARS_TOKEN: ${{ secrets.GH_PAT }}
         run: |
-          latest="$LATEST"
-          if [[ "$UPLOADED" == "true" ]]; then
-            if [[ -z "$GH_TOKEN" ]]; then
-              echo "::error::The GH_PAT secret is not set, so DOCS_LATEST cannot be updated"
-              exit 1
-            fi
-            latest=$(jq -cn --argjson run "$GITHUB_RUN_ID" --argjson id "$ARTIFACT_ID" \
-              --arg sha "$SHA256" --argjson pages "$PAGES" \
-              '{run_id: $run, artifact_id: $id, sha256: $sha, pages: $pages}')
-            gh variable set DOCS_LATEST --body "$latest"
-            echo "DOCS_LATEST=$latest"
-
-            reviewed_sha=$(scripts/docs_artifact.sh field "$REVIEWED" sha256)
-            # The first run takes the skill as reviewed against today's docs;
-            # run skill-coverage by hand with force for a full review. A
-            # renewed copy the skill was reviewed against moves too, so the
-            # next diff still has its old side.
-            if [[ -z "$reviewed_sha" || "$reviewed_sha" == "$SHA256" ]]; then
-              gh variable set DOCS_SKILL_REVIEWED --body "$latest"
-              REVIEWED="$latest"
-              echo "DOCS_SKILL_REVIEWED=$latest"
-            fi
-          fi
-
-          echo "latest=$latest" >> "$GITHUB_OUTPUT"
-          # Stale covers a change found just now and one an earlier run found
-          # whose skill update failed or has not merged. skill-coverage.yml
-          # skips when its open pull request already covers this copy.
-          if [[ "$(scripts/docs_artifact.sh field "$latest" sha256)" == "$(scripts/docs_artifact.sh field "$REVIEWED" sha256)" ]]; then
-            echo "stale=false" >> "$GITHUB_OUTPUT"
-          else
-            echo "stale=true" >> "$GITHUB_OUTPUT"
-          fi
+          python3 scripts/docs_pipeline.py record-latest --latest "$LATEST" --reviewed "$REVIEWED" \
+            --uploaded "${{ steps.compare.outputs.upload }}" --run-id "$GITHUB_RUN_ID" \
+            --artifact-id "${{ steps.upload.outputs.artifact-id }}" \
+            --sha256 "${{ steps.compare.outputs.sha256 }}" --pages "${{ steps.compare.outputs.pages }}"
 
   skill-coverage:
     needs: refresh
@@ -151,4 +87,10 @@ jobs:
       # The vars context was read when this run started, before refresh
       # moved DOCS_LATEST, so the new ref is passed in.
       latest: ${{ needs.refresh.outputs.latest }}
+    secrets: inherit
+
+  alert:
+    needs: [refresh, skill-coverage]
+    if: failure()
+    uses: ./.github/workflows/failure-alert.yml
     secrets: inherit

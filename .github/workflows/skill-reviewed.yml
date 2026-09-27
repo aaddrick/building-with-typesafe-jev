@@ -2,8 +2,8 @@ name: skill reviewed
 
 # When a skill-coverage pull request merges, point DOCS_SKILL_REVIEWED at the
 # docs copy its description records (<!-- docs-review: REF -->), so the next
-# skill-coverage run diffs from there. Needs GH_PAT with Variables: read and
-# write.
+# skill-coverage run diffs from there. It never moves the variable backward.
+# Needs GH_PAT with Variables: read and write.
 on:
   pull_request:
     types: [closed]
@@ -19,35 +19,22 @@ jobs:
       && github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
       - name: Record the reviewed docs copy
         env:
-          GH_TOKEN: ${{ secrets.GH_PAT }}
+          VARS_TOKEN: ${{ secrets.GH_PAT }}
           GH_REPO: ${{ github.repository }}
-          BODY: ${{ github.event.pull_request.body }}
+          PR_BODY: ${{ github.event.pull_request.body }}
           REVIEWED: ${{ vars.DOCS_SKILL_REVIEWED }}
-        run: |
-          ref=$(printf '%s\n' "$BODY" | sed -n 's/.*<!-- docs-review: \({.*}\) -->.*/\1/p' | tail -n1)
-          # The description is editable, so take only a well-formed ref.
-          ref=$(jq -ce 'select(
-              (.run_id | type == "number") and (.artifact_id | type == "number")
-              and (.sha256 | test("^[0-9a-f]{64}$")) and (.pages | type == "number"))
-            | {run_id, artifact_id, sha256, pages}' <<< "$ref") || {
-            echo "::error::No valid docs-review marker in the pull request description"
-            exit 1
-          }
-          # Never move backward: an older pull request merged late must not
-          # undo a newer recorded review.
-          current=0
-          if [[ -n "$REVIEWED" ]]; then
-            current=$(jq -r '.run_id // 0' <<< "$REVIEWED" 2>/dev/null || echo 0)
-          fi
-          if (( $(jq -r .run_id <<< "$ref") < current )); then
-            echo "DOCS_SKILL_REVIEWED already names a newer copy; leaving it."
-            exit 0
-          fi
-          if [[ -z "$GH_TOKEN" ]]; then
-            echo "::error::The GH_PAT secret is not set, so DOCS_SKILL_REVIEWED cannot be updated"
-            exit 1
-          fi
-          gh variable set DOCS_SKILL_REVIEWED --body "$ref"
-          echo "DOCS_SKILL_REVIEWED=$ref"
+        run: python3 scripts/docs_pipeline.py record-merged --reviewed "$REVIEWED"
+
+  alert:
+    needs: record
+    if: failure()
+    uses: ./.github/workflows/failure-alert.yml
+    secrets: inherit

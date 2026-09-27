@@ -1,0 +1,52 @@
+name: failure alert
+
+# Emails a link to the failed run. The docs pipeline workflows (docs-cache,
+# skill-coverage, skill-reviewed) call this from a job that runs on failure().
+#
+# Sends over SMTP. Set the secrets SMTP_USERNAME and SMTP_PASSWORD; for Gmail
+# that is the address and an app password (Google Account > Security >
+# App passwords). SMTP_SERVER and SMTP_PORT variables override the Gmail
+# defaults; port 465 uses TLS from the start, any other port STARTTLS.
+# ALERT_EMAIL overrides the recipient.
+on:
+  workflow_call:
+
+permissions: {}
+
+jobs:
+  email:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check the mail settings
+        env:
+          SMTP_USERNAME: ${{ secrets.SMTP_USERNAME }}
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+        run: |
+          if [[ -z "$SMTP_USERNAME" || -z "$SMTP_PASSWORD" ]]; then
+            echo "::error::Set the SMTP_USERNAME and SMTP_PASSWORD secrets to get failure emails"
+            exit 1
+          fi
+
+      - name: Send the alert
+        # v9, pinned: this action handles the SMTP password.
+        uses: dawidd6/action-send-mail@62a2d05b79935ad4fb90ce9079928099579c14ac
+        with:
+          server_address: ${{ vars.SMTP_SERVER || 'smtp.gmail.com' }}
+          server_port: ${{ vars.SMTP_PORT || '465' }}
+          secure: ${{ (vars.SMTP_PORT || '465') == '465' }}
+          username: ${{ secrets.SMTP_USERNAME }}
+          password: ${{ secrets.SMTP_PASSWORD }}
+          from: ${{ github.repository }} <${{ secrets.SMTP_USERNAME }}>
+          to: ${{ vars.ALERT_EMAIL || 'aaddrick@gmail.com' }}
+          subject: "Failed: ${{ github.workflow }} in ${{ github.repository }}"
+          body: |
+            The "${{ github.workflow }}" workflow failed in ${{ github.repository }}.
+
+            Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            Trigger: ${{ github.event_name }}
+            Commit: ${{ github.sha }}
+
+            The run page shows which job and step failed. The docs pipeline's
+            steps are in scripts/docs_pipeline.py; skill-coverage runs keep
+            their prompt, report, and Claude output as the "skill-coverage"
+            artifact.

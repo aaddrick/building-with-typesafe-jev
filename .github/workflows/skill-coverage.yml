@@ -10,7 +10,8 @@ name: skill coverage
 # on top of its branch, from the copy its description records, so the branch
 # collects every change until someone merges it. skill-reviewed.yml moves
 # DOCS_SKILL_REVIEWED on merge. When Claude finds nothing to change and no
-# pull request is open, this moves DOCS_SKILL_REVIEWED itself.
+# pull request is open, this moves DOCS_SKILL_REVIEWED itself. The decisions
+# live in scripts/docs_pipeline.py.
 #
 # Needs the ANTHROPIC_API_KEY secret and GH_PAT (Variables: read and write).
 # A pull request that GITHUB_TOKEN opens does not start the checks workflow;
@@ -45,6 +46,7 @@ env:
   REVIEWED: ${{ vars.DOCS_SKILL_REVIEWED }}
   SKILL: skills/building-with-typesafe-jev
   BRANCH: docs-sync/skill-coverage
+  BASE_BRANCH: ${{ github.event.repository.default_branch }}
   # Claude reads the full docs here. .gitignore keeps it out of commits.
   DOCS: .docs-cache/llms-full.txt
   # Pinned like plugin-load-check.yml, so a CLI release changes this job only
@@ -64,75 +66,30 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GH_PAT || github.token }}
 
-      # The open pull request's description ends with a marker naming the
-      # docs copy its branch covers: <!-- docs-review: REF -->.
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
       - name: Decide whether there is anything to review
         id: plan
         env:
-          FORCE: ${{ inputs.force || false }}
           GH_TOKEN: ${{ github.token }}
         run: |
-          latest_sha=$(scripts/docs_artifact.sh field "$LATEST" sha256)
-          if [[ -z "$latest_sha" ]]; then
-            echo "::error::DOCS_LATEST is not set. Run the docs cache workflow first."
-            exit 1
-          fi
-
-          base="$REVIEWED"
-          pr=$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number // empty')
-          if [[ -n "$pr" ]]; then
-            base=$(gh pr view "$pr" --json body --jq .body \
-              | sed -n 's/.*<!-- docs-review: \({.*}\) -->.*/\1/p' | tail -n1)
-            echo "Pull request #$pr covers $(scripts/docs_artifact.sh field "$base" sha256)"
-          fi
-          {
-            echo "pr=$pr"
-            echo "base<<EOF"
-            echo "$base"
-            echo "EOF"
-          } >> "$GITHUB_OUTPUT"
-
-          if [[ "$FORCE" != "true" && "$latest_sha" == "$(scripts/docs_artifact.sh field "$base" sha256)" ]]; then
-            echo "The skill is already reviewed against the latest docs."
-            echo "run=false" >> "$GITHUB_OUTPUT"
-          else
-            echo "run=true" >> "$GITHUB_OUTPUT"
-          fi
+          python3 scripts/docs_pipeline.py plan --latest "$LATEST" --reviewed "$REVIEWED" \
+            --branch "$BRANCH" --force "${{ inputs.force || false }}"
 
       - name: Continue on the open pull request's branch
         if: steps.plan.outputs.run == 'true' && steps.plan.outputs.pr != ''
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git fetch origin "$BRANCH"
-          git switch -C "$BRANCH" "origin/$BRANCH"
-          git merge --no-edit "origin/${{ github.event.repository.default_branch }}"
-
-      - uses: actions/setup-python@v5
-        if: steps.plan.outputs.run == 'true'
-        with:
-          python-version: "3.12"
+        run: python3 scripts/docs_pipeline.py use-branch --branch "$BRANCH" --base-branch "$BASE_BRANCH"
 
       - name: Fetch both copies and build the change report
         if: steps.plan.outputs.run == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
-          BASE: ${{ steps.plan.outputs.base }}
         run: |
-          mkdir -p "$RUNNER_TEMP/coverage" "$(dirname "$DOCS")"
-          if ! scripts/docs_artifact.sh download "$LATEST" "$DOCS"; then
-            echo "::error::The latest docs artifact is gone. Run the docs cache workflow to renew it."
-            exit 1
-          fi
-          # A reviewed copy whose artifact expired leaves no old side, so
-          # every page reads as added and Claude reviews the lot.
-          if ! scripts/docs_artifact.sh download "$BASE" "$RUNNER_TEMP/coverage/old.txt"; then
-            echo "::warning::No reviewed copy to diff against; every page reads as added."
-            : > "$RUNNER_TEMP/coverage/old.txt"
-          fi
-          python3 scripts/docs_diff.py report --old "$RUNNER_TEMP/coverage/old.txt" --new "$DOCS" \
-            > "$RUNNER_TEMP/coverage/report.md"
-          sed '/^## Diffs of changed pages/,$d' "$RUNNER_TEMP/coverage/report.md" >> "$GITHUB_STEP_SUMMARY"
+          mkdir -p "$RUNNER_TEMP/coverage"
+          python3 scripts/docs_pipeline.py prepare --latest "$LATEST" --base "${{ steps.plan.outputs.base }}" \
+            --docs "$DOCS" --report "$RUNNER_TEMP/coverage/report.md" --skill "$SKILL"
 
       - name: Install Claude Code
         if: steps.plan.outputs.run == 'true'
@@ -200,75 +157,11 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_PAT || github.token }}
           VARS_TOKEN: ${{ secrets.GH_PAT }}
-          PR: ${{ steps.plan.outputs.pr }}
-          BASE_BRANCH: ${{ github.event.repository.default_branch }}
         run: |
-          date=$(date -u +%F)
-          marker="<!-- docs-review: $LATEST -->"
-          run_link="[skill-coverage]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID)"
-          {
-            cat "$RUNNER_TEMP/coverage/summary.md"
-            echo
-            echo "<details><summary>Docs change report</summary>"
-            echo
-            sed '/^## Diffs of changed pages/,$d' "$RUNNER_TEMP/coverage/report.md" | head -c 40000
-            echo
-            echo "</details>"
-          } > "$RUNNER_TEMP/coverage/review.md"
-
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add -A "$SKILL"
-          edited=false
-          if ! git diff --cached --quiet; then
-            edited=true
-            git commit -m "Update the skill for the TypeSafe docs of $date" \
-              -m "Generated by .github/workflows/skill-coverage.yml."
-          fi
-
-          if [[ -n "$PR" ]]; then
-            # The branch now covers the latest copy, edits or not.
-            [[ "$edited" == "true" ]] && git push origin "HEAD:$BRANCH"
-            gh pr view "$PR" --json body --jq .body \
-              | sed '/<!-- docs-review: .* -->/d' > "$RUNNER_TEMP/coverage/body.md"
-            echo "$marker" >> "$RUNNER_TEMP/coverage/body.md"
-            gh pr edit "$PR" --body-file "$RUNNER_TEMP/coverage/body.md"
-            {
-              echo "The docs changed again on $date. $([[ "$edited" == "true" ]] && echo "Pushed more edits." || echo "No further edits needed.")"
-              echo
-              cat "$RUNNER_TEMP/coverage/review.md"
-              echo
-              echo "🤖 Generated with [Claude Code](https://claude.com/claude-code) by $run_link"
-            } > "$RUNNER_TEMP/coverage/comment.md"
-            gh pr comment "$PR" --body-file "$RUNNER_TEMP/coverage/comment.md"
-            exit 0
-          fi
-
-          if [[ "$edited" == "false" ]]; then
-            echo "No skill edits needed; recording the review."
-            if [[ -z "$VARS_TOKEN" ]]; then
-              echo "::error::The GH_PAT secret is not set, so DOCS_SKILL_REVIEWED cannot be updated"
-              exit 1
-            fi
-            GH_TOKEN="$VARS_TOKEN" gh variable set DOCS_SKILL_REVIEWED --body "$LATEST"
-            exit 0
-          fi
-
-          # No pull request is open, so any leftover branch is merged or
-          # abandoned and a fresh one replaces it.
-          git push --force origin "HEAD:$BRANCH"
-          {
-            cat "$RUNNER_TEMP/coverage/review.md"
-            echo
-            echo "Merging records the skill as reviewed against this copy of the docs (DOCS_SKILL_REVIEWED). Closing without merging leaves it, so the next run reviews these changes again."
-            echo
-            echo "🤖 Generated with [Claude Code](https://claude.com/claude-code) by $run_link"
-            echo
-            echo "$marker"
-          } > "$RUNNER_TEMP/coverage/body.md"
-          gh pr create --base "$BASE_BRANCH" --head "$BRANCH" \
-            --title "Update the skill for the TypeSafe docs of $date" \
-            --body-file "$RUNNER_TEMP/coverage/body.md"
+          python3 scripts/docs_pipeline.py publish --latest "$LATEST" --pr "${{ steps.plan.outputs.pr }}" \
+            --branch "$BRANCH" --base-branch "$BASE_BRANCH" --skill "$SKILL" \
+            --summary "$RUNNER_TEMP/coverage/summary.md" --report "$RUNNER_TEMP/coverage/report.md" \
+            --run-url "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
 
       - name: Keep the run's files
         if: always() && steps.plan.outputs.run == 'true'
@@ -277,3 +170,11 @@ jobs:
           name: skill-coverage
           path: ${{ runner.temp }}/coverage/
           if-no-files-found: ignore
+
+  # Inside a workflow_call, github.workflow is the caller's name, so a run
+  # called from docs-cache leaves the alert to docs-cache and sends one email.
+  alert:
+    needs: update-skill
+    if: failure() && github.workflow == 'skill coverage'
+    uses: ./.github/workflows/failure-alert.yml
+    secrets: inherit
