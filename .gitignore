@@ -3,3 +3,4 @@ __pycache__/
 .venv/
 .claude/settings.local.json
 evals/results/
+.docs-cache/

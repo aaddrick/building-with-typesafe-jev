@@ -1,29 +1,38 @@
 name: skill coverage
 
-# Asks Claude to bring the skill up to date with the cached TypeSafe docs and
-# opens (or refreshes) one pull request with the result. docs-cache.yml calls
-# this when the cache is newer than the copy the skill was last reviewed
-# against; run it by hand to retry a failed run.
+# Asks Claude to bring the skill up to date with the latest cached TypeSafe
+# docs and opens one pull request with the result. docs-cache.yml calls this
+# when DOCS_LATEST is newer than DOCS_SKILL_REVIEWED; run it by hand to retry
+# a failed run, or with force for a review against unchanged docs.
 #
-# The diff runs from the copy named in upstream/typesafe-docs/skill-synced (a
-# git blob id) to the current cache, so docs changes that pile up while a
-# pull request waits are all in the next run. The pull request moves the
-# marker forward; merging it records the skill as reviewed.
+# The diff runs from the copy the skill was last reviewed against to the
+# latest copy. While a pull request is open, a newer docs change is reviewed
+# on top of its branch, from the copy its description records, so the branch
+# collects every change until someone merges it. skill-reviewed.yml moves
+# DOCS_SKILL_REVIEWED on merge. When Claude finds nothing to change and no
+# pull request is open, this moves DOCS_SKILL_REVIEWED itself.
 #
-# Needs the ANTHROPIC_API_KEY secret. GH_PAT is optional: a pull request that
-# GITHUB_TOKEN opens does not start the checks workflow, one GH_PAT opens
-# does. With only GITHUB_TOKEN, allow Actions to create pull requests under
-# Settings > Actions > General.
+# Needs the ANTHROPIC_API_KEY secret and GH_PAT (Variables: read and write).
+# A pull request that GITHUB_TOKEN opens does not start the checks workflow;
+# give GH_PAT Contents and Pull requests: read and write too, and it is used
+# for the push and the pull request. With only GITHUB_TOKEN for those, allow
+# Actions to create pull requests under Settings > Actions > General.
 on:
   workflow_call:
+    inputs:
+      latest:
+        description: Ref of the docs copy to review against (defaults to DOCS_LATEST)
+        type: string
+        required: false
   workflow_dispatch:
     inputs:
       force:
-        description: Run even when the skill is marked as reviewed against the current cache
+        description: Run even when the skill is marked as reviewed against the latest docs
         type: boolean
         default: false
 
 permissions:
+  actions: read
   contents: write
   pull-requests: write
 
@@ -32,10 +41,12 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  CACHE: upstream/typesafe-docs/llms-full.txt
-  SYNCED: upstream/typesafe-docs/skill-synced
+  LATEST: ${{ inputs.latest || vars.DOCS_LATEST }}
+  REVIEWED: ${{ vars.DOCS_SKILL_REVIEWED }}
   SKILL: skills/building-with-typesafe-jev
   BRANCH: docs-sync/skill-coverage
+  # Claude reads the full docs here. .gitignore keeps it out of commits.
+  DOCS: .docs-cache/llms-full.txt
   # Pinned like plugin-load-check.yml, so a CLI release changes this job only
   # on the commit that bumps the pin.
   CLAUDE_CODE_VERSION: "2.1.283"
@@ -48,54 +59,78 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          # A caller's github.sha predates the cache commit it just pushed.
+          # A caller's github.sha is whatever its run started on.
           ref: ${{ github.event.repository.default_branch }}
-          # The old copy is read back from history by its blob id.
           fetch-depth: 0
           token: ${{ secrets.GH_PAT || github.token }}
 
+      # The open pull request's description ends with a marker naming the
+      # docs copy its branch covers: <!-- docs-review: REF -->.
       - name: Decide whether there is anything to review
         id: plan
         env:
           FORCE: ${{ inputs.force || false }}
-          GH_TOKEN: ${{ secrets.GH_PAT || github.token }}
+          GH_TOKEN: ${{ github.token }}
         run: |
-          current=$(git hash-object "$CACHE")
-          synced=$(tr -d '[:space:]' < "$SYNCED")
-          echo "current=$current" >> "$GITHUB_OUTPUT"
-          echo "synced=$synced" >> "$GITHUB_OUTPUT"
-
-          if [[ "$FORCE" != "true" ]]; then
-            if [[ "$current" == "$synced" ]]; then
-              echo "The skill is already reviewed against the cached docs."
-              echo "run=false" >> "$GITHUB_OUTPUT"
-              exit 0
-            fi
-            open=$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number // empty')
-            if [[ -n "$open" ]] && git fetch --quiet origin "$BRANCH" \
-                && [[ "$(git show "origin/$BRANCH:$SYNCED" | tr -d '[:space:]')" == "$current" ]]; then
-              echo "Pull request #$open already covers the cached docs."
-              echo "run=false" >> "$GITHUB_OUTPUT"
-              exit 0
-            fi
+          latest_sha=$(scripts/docs_artifact.sh field "$LATEST" sha256)
+          if [[ -z "$latest_sha" ]]; then
+            echo "::error::DOCS_LATEST is not set. Run the docs cache workflow first."
+            exit 1
           fi
-          echo "run=true" >> "$GITHUB_OUTPUT"
+
+          base="$REVIEWED"
+          pr=$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number // empty')
+          if [[ -n "$pr" ]]; then
+            base=$(gh pr view "$pr" --json body --jq .body \
+              | sed -n 's/.*<!-- docs-review: \({.*}\) -->.*/\1/p' | tail -n1)
+            echo "Pull request #$pr covers $(scripts/docs_artifact.sh field "$base" sha256)"
+          fi
+          {
+            echo "pr=$pr"
+            echo "base<<EOF"
+            echo "$base"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
+          if [[ "$FORCE" != "true" && "$latest_sha" == "$(scripts/docs_artifact.sh field "$base" sha256)" ]]; then
+            echo "The skill is already reviewed against the latest docs."
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Continue on the open pull request's branch
+        if: steps.plan.outputs.run == 'true' && steps.plan.outputs.pr != ''
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git fetch origin "$BRANCH"
+          git switch -C "$BRANCH" "origin/$BRANCH"
+          git merge --no-edit "origin/${{ github.event.repository.default_branch }}"
 
       - uses: actions/setup-python@v5
         if: steps.plan.outputs.run == 'true'
         with:
           python-version: "3.12"
 
-      - name: Build the change report
+      - name: Fetch both copies and build the change report
         if: steps.plan.outputs.run == 'true'
         env:
-          SYNCED_BLOB: ${{ steps.plan.outputs.synced }}
+          GH_TOKEN: ${{ github.token }}
+          BASE: ${{ steps.plan.outputs.base }}
         run: |
-          mkdir -p "$RUNNER_TEMP/coverage"
-          # A marker whose blob is not in history (hand-edited, or empty)
-          # yields no old copy, so every page reads as added.
-          git cat-file -p "$SYNCED_BLOB" > "$RUNNER_TEMP/coverage/old.txt" 2>/dev/null || : > "$RUNNER_TEMP/coverage/old.txt"
-          python3 scripts/docs_diff.py report --old "$RUNNER_TEMP/coverage/old.txt" --new "$CACHE" \
+          mkdir -p "$RUNNER_TEMP/coverage" "$(dirname "$DOCS")"
+          if ! scripts/docs_artifact.sh download "$LATEST" "$DOCS"; then
+            echo "::error::The latest docs artifact is gone. Run the docs cache workflow to renew it."
+            exit 1
+          fi
+          # A reviewed copy whose artifact expired leaves no old side, so
+          # every page reads as added and Claude reviews the lot.
+          if ! scripts/docs_artifact.sh download "$BASE" "$RUNNER_TEMP/coverage/old.txt"; then
+            echo "::warning::No reviewed copy to diff against; every page reads as added."
+            : > "$RUNNER_TEMP/coverage/old.txt"
+          fi
+          python3 scripts/docs_diff.py report --old "$RUNNER_TEMP/coverage/old.txt" --new "$DOCS" \
             > "$RUNNER_TEMP/coverage/report.md"
           sed '/^## Diffs of changed pages/,$d' "$RUNNER_TEMP/coverage/report.md" >> "$GITHUB_STEP_SUMMARY"
 
@@ -154,36 +189,23 @@ jobs:
             exit 1
           fi
 
-      - name: Mark the skill as reviewed against this copy
-        if: steps.plan.outputs.run == 'true'
-        run: echo "${{ steps.plan.outputs.current }}" > "$SYNCED"
-
       - name: Checks
         if: steps.plan.outputs.run == 'true'
         run: |
           python3 scripts/check_configs.py
           python3 -m unittest discover -s tests
 
-      - name: Open or update the pull request
+      - name: Open or update the pull request, or record the review
         if: steps.plan.outputs.run == 'true'
         env:
           GH_TOKEN: ${{ secrets.GH_PAT || github.token }}
-          BASE: ${{ github.event.repository.default_branch }}
+          VARS_TOKEN: ${{ secrets.GH_PAT }}
+          PR: ${{ steps.plan.outputs.pr }}
+          BASE_BRANCH: ${{ github.event.repository.default_branch }}
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git switch -C "$BRANCH"
-          git add -A "$SKILL" "$SYNCED"
-          if git diff --cached --quiet "$SKILL"; then
-            subject="Review the skill against the TypeSafe docs of $(date -u +%F): no edits"
-          else
-            subject="Update the skill for the TypeSafe docs of $(date -u +%F)"
-          fi
-          git commit -m "$subject" -m "Generated by .github/workflows/skill-coverage.yml."
-          # One standing branch: a newer run replaces an unmerged older one,
-          # and its diff already spans both docs changes.
-          git push --force origin "$BRANCH"
-
+          date=$(date -u +%F)
+          marker="<!-- docs-review: $LATEST -->"
+          run_link="[skill-coverage]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID)"
           {
             cat "$RUNNER_TEMP/coverage/summary.md"
             echo
@@ -192,19 +214,61 @@ jobs:
             sed '/^## Diffs of changed pages/,$d' "$RUNNER_TEMP/coverage/report.md" | head -c 40000
             echo
             echo "</details>"
-            echo
-            echo "Merging moves \`$SYNCED\` to this copy of the docs. Closing without merging leaves it, so the next run reviews these changes again."
-            echo
-            echo "🤖 Generated with [Claude Code](https://claude.com/claude-code) by [skill-coverage]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID)"
-          } > "$RUNNER_TEMP/coverage/body.md"
+          } > "$RUNNER_TEMP/coverage/review.md"
 
-          open=$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number // empty')
-          if [[ -n "$open" ]]; then
-            gh pr edit "$open" --title "$subject" --body-file "$RUNNER_TEMP/coverage/body.md"
-            echo "Updated pull request #$open"
-          else
-            gh pr create --base "$BASE" --head "$BRANCH" --title "$subject" --body-file "$RUNNER_TEMP/coverage/body.md"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A "$SKILL"
+          edited=false
+          if ! git diff --cached --quiet; then
+            edited=true
+            git commit -m "Update the skill for the TypeSafe docs of $date" \
+              -m "Generated by .github/workflows/skill-coverage.yml."
           fi
+
+          if [[ -n "$PR" ]]; then
+            # The branch now covers the latest copy, edits or not.
+            [[ "$edited" == "true" ]] && git push origin "HEAD:$BRANCH"
+            gh pr view "$PR" --json body --jq .body \
+              | sed '/<!-- docs-review: .* -->/d' > "$RUNNER_TEMP/coverage/body.md"
+            echo "$marker" >> "$RUNNER_TEMP/coverage/body.md"
+            gh pr edit "$PR" --body-file "$RUNNER_TEMP/coverage/body.md"
+            {
+              echo "The docs changed again on $date. $([[ "$edited" == "true" ]] && echo "Pushed more edits." || echo "No further edits needed.")"
+              echo
+              cat "$RUNNER_TEMP/coverage/review.md"
+              echo
+              echo "🤖 Generated with [Claude Code](https://claude.com/claude-code) by $run_link"
+            } > "$RUNNER_TEMP/coverage/comment.md"
+            gh pr comment "$PR" --body-file "$RUNNER_TEMP/coverage/comment.md"
+            exit 0
+          fi
+
+          if [[ "$edited" == "false" ]]; then
+            echo "No skill edits needed; recording the review."
+            if [[ -z "$VARS_TOKEN" ]]; then
+              echo "::error::The GH_PAT secret is not set, so DOCS_SKILL_REVIEWED cannot be updated"
+              exit 1
+            fi
+            GH_TOKEN="$VARS_TOKEN" gh variable set DOCS_SKILL_REVIEWED --body "$LATEST"
+            exit 0
+          fi
+
+          # No pull request is open, so any leftover branch is merged or
+          # abandoned and a fresh one replaces it.
+          git push --force origin "HEAD:$BRANCH"
+          {
+            cat "$RUNNER_TEMP/coverage/review.md"
+            echo
+            echo "Merging records the skill as reviewed against this copy of the docs (DOCS_SKILL_REVIEWED). Closing without merging leaves it, so the next run reviews these changes again."
+            echo
+            echo "🤖 Generated with [Claude Code](https://claude.com/claude-code) by $run_link"
+            echo
+            echo "$marker"
+          } > "$RUNNER_TEMP/coverage/body.md"
+          gh pr create --base "$BASE_BRANCH" --head "$BRANCH" \
+            --title "Update the skill for the TypeSafe docs of $date" \
+            --body-file "$RUNNER_TEMP/coverage/body.md"
 
       - name: Keep the run's files
         if: always() && steps.plan.outputs.run == 'true'

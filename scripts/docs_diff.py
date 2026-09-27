@@ -5,8 +5,8 @@ llms-full.txt is every docs page joined together, each opening with
 `# Title` and `Source: https://docs.typesafe.ai/<slug>`. The docs-cache
 workflow uses this script twice:
 
-- `validate NEW --against OLD` refuses a fetch that is not the docs (an error
-  page, a truncated body) before it can replace the cache.
+- `validate NEW --previous-pages N` refuses a fetch that is not the docs (an
+  error page, a truncated body) before it can become the cached copy.
 - `report --old OLD --new NEW` writes the Markdown the skill-coverage
   workflow hands to Claude and puts in the pull request: which pages were
   added, removed, or changed, their diffs, and which pages the skill never
@@ -96,7 +96,7 @@ def report(old_text: str, new_text: str, skill: str) -> str:
 
     out.append("## Diffs of changed pages")
     out.append("")
-    out.append("Added pages are not inlined. Read them in `upstream/typesafe-docs/llms-full.txt`.")
+    out.append("Added pages are not inlined. Read them in `.docs-cache/llms-full.txt`.")
     out.append("")
     size = sum(len(line) + 1 for line in out)
     for slug in changed:
@@ -117,13 +117,13 @@ def report(old_text: str, new_text: str, skill: str) -> str:
     return "\n".join(out).rstrip() + "\n"
 
 
-def validate(new_text: str, old_text: str) -> list[str]:
+def validate(new_text: str, previous_pages: int = 0) -> list[str]:
     """Reasons to refuse a fetch. Empty means it looks like the docs."""
-    new, old = split_pages(new_text), split_pages(old_text)
+    new = split_pages(new_text)
     if not new:
         return ["no `# Title` / `Source: https://docs.typesafe.ai/...` page headers"]
-    if len(new) * 2 < len(old):
-        return [f"only {len(new)} pages, down from {len(old)}; looks truncated"]
+    if len(new) * 2 < previous_pages:
+        return [f"only {len(new)} pages, down from {previous_pages}; looks truncated"]
     return []
 
 
@@ -136,7 +136,8 @@ def main() -> int:
     rep.add_argument("--skill", type=Path, default=SKILL_DIR)
     val = sub.add_parser("validate", help="exit 1 if a fetch does not look like the docs")
     val.add_argument("new", type=Path)
-    val.add_argument("--against", type=Path, help="the cached copy it would replace")
+    val.add_argument("--previous-pages", type=lambda v: int(v or 0), default=0,
+                     help="page count of the cached copy it would replace; empty means none")
     args = parser.parse_args()
 
     def read(path: Path | None) -> str:
@@ -145,11 +146,11 @@ def main() -> int:
     if args.cmd == "report":
         sys.stdout.write(report(read(args.old), read(args.new), skill_text(args.skill)))
         return 0
-    problems = validate(read(args.new), read(args.against))
+    problems = validate(read(args.new), args.previous_pages)
     for p in problems:
         print(f"error: {args.new}: {p}", file=sys.stderr)
     if not problems:
-        print(f"ok: {len(split_pages(read(args.new)))} pages")
+        print(len(split_pages(read(args.new))))
     return 1 if problems else 0
 
 

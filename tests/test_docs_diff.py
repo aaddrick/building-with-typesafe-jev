@@ -58,20 +58,14 @@ class Referenced(unittest.TestCase):
 
 class Validate(unittest.TestCase):
     def test_refuses_a_body_with_no_pages(self):
-        self.assertTrue(docs_diff.validate("<html>502 Bad Gateway</html>", OLD))
+        self.assertTrue(docs_diff.validate("<html>502 Bad Gateway</html>"))
 
     def test_refuses_a_fetch_that_lost_over_half_the_pages(self):
-        self.assertTrue(docs_diff.validate(page("A", "a", "x"), NEW))
+        self.assertTrue(docs_diff.validate(page("A", "a", "x"), 3))
 
     def test_accepts_the_docs(self):
-        self.assertEqual(docs_diff.validate(NEW, OLD), [])
-        self.assertEqual(docs_diff.validate(OLD, ""), [])
-
-
-class LiveCache(unittest.TestCase):
-    def test_the_committed_cache_parses(self):
-        cache = ROOT / "upstream/typesafe-docs/llms-full.txt"
-        self.assertGreater(len(docs_diff.split_pages(cache.read_text(encoding="utf-8"))), 50)
+        self.assertEqual(docs_diff.validate(NEW, 2), [])
+        self.assertEqual(docs_diff.validate(OLD), [])
 
 
 if __name__ == "__main__":
