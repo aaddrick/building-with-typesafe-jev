@@ -51,31 +51,31 @@ def pick(client: TypeSafeClient, goal: str, elements: list[dict]) -> dict | None
 ## Prior art
 
 **Browser, computer, phone**
-- Browser Use "jev-ultrafast": a numbered element table, one Choice = operation + target. Zürich→London flight search in 7.1 s for $0.0039 (via https://dev.to/valyuai/how-to-use-jev-a-practical-guide-to-typesafes-system-one-model-g5e)
-- Browserbase Stagehand `act()` rebuilt on Jev, median 1.97 s → 0.46 s: https://www.langchain.com/blog/building-prod-with-jev-and-langgraph
-- Mac computer use with OCR, no screenshots, about $0.0002 per step, an LLM only for free text: gh:awlevin/typesafe-computer-use
-- Accessibility-tree browser agent, 10–40 refs per step, 21–23 decisions all correct for about $0.001: HN:49758669
-- macOS Accessibility tree, with voice control: gh:savka777/jev-use. CUA's separate Jev example: trycua/cua `libs/cua-driver/examples/jev-use`
-- Droidrun mobile-jev, 9 Uber actions on a real phone in 21 s (via MarkTechPost launch article). iOS/Android jev-phone: HN:49831841
+- Browser Use "jev-ultrafast": a numbered element table, one Choice = operation + target. Zürich→London flight search in 7.1 s for $0.0039 (via [dev.to](https://dev.to/valyuai/how-to-use-jev-a-practical-guide-to-typesafes-system-one-model-g5e))
+- Browserbase Stagehand `act()` rebuilt on Jev, median 1.97 s → 0.46 s: [langchain.com](https://www.langchain.com/blog/building-prod-with-jev-and-langgraph)
+- Mac computer use with OCR, no screenshots, about $0.0002 per step, an LLM only for free text: [awlevin/typesafe-computer-use](https://github.com/awlevin/typesafe-computer-use)
+- Accessibility-tree browser agent, 10–40 refs per step, 21–23 decisions all correct for about $0.001: [HN](https://news.ycombinator.com/item?id=49758669)
+- macOS Accessibility tree, with voice control: [savka777/jev-use](https://github.com/savka777/jev-use). CUA's separate Jev example: trycua/cua `libs/cua-driver/examples/jev-use`
+- Droidrun mobile-jev, 9 Uber actions on a real phone in 21 s (via MarkTechPost launch article). iOS/Android jev-phone: [HN](https://news.ycombinator.com/item?id=49831841)
 - Rental search across Craigslist, FB Marketplace, Redfin, Zillow: Hearth (Nancy-Chauhan)
-- Distilled form-filler that beats Jev: HN:49767564
+- Distilled form-filler that beats Jev: [HN](https://news.ycombinator.com/item?id=49767564)
 
 **Tool and function calling without an LLM**
-- Function-calling cookbook: https://docs.typesafe.ai/cookbooks/function_calling.md
-- Chat where Jev picks the tool and arguments and code builds the reply: gh:w3cj/jev-chat
-- WebMCP browser extension: gh:sdras/jev-webmcp-extension
+- Function-calling cookbook: [docs.typesafe.ai](https://docs.typesafe.ai/cookbooks/function_calling.md)
+- Chat where Jev picks the tool and arguments and code builds the reply: [w3cj/jev-chat](https://github.com/w3cj/jev-chat)
+- WebMCP browser extension: [sdras/jev-webmcp-extension](https://github.com/sdras/jev-webmcp-extension)
 - jevexpress: Express with no routes, Jev picks the handler (npm)
-- Smart-home demo, speculative fan-out over category/room/device/action: https://docs.typesafe.ai/demos/smart-home.md
+- Smart-home demo, speculative fan-out over category/room/device/action: [docs.typesafe.ai](https://docs.typesafe.ai/demos/smart-home.md)
 
 **Extraction by selection**
-- Pre-parsed value extraction cookbook: https://docs.typesafe.ai/cookbooks/pre_parsed_value_extraction_cookbook.md
-- Date extraction as 7 enumerated Choices: https://docs.typesafe.ai/cookbooks/date_extraction_cookbook.md
-- Line-by-line search, a Choice over line IDs + an `exists` Noul: https://docs.typesafe.ai/cookbooks/semantic_find.md
+- Pre-parsed value extraction cookbook: [docs.typesafe.ai](https://docs.typesafe.ai/cookbooks/pre_parsed_value_extraction_cookbook.md)
+- Date extraction as 7 enumerated Choices: [docs.typesafe.ai](https://docs.typesafe.ai/cookbooks/date_extraction_cookbook.md)
+- Line-by-line search, a Choice over line IDs + an `exists` Noul: [docs.typesafe.ai](https://docs.typesafe.ai/cookbooks/semantic_find.md)
 
 **Routers**
-- OpenRouter official "Jev Router" (model + reasoning effort): https://openrouter.ai/typesafe
-- LangChain model-routing middleware: https://www.langchain.com/blog/building-a-harness-with-jev
+- OpenRouter official "Jev Router" (model + reasoning effort): [openrouter.ai](https://openrouter.ai/typesafe)
+- LangChain model-routing middleware: [langchain.com](https://www.langchain.com/blog/building-a-harness-with-jev)
 - jev-router, jev-codex-router, pi-jev-model-router, tiershift, tink-route (awesome-jev-typesafe)
-- Skill routers: skill_suggestion cookbook https://docs.typesafe.ai/cookbooks/skill_suggestion.md, jev-skill-suggester (win4r), typesafe-skill-router, skillranker
-- Jev-pilot, Claude Code effort/model/skill per prompt: HN:49837537
-- OpenCode agent router for subagents: HN:49822796
+- Skill routers: skill_suggestion cookbook [docs.typesafe.ai](https://docs.typesafe.ai/cookbooks/skill_suggestion.md), jev-skill-suggester (win4r), typesafe-skill-router, skillranker
+- Jev-pilot, Claude Code effort/model/skill per prompt: [HN](https://news.ycombinator.com/item?id=49837537)
+- OpenCode agent router for subagents: [HN](https://news.ycombinator.com/item?id=49822796)

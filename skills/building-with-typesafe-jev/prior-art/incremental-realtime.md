@@ -44,16 +44,16 @@ def on_partial(client: TypeSafeClient, text_so_far: str, held_for_s: float, inte
 
 ## Prior art
 
-- Real-time dubbing on iPhone ("is this translated sentence complete enough to speak?"), about 0.35 s, about 2¢/hour: HN:49814743, HN:49814753
+- Real-time dubbing on iPhone ("is this translated sentence complete enough to speak?"), about 0.35 s, about 2¢/hour: [HN](https://news.ycombinator.com/item?id=49814743), [HN](https://news.ycombinator.com/item?id=49814753)
 - Voice browser, about 12 questions per spoken word including destructive and addressed-to-me: jev-voice-browser (moritzkremb)
-- Voice-controlled Mac computer use (X demo): https://github.com/walidboulanouar/awesome-jev-use-cases
-- Component Charades, Choice re-ranked every 350 ms while typing, commits at 0.85: gh:southleft/component-charades
-- Shapeshift, one text box that morphs into an event card, checklist, or bill splitter, 14 questions per keystroke batch: gh:anishfn/shapeshift
+- Voice-controlled Mac computer use (X demo): [walidboulanouar/awesome-jev-use-cases](https://github.com/walidboulanouar/awesome-jev-use-cases)
+- Component Charades, Choice re-ranked every 350 ms while typing, commits at 0.85: [southleft/component-charades](https://github.com/southleft/component-charades)
+- Shapeshift, one text box that morphs into an event card, checklist, or bill splitter, 14 questions per keystroke batch: [anishfn/shapeshift](https://github.com/anishfn/shapeshift)
 - Steve Krouse's typewriter, 16 live Nouls as you type: typesafe-demo.val.run (MarkTechPost launch article)
-- YouTube sponsor skip painting the probability on the seek bar: jev-skip. Podcast ad removal: MinusPodJev (awesome-jev-typesafe, https://flaviocopes.com/jev/)
+- YouTube sponsor skip painting the probability on the seek bar: jev-skip. Podcast ad removal: MinusPodJev (awesome-jev-typesafe, [flaviocopes.com](https://flaviocopes.com/jev/))
 - Real-time audio beeper with ffmpeg: jev-audio-beeper (awesome-jev-typesafe)
-- Speech-driven NPC addressee detection: gh:wondertwins/jev-benchmark
-- Home Assistant voice ("cold and dark in here" → lights and heat): HN:49851245, gh:AboveColin/HA-Jev
-- Home network monitoring in real time (the author's early experiment, mentioned in a RuntimeWire article on TypeSafe's valuation): https://runtimewire.com/article/typesafe-investors-discuss-a-higher-valuation-after-jev-reaches-nearly-13-of-one
-- AI video editor, cutting >30 s tool latency (idea): HN:49721095
+- Speech-driven NPC addressee detection: [wondertwins/jev-benchmark](https://github.com/wondertwins/jev-benchmark)
+- Home Assistant voice ("cold and dark in here" → lights and heat): [HN](https://news.ycombinator.com/item?id=49851245), [AboveColin/HA-Jev](https://github.com/AboveColin/HA-Jev)
+- Home network monitoring in real time (the author's early experiment, mentioned in a RuntimeWire article on TypeSafe's valuation): [runtimewire.com](https://runtimewire.com/article/typesafe-investors-discuss-a-higher-valuation-after-jev-reaches-nearly-13-of-one)
+- AI video editor, cutting >30 s tool latency (idea): [HN](https://news.ycombinator.com/item?id=49721095)
 - For fixed-rate control loops, see `control-loops.md`

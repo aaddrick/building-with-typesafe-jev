@@ -46,32 +46,32 @@ db.create_function("jev", 2, _jev, deterministic=True)
 ## Prior art
 
 **Databases and search**
-- pg-jev (Postgres extension): gh:realZachi/pg-jev, pgjev.com
-- sqlite-jev (extension + virtual table): gh:mgaitan/sqlite-jev
-- mysql-ailike (`AILIKE` plugin): gh:maayanlevy/mysql-ailike, HN:49774592
-- duckdb-jev, JevQL, vgi-typesafe (awesome-jev-typesafe, https://flaviocopes.com/jev/)
-- neo4jev (graph walking): gh:jexp/neo4jev
+- pg-jev (Postgres extension): [realZachi/pg-jev](https://github.com/realZachi/pg-jev), pgjev.com
+- sqlite-jev (extension + virtual table): [mgaitan/sqlite-jev](https://github.com/mgaitan/sqlite-jev)
+- mysql-ailike (`AILIKE` plugin): [maayanlevy/mysql-ailike](https://github.com/maayanlevy/mysql-ailike), [HN](https://news.ycombinator.com/item?id=49774592)
+- duckdb-jev, JevQL, vgi-typesafe (awesome-jev-typesafe, [flaviocopes.com](https://flaviocopes.com/jev/))
+- neo4jev (graph walking): [jexp/neo4jev](https://github.com/jexp/neo4jev)
 - LanceDB `TypeSafeReranker`, OpenViking reranker (in OSS)
 
 **Frameworks and agent stacks**
-- LangChain middleware (auto mode, model routing): https://www.langchain.com/blog/building-a-harness-with-jev
-- Pydantic AI provider: https://pydantic.dev/docs/ai/models/typesafe/
-- Vercel AI Gateway: https://vercel.com/changelog/typesafe-ai-jev-now-available-on-ai-gateway. Cloudflare: https://developers.cloudflare.com/ai/models/typesafe/jev/. Netlify: https://www.netlify.com/changelog/typesafe-jev-ai-gateway/
+- LangChain middleware (auto mode, model routing): [langchain.com](https://www.langchain.com/blog/building-a-harness-with-jev)
+- Pydantic AI provider: [pydantic.dev](https://pydantic.dev/docs/ai/models/typesafe/)
+- Vercel AI Gateway: [vercel.com](https://vercel.com/changelog/typesafe-ai-jev-now-available-on-ai-gateway). Cloudflare: [developers.cloudflare.com](https://developers.cloudflare.com/ai/models/typesafe/jev/). Netlify: [netlify.com](https://www.netlify.com/changelog/typesafe-jev-ai-gateway/)
 - AutoGPT blocks, Composio provider, pipecat classifier, fastmcp transform, dspy, OpenClaw plugin, deer-flow guardrails, oh-my-claudecode hooks (in OSS; found by code search)
 - ai-hedge-fund provider adapter (typed answers → existing JSON contract): virattt/ai-hedge-fund `hedge_fund/llm/client.py`
 - jevexpress (Express router), Mastra moderation (npm / GitHub)
-- MCP servers wrapping Jev (jkudish, blakestone-x, burnigtm). Simon Willison's `llm-typesafe`: https://simonwillison.net/2026/Sep/22/llm-typesafe/
+- MCP servers wrapping Jev (jkudish, blakestone-x, burnigtm). Simon Willison's `llm-typesafe`: [simonwillison.net](https://simonwillison.net/2026/Sep/22/llm-typesafe/)
 
 **Products embedding Jev**
 - Chatwoot, inbox-zero, worldmonitor, PostHog (experiments only), twenty CRM, Lightdash, OneDev, pdf-craft, Math-To-Manim (found by code search)
 
 **CI and dev loop**
-- Migration guard: gh:opaielsheikh/typesafe-migration-guard. jev-commit, pytest-jev, oxlint-plugin-jev, Perch
+- Migration guard: [opaielsheikh/typesafe-migration-guard](https://github.com/opaielsheikh/typesafe-migration-guard). jev-commit, pytest-jev, oxlint-plugin-jev, Perch
 
 **Home and desktop**
-- HA-Jev (sensors, automation actions, Assist agent): gh:AboveColin/HA-Jev
-- Self-sorting Downloads folder (X demo): https://github.com/walidboulanouar/awesome-jev-use-cases
+- HA-Jev (sensors, automation actions, Assist agent): [AboveColin/HA-Jev](https://github.com/AboveColin/HA-Jev)
+- Self-sorting Downloads folder (X demo): [walidboulanouar/awesome-jev-use-cases](https://github.com/walidboulanouar/awesome-jev-use-cases)
 
 **Ecosystem ports** (for non-Python/JS hosts)
-- Community SDKs in Go, Rust (jev-rs HN:49814797), Java/Spring (HN:49762324), .NET, Ruby (HN:49757734), PHP/Laravel, Elixir/OTP, Swift, R, PowerShell, Dart, Haskell, C++
-- Local and open clones for offline hosts: Ollaya (HN:49848269), Laya (HN:49767430), decider-4b, NanoJev
+- Community SDKs in Go, Rust (jev-rs [HN](https://news.ycombinator.com/item?id=49814797)), Java/Spring ([HN](https://news.ycombinator.com/item?id=49762324)), .NET, Ruby ([HN](https://news.ycombinator.com/item?id=49757734)), PHP/Laravel, Elixir/OTP, Swift, R, PowerShell, Dart, Haskell, C++
+- Local and open clones for offline hosts: Ollaya ([HN](https://news.ycombinator.com/item?id=49848269)), Laya ([HN](https://news.ycombinator.com/item?id=49767430)), decider-4b, NanoJev

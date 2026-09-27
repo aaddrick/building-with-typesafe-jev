@@ -51,31 +51,31 @@ def walk(client: TypeSafeClient, doc: str, tree: dict, k: int = 3) -> list[tuple
 ## Prior art
 
 **Rerank and retrieval**
-- Rerank cookbook, BM25 top-30 + Noul, top-10 38% → 62%: https://docs.typesafe.ai/cookbooks/rerank_typesafe.md
-- RAG passage classifier, 4 Nouls per passage with first-match routing: https://docs.typesafe.ai/cookbooks/classifying_rag_passages.md
-- LanceDB `TypeSafeReranker` (`lancedb/rerankers/typesafe.py`), OpenViking `jev_rerank.py`, gh:hev/reranker
-- Jev in production vs. a cross-encoder: HN:49804788
-- Search planner (sources, time range, query terms, then rank): gh:superagents-lab/jev-search
-- Federated retrieval routing gated at 0.6: gh:Bonzokoles/36_chambers
+- Rerank cookbook, BM25 top-30 + Noul, top-10 38% → 62%: [docs.typesafe.ai](https://docs.typesafe.ai/cookbooks/rerank_typesafe.md)
+- RAG passage classifier, 4 Nouls per passage with first-match routing: [docs.typesafe.ai](https://docs.typesafe.ai/cookbooks/classifying_rag_passages.md)
+- LanceDB `TypeSafeReranker` (`lancedb/rerankers/typesafe.py`), OpenViking `jev_rerank.py`, [hev/reranker](https://github.com/hev/reranker)
+- Jev in production vs. a cross-encoder: [HN](https://news.ycombinator.com/item?id=49804788)
+- Search planner (sources, time range, query terms, then rank): [superagents-lab/jev-search](https://github.com/superagents-lab/jev-search)
+- Federated retrieval routing gated at 0.6: [Bonzokoles/36_chambers](https://github.com/Bonzokoles/36_chambers)
 - fastmcp `jev_search` transform (in OSS)
 
 **Match and dedupe**
-- Entity alignment cookbook (Score outcomes + companion Nouls): https://docs.typesafe.ai/cookbooks/entity_alignment.md
-- OpenSanctions entity-resolution benchmark: gh:panios/jev-opensanctions-benchmark
+- Entity alignment cookbook (Score outcomes + companion Nouls): [docs.typesafe.ai](https://docs.typesafe.ai/cookbooks/entity_alignment.md)
+- OpenSanctions entity-resolution benchmark: [panios/jev-opensanctions-benchmark](https://github.com/panios/jev-opensanctions-benchmark)
 - jlink, English match rules across datasets (awesome-jev-typesafe)
-- Genealogy matching discussion (block first, Splink): HN:49723461
-- Resume vs. duplicate candidate records: https://docs.typesafe.ai/primitives/noul.md (structured instructions section)
-- Dedupe reported "underwhelming": HN:49842510
+- Genealogy matching discussion (block first, Splink): [HN](https://news.ycombinator.com/item?id=49723461)
+- Resume vs. duplicate candidate records: [docs.typesafe.ai](https://docs.typesafe.ai/primitives/noul.md) (structured instructions section)
+- Dedupe reported "underwhelming": [HN](https://news.ycombinator.com/item?id=49842510)
 
 **Walk graphs and taxonomies**
-- Hierarchical classification with beam search: https://docs.typesafe.ai/cookbooks/hierarchical_classification.md
-- Coarse fallback (report the parent when confidence < 0.9): https://docs.typesafe.ai/cookbooks/classification_using_confidence.md
-- neo4jev, edges as a Choice + "goal reached?" Noul, beam over log-probs: gh:jexp/neo4jev
+- Hierarchical classification with beam search: [docs.typesafe.ai](https://docs.typesafe.ai/cookbooks/hierarchical_classification.md)
+- Coarse fallback (report the parent when confidence < 0.9): [docs.typesafe.ai](https://docs.typesafe.ai/cookbooks/classification_using_confidence.md)
+- neo4jev, edges as a Choice + "goal reached?" Noul, beam over log-probs: [jexp/neo4jev](https://github.com/jexp/neo4jev)
 - jev-tree, one Choice per level past the 255 cap (awesome-jev-typesafe)
-- Wikiracing via links: https://typesafe.ai/blog/introducing-system-one-models-and-jev
+- Wikiracing via links: [typesafe.ai](https://typesafe.ai/blog/introducing-system-one-models-and-jev)
 
 **Ranking people and things**
-- Composite scoring (resume screening weights): https://docs.typesafe.ai/patterns/composite-scoring.md
-- 700 leads scored in 40 s, 400 companies matched to one candidate (X demos): https://github.com/walidboulanouar/awesome-jev-use-cases
+- Composite scoring (resume screening weights): [docs.typesafe.ai](https://docs.typesafe.ai/patterns/composite-scoring.md)
+- 700 leads scored in 40 s, 400 companies matched to one candidate (X demos): [walidboulanouar/awesome-jev-use-cases](https://github.com/walidboulanouar/awesome-jev-use-cases)
 - Nifty 50 re-rank every 15 s (JevDirectory)
-- "Poor man's ranking", top 5 of 1,000 articles (idea): HN:49722440
+- "Poor man's ranking", top 5 of 1,000 articles (idea): [HN](https://news.ycombinator.com/item?id=49722440)

@@ -45,20 +45,20 @@ def verify(client: TypeSafeClient, source: str, schema: dict, record: dict) -> b
 
 ## Prior art
 
-- SDE cascade cookbook (gpt-5.4-mini extracts → Jev checks per field → gpt-5.5 escalates): https://docs.typesafe.ai/cookbooks/sde_cascade.md
-- OpenRouter "Cut LLM Cost with a Jev-Verified Cascade": https://openrouter.ai/typesafe
-- Cheap-confirm-escalate (regex/small model → Jev → big model): HN:49763623. Lev: HN:49844757
-- LangGraph Jev + LLM fallback: https://www.langchain.com/blog/building-prod-with-jev-and-langgraph
-- Intent routing pattern (code / specialist LLM / human): https://docs.typesafe.ai/patterns/intent-routing.md
-- Smart home: Jev fan-out, a compound-request Noul → an LLM splits the request, chat falls back to an LLM: https://docs.typesafe.ai/demos/smart-home.md
-- Craftax planner/actor with a 5-agent comparison: gh:mansicer/jev-plays
+- SDE cascade cookbook (gpt-5.4-mini extracts → Jev checks per field → gpt-5.5 escalates): [docs.typesafe.ai](https://docs.typesafe.ai/cookbooks/sde_cascade.md)
+- OpenRouter "Cut LLM Cost with a Jev-Verified Cascade": [openrouter.ai](https://openrouter.ai/typesafe)
+- Cheap-confirm-escalate (regex/small model → Jev → big model): [HN](https://news.ycombinator.com/item?id=49763623). Lev: [HN](https://news.ycombinator.com/item?id=49844757)
+- LangGraph Jev + LLM fallback: [langchain.com](https://www.langchain.com/blog/building-prod-with-jev-and-langgraph)
+- Intent routing pattern (code / specialist LLM / human): [docs.typesafe.ai](https://docs.typesafe.ai/patterns/intent-routing.md)
+- Smart home: Jev fan-out, a compound-request Noul → an LLM splits the request, chat falls back to an LLM: [docs.typesafe.ai](https://docs.typesafe.ai/demos/smart-home.md)
+- Craftax planner/actor with a 5-agent comparison: [mansicer/jev-plays](https://github.com/mansicer/jev-plays)
 - Minecraft dragon kill (LLM + Jev): awesome-jev-typesafe
-- Pokémon: Jev in the overworld, escalate hard battles to Sonnet/Opus (idea): HN:49849494
-- Self-rewriting Binance bot (Qwen rewrites the rules every 30 minutes): https://www.learnwithmeai.com/p/jev-trading-bot
-- WoW tutor → student distillation: gh:chalkychalk42/jev
-- Pixel art (LLM sketches shapes → Jev picks style → code renders): gh:joce-unity/pixeljev
-- YOLO-World proposes boxes, Jev keeps or drops each: https://huggingface.co/spaces/iluvblender/yolo-jev-scene-filter
-- Fraud detection with Jev + Kimi K3 (X demo): https://github.com/walidboulanouar/awesome-jev-use-cases
+- Pokémon: Jev in the overworld, escalate hard battles to Sonnet/Opus (idea): [HN](https://news.ycombinator.com/item?id=49849494)
+- Self-rewriting Binance bot (Qwen rewrites the rules every 30 minutes): [learnwithmeai.com](https://www.learnwithmeai.com/p/jev-trading-bot)
+- WoW tutor → student distillation: [chalkychalk42/jev](https://github.com/chalkychalk42/jev)
+- Pixel art (LLM sketches shapes → Jev picks style → code renders): [joce-unity/pixeljev](https://github.com/joce-unity/pixeljev)
+- YOLO-World proposes boxes, Jev keeps or drops each: [huggingface.co](https://huggingface.co/spaces/iluvblender/yolo-jev-scene-filter)
+- Fraud detection with Jev + Kimi K3 (X demo): [walidboulanouar/awesome-jev-use-cases](https://github.com/walidboulanouar/awesome-jev-use-cases)
 - Monitoring trigger → LLM report: Tom's Hardware launch article
-- Define in Claude, run in Jev: HN:49719902. Prompt → rubric → own classifier: HN:49849617
-- Jevper, Jev's interface on any OpenAI-compatible model: HN:49815066. TypeSafe `system-one-adapter-python`
+- Define in Claude, run in Jev: [HN](https://news.ycombinator.com/item?id=49719902). Prompt → rubric → own classifier: [HN](https://news.ycombinator.com/item?id=49849617)
+- Jevper, Jev's interface on any OpenAI-compatible model: [HN](https://news.ycombinator.com/item?id=49815066). TypeSafe `system-one-adapter-python`

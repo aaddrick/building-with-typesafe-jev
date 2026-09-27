@@ -8,7 +8,7 @@ Community projects built on Jev, grouped by **implementation shape**, snapshot 2
 2. Or grep: `grep -ril "<keyword>" ~/.claude/skills/building-with-typesafe-jev/prior-art/`. Try a domain word (trading, drone, email, SQL, dubbing) or a mechanism word (beam, cascade, lease, tick).
 3. Each shape file has: the shape → a code sketch → field lessons → prior art with links. Fetch a linked repo only when you need its details.
 
-Link conventions: `gh:owner/repo` = `https://github.com/owner/repo`. `HN:<id>` = `https://news.ycombinator.com/item?id=<id>`. Items with no link come from the indexes at the bottom.
+Items with no link come from the indexes at the bottom.
 
 ## Find the shape
 
@@ -32,19 +32,19 @@ Link conventions: `gh:owner/repo` = `https://github.com/owner/repo`. `HN:<id>` =
 
 ## Known bad fits (the field tried these and failed)
 
-- **Chess, and puzzle-like search**: it blunders on every move (HN:49746967). Keep search in code.
-- **Code review as the only reviewer**: too weak at reasoning (HN:49842208). Triage and risk scoring work. Final judgment does not.
-- **Perception**: Jev is text-only. Self-driving pushback: perception is the bottleneck (HN:49722214). Do perception with CV first.
-- **NSFW image flagging via an open "VisionLaya" clone**: too many false positives (HN:49779502).
-- **Record dedupe and a personal prompt router**: one user found these "underwhelming / OK at best" (HN:49842510).
-- **Out-of-box calibration claims**: a fair die gave face 1 about 83%. Fit Platt scaling on your own labels (HN:49830385, HN:49839995).
-- **Speed marketing**: measured gains were about 5–7× over small LLMs, not 40–200× (HN:49845146). Batched LLM calls can match it offline.
+- **Chess, and puzzle-like search**: it blunders on every move ([HN](https://news.ycombinator.com/item?id=49746967)). Keep search in code.
+- **Code review as the only reviewer**: too weak at reasoning ([HN](https://news.ycombinator.com/item?id=49842208)). Triage and risk scoring work. Final judgment does not.
+- **Perception**: Jev is text-only. Self-driving pushback: perception is the bottleneck ([HN](https://news.ycombinator.com/item?id=49722214)). Do perception with CV first.
+- **NSFW image flagging via an open "VisionLaya" clone**: too many false positives ([HN](https://news.ycombinator.com/item?id=49779502)).
+- **Record dedupe and a personal prompt router**: one user found these "underwhelming / OK at best" ([HN](https://news.ycombinator.com/item?id=49842510)).
+- **Out-of-box calibration claims**: a fair die gave face 1 about 83%. Fit Platt scaling on your own labels ([HN](https://news.ycombinator.com/item?id=49830385), [HN](https://news.ycombinator.com/item?id=49839995)).
+- **Speed marketing**: measured gains were about 5–7× over small LLMs, not 40–200× ([HN](https://news.ycombinator.com/item?id=49845146)). Batched LLM calls can match it offline.
 
 ## Bigger indexes (for more than these files hold)
 
-- https://github.com/valentynkit/awesome-jev-typesafe (about 250 entries)
-- https://www.jevdirectory.org/resources (about 515)
-- https://github.com/walidboulanouar/awesome-jev-use-cases (X demos)
-- https://github.com/AbdelStark/awesome-typesafe-jev
-- https://docs.typesafe.ai/concepts/use-case-map.md (official, by industry)
-- https://evals.typesafe.ai/ (official eval workflows: invoice, SOC, support)
+- [valentynkit/awesome-jev-typesafe](https://github.com/valentynkit/awesome-jev-typesafe) (about 250 entries)
+- [jevdirectory.org](https://www.jevdirectory.org/resources) (about 515)
+- [walidboulanouar/awesome-jev-use-cases](https://github.com/walidboulanouar/awesome-jev-use-cases) (X demos)
+- [AbdelStark/awesome-typesafe-jev](https://github.com/AbdelStark/awesome-typesafe-jev)
+- [docs.typesafe.ai](https://docs.typesafe.ai/concepts/use-case-map.md) (official, by industry)
+- [evals.typesafe.ai](https://evals.typesafe.ai/) (official eval workflows: invoice, SOC, support)
