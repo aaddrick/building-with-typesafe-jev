@@ -111,7 +111,8 @@ The skill works without a key. With `TYPESAFE_API_KEY` set in the agent's shell,
 <details>
 <summary><strong>Create, store, and troubleshoot a key</strong></summary>
 
-### Create a key
+<details>
+<summary><strong>Create a key</strong> (four steps in the TypeSafe console)</summary>
 
 **Step 1.** Sign in at [console.typesafe.ai](https://console.typesafe.ai/) and open **API Keys** in the sidebar.
 
@@ -129,7 +130,10 @@ The skill works without a key. With `TYPESAFE_API_KEY` set in the agent's shell,
 
 <img src=".github/assets/api-key/step-4.png" alt="The API key created dialog. The key value is masked. An amber box and arrow point at the Copy button." width="100%">
 
-### Store the key
+</details>
+
+<details>
+<summary><strong>Store the key</strong> (macOS, Linux, Windows)</summary>
 
 Keep the key in its own file, readable only by you, and export it as `TYPESAFE_API_KEY`. Agents often start shells without a terminal, so each section puts the key where those shells can see it. Pick your system.
 
@@ -231,7 +235,10 @@ An app you start from the dock, the start menu, or a desktop launcher does not r
 
 </details>
 
-### If the agent cannot see the key
+</details>
+
+<details>
+<summary><strong>If the agent cannot see the key</strong></summary>
 
 Ask the agent to run `echo ${#TYPESAFE_API_KEY}` (or `$env:TYPESAFE_API_KEY.Length` on Windows). If it prints `0` or nothing, check these in order:
 
@@ -239,6 +246,8 @@ Ask the agent to run `echo ${#TYPESAFE_API_KEY}` (or `$env:TYPESAFE_API_KEY.Leng
 - **You started the agent from the dock, the start menu, or an IDE.** Those apps do not read your shell files. See "Desktop apps and IDE extensions" above.
 - **Codex filters the environment.** If `~/.codex/config.toml` sets `include_only` under `[shell_environment_policy]`, add `TYPESAFE_API_KEY` to it. If it sets `ignore_default_excludes = false`, Codex drops every variable with `KEY` in its name. Remove that line.
 - **WSL.** Windows variables do not reach WSL. Store the key inside WSL with the Linux steps.
+
+</details>
 
 </details>
 
