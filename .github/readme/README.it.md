@@ -26,7 +26,7 @@
 > [!NOTE]
 > Questa è una skill non ufficiale, della community. Non è creata, verificata o approvata da TypeSafe AI. TypeSafe pubblica la propria skill su [typesafe-ai/skills](https://github.com/typesafe-ai/skills). Vedi [In cosa differisce dalla skill ufficiale](#in-cosa-differisce-dalla-skill-ufficiale).
 
-Gli agenti di coding trattano Jev come l'ennesimo modello di chat. Questa skill insegna loro a progettare per Jev: domande tipizzate, confidenza calibrata e link a oltre 150 progetti della community, ordinati per come funzionano, con uno schema di codice per ogni pattern. Si installa in Claude Code, Codex e Antigravity CLI.
+Gli agenti di coding trattano Jev come l'ennesimo modello di chat. Questa skill insegna loro a progettare per Jev: domande tipizzate, confidenza calibrata e link a oltre 150 progetti della community, ordinati per come funzionano, con uno schema di codice per ogni pattern. Si installa in Claude Code, Codex, Antigravity CLI, Muse e Muse Code.
 
 [Jev](https://docs.typesafe.ai/introduction) è un modello [System One](https://docs.typesafe.ai/concepts/system-one). Non scrive testo. Gli invii un contenuto e un insieme di domande tipizzate, e lui risponde a ogni domanda con un valore e una probabilità calibrata, di solito in 100-200 ms:
 
@@ -107,6 +107,35 @@ curl -fsSL https://raw.githubusercontent.com/aaddrick/building-with-typesafe-jev
 ```
 
 Lo script copia lì la cartella della skill e riscrive l'intestazione di `SKILL.md` nella forma che Muse legge. Apri una nuova chat. Muse carica la skill quando il compito corrisponde. Per aggiornarla, esegui di nuovo il comando.
+
+</details>
+
+<details>
+<summary><strong>Muse Code</strong></summary>
+
+Clona il repository:
+
+```bash
+git clone https://github.com/aaddrick/building-with-typesafe-jev.git
+```
+
+Installa la skill per tutti i progetti:
+
+```bash
+muse skills install building-with-typesafe-jev/skills/building-with-typesafe-jev --scope user
+```
+
+Verifica che sia installata:
+
+```bash
+muse skills list
+```
+
+Avvia una nuova sessione. Muse Code carica la skill quando il task corrisponde. Per caricarla a mano, digita:
+
+```
+/building-with-typesafe-jev
+```
 
 </details>
 

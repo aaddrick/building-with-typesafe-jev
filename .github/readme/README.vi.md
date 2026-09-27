@@ -26,7 +26,7 @@
 > [!NOTE]
 > Đây là một skill không chính thức do cộng đồng làm. TypeSafe AI không làm, không duyệt và không bảo trợ nó. TypeSafe có skill riêng tại [typesafe-ai/skills](https://github.com/typesafe-ai/skills). Xem [Khác biệt so với skill chính thức](#khác-biệt-so-với-skill-chính-thức).
 
-Các tác nhân lập trình đối xử với Jev như thêm một chat model nữa. Skill này dạy chúng thiết kế cho nó: câu hỏi có kiểu, độ tin cậy đã hiệu chỉnh, và liên kết tới hơn 150 dự án cộng đồng, xếp theo cách chúng hoạt động, mỗi mẫu có một bản phác thảo code. Nó cài được trong Claude Code, Codex và Antigravity CLI.
+Các tác nhân lập trình đối xử với Jev như thêm một chat model nữa. Skill này dạy chúng thiết kế cho nó: câu hỏi có kiểu, độ tin cậy đã hiệu chỉnh, và liên kết tới hơn 150 dự án cộng đồng, xếp theo cách chúng hoạt động, mỗi mẫu có một bản phác thảo code. Nó cài được trong Claude Code, Codex, Antigravity CLI, Muse và Muse Code.
 
 [Jev](https://docs.typesafe.ai/introduction) là một model [System One](https://docs.typesafe.ai/concepts/system-one). Nó không viết văn bản. Bạn gửi cho nó một nội dung cùng một bộ câu hỏi có kiểu, và nó trả lời mỗi câu hỏi bằng một giá trị kèm xác suất đã hiệu chỉnh, thường trong 100 tới 200 ms:
 
@@ -107,6 +107,35 @@ curl -fsSL https://raw.githubusercontent.com/aaddrick/building-with-typesafe-jev
 ```
 
 Script sao chép thư mục skill vào đó và viết lại phần đầu của `SKILL.md` theo dạng Muse đọc được. Mở một cuộc trò chuyện mới. Muse nạp skill khi tác vụ phù hợp. Để cập nhật, chạy lại lệnh.
+
+</details>
+
+<details>
+<summary><strong>Muse Code</strong></summary>
+
+Sao chép (clone) repository:
+
+```bash
+git clone https://github.com/aaddrick/building-with-typesafe-jev.git
+```
+
+Cài skill cho mọi dự án:
+
+```bash
+muse skills install building-with-typesafe-jev/skills/building-with-typesafe-jev --scope user
+```
+
+Kiểm tra đã cài xong:
+
+```bash
+muse skills list
+```
+
+Bắt đầu một phiên mới. Muse Code tải skill khi tác vụ phù hợp. Muốn tải thủ công, hãy gõ:
+
+```
+/building-with-typesafe-jev
+```
 
 </details>
 

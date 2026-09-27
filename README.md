@@ -26,7 +26,7 @@
 > [!NOTE]
 > This is an unofficial, community skill. It is not made, reviewed, or endorsed by TypeSafe AI. TypeSafe publishes its own skill at [typesafe-ai/skills](https://github.com/typesafe-ai/skills). See [How this differs from the official skill](#how-this-differs-from-the-official-skill).
 
-Coding agents treat Jev like one more chat model. This skill teaches them to design for it: typed questions, calibrated confidence, and links to 150+ community projects, sorted by how they work, with a code sketch for each pattern. It installs in Claude Code, Codex, and Antigravity CLI.
+Coding agents treat Jev like one more chat model. This skill teaches them to design for it: typed questions, calibrated confidence, and links to 150+ community projects, sorted by how they work, with a code sketch for each pattern. It installs in Claude Code, Codex, Antigravity CLI, Muse, and Muse Code.
 
 [Jev](https://docs.typesafe.ai/introduction) is a [System One](https://docs.typesafe.ai/concepts/system-one) model. It does not write text. You send it content and a set of typed questions, and it answers each one with a value and a calibrated probability, usually in 100 to 200 ms:
 
@@ -107,6 +107,35 @@ curl -fsSL https://raw.githubusercontent.com/aaddrick/building-with-typesafe-jev
 ```
 
 The script copies the skill folder there and rewrites the `SKILL.md` header into the shape Muse reads. Start a new chat. Muse loads the skill when the task matches. To update, run the command again.
+
+</details>
+
+<details>
+<summary><strong>Muse Code</strong></summary>
+
+Clone the repository:
+
+```bash
+git clone https://github.com/aaddrick/building-with-typesafe-jev.git
+```
+
+Install the skill for every project:
+
+```bash
+muse skills install building-with-typesafe-jev/skills/building-with-typesafe-jev --scope user
+```
+
+Check that it installed:
+
+```bash
+muse skills list
+```
+
+Start a new session. Muse Code loads the skill when the task matches. To load it by hand, type:
+
+```
+/building-with-typesafe-jev
+```
 
 </details>
 
