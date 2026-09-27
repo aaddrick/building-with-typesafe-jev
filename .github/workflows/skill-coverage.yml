@@ -1,23 +1,30 @@
 name: skill coverage
 
-# Asks Claude to bring the skill up to date with the latest cached TypeSafe
-# docs and opens one pull request with the result. docs-cache.yml calls this
-# when DOCS_LATEST is newer than DOCS_SKILL_REVIEWED; run it by hand to retry
-# a failed run, or with force for a review against unchanged docs.
+# Brings the skill up to date with the latest cached TypeSafe docs. The job
+# graph is a decision tree, so the run page shows which way each run went:
+#
+#   📋 plan ─ 🧠 Jev triage ─┬─ ⏭️ wording only ─────────────── record / update PR
+#                            ├─ 🎯 focused ─┐
+#                            └─ 🛟 full ────┴─ ✍️ Claude ─ 🔎 Jev verify ─┬─ ✅ verified ── PR
+#                                                                        ├─ ⚠️ flagged ─── PR, marked
+#                                                                        └─ 🟰 no edits ── record
+#
+# Jev triages each changed page before Claude (scripts/jev_triage.py, with
+# questions and thresholds in scripts/jev_questions.py) and checks Claude's
+# edits after. Branches that did not run show as skipped; each Jev job draws
+# its per-page decision tree in its summary. Without TYPESAFE_API_KEY, triage
+# takes the full-review branch and verify flags every page as unchecked.
 #
 # The diff runs from the copy the skill was last reviewed against to the
 # latest copy. While a pull request is open, a newer docs change is reviewed
-# on top of its branch, from the copy its description records, so the branch
-# collects every change until someone merges it. skill-reviewed.yml moves
-# DOCS_SKILL_REVIEWED on merge. When Claude finds nothing to change and no
-# pull request is open, this moves DOCS_SKILL_REVIEWED itself. The decisions
+# on top of its branch. skill-reviewed.yml moves DOCS_SKILL_REVIEWED on merge;
+# a review that changes nothing moves it here. The pipeline's other decisions
 # live in scripts/docs_pipeline.py.
 #
-# Needs the ANTHROPIC_API_KEY secret and GH_PAT (Variables: read and write).
-# A pull request that GITHUB_TOKEN opens does not start the checks workflow;
-# give GH_PAT Contents and Pull requests: read and write too, and it is used
-# for the push and the pull request. With only GITHUB_TOKEN for those, allow
-# Actions to create pull requests under Settings > Actions > General.
+# Secrets: ANTHROPIC_API_KEY, TYPESAFE_API_KEY, and GH_PAT (Variables: read
+# and write; add Contents and Pull requests: read and write so the pull
+# request starts the checks workflow). With only GITHUB_TOKEN for the pull
+# request, allow Actions to create pull requests under Settings > Actions.
 on:
   workflow_call:
     inputs:
@@ -49,50 +56,167 @@ env:
   BASE_BRANCH: ${{ github.event.repository.default_branch }}
   # Claude reads the full docs here. .gitignore keeps it out of commits.
   DOCS: .docs-cache/llms-full.txt
-  # Pinned like plugin-load-check.yml, so a CLI release changes this job only
-  # on the commit that bumps the pin.
+  # Pinned so a release changes this workflow only on the commit that bumps it.
   CLAUDE_CODE_VERSION: "2.1.283"
+  TYPESAFE_SDK_VERSION: "0.7.2"
+  JEV_MODEL: ${{ vars.JEV_MODEL || 'jev-1.13.0' }}
   MODEL: ${{ vars.SKILL_COVERAGE_MODEL || 'claude-opus-5-5' }}
   MAX_BUDGET_USD: "8"
 
 jobs:
-  update-skill:
+  plan:
+    name: 📋 Anything new to review?
     runs-on: ubuntu-latest
+    outputs:
+      run: ${{ steps.plan.outputs.run }}
+      pr: ${{ steps.plan.outputs.pr }}
+      base: ${{ steps.plan.outputs.base }}
     steps:
       - uses: actions/checkout@v4
         with:
-          # A caller's github.sha is whatever its run started on.
           ref: ${{ github.event.repository.default_branch }}
-          fetch-depth: 0
-          token: ${{ secrets.GH_PAT || github.token }}
-
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-
-      - name: Decide whether there is anything to review
-        id: plan
+      - id: plan
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           python3 scripts/docs_pipeline.py plan --latest "$LATEST" --reviewed "$REVIEWED" \
             --branch "$BRANCH" --force "${{ inputs.force || false }}"
 
+  triage:
+    name: 🧠 Jev · triage each changed page
+    needs: plan
+    if: needs.plan.outputs.run == 'true'
+    runs-on: ubuntu-latest
+    outputs:
+      route: ${{ steps.triage.outputs.route }}
+      why: ${{ steps.triage.outputs.why }}
+      pages: ${{ steps.triage.outputs.pages }}
+      update: ${{ steps.triage.outputs.update }}
+      unsure: ${{ steps.triage.outputs.unsure }}
+      skip: ${{ steps.triage.outputs.skip }}
+      # Passed down the tree so each job needs only its parent.
+      pr: ${{ needs.plan.outputs.pr }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # A caller's github.sha is whatever its run started on.
+          ref: ${{ github.event.repository.default_branch }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
       - name: Continue on the open pull request's branch
-        if: steps.plan.outputs.run == 'true' && steps.plan.outputs.pr != ''
+        if: needs.plan.outputs.pr != ''
         run: python3 scripts/docs_pipeline.py use-branch --branch "$BRANCH" --base-branch "$BASE_BRANCH"
-
       - name: Fetch both copies and build the change report
-        if: steps.plan.outputs.run == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          mkdir -p "$RUNNER_TEMP/coverage"
-          python3 scripts/docs_pipeline.py prepare --latest "$LATEST" --base "${{ steps.plan.outputs.base }}" \
-            --docs "$DOCS" --report "$RUNNER_TEMP/coverage/report.md" --skill "$SKILL"
+          python3 scripts/docs_pipeline.py prepare --latest "$LATEST" --base "${{ needs.plan.outputs.base }}" \
+            --docs "$RUNNER_TEMP/coverage/new.txt" --old-out "$RUNNER_TEMP/coverage/old.txt" \
+            --report "$RUNNER_TEMP/coverage/report.md" --skill "$SKILL"
+      - name: Install the TypeSafe SDK
+        run: pip install --quiet "typesafe-sdk==$TYPESAFE_SDK_VERSION"
+      - name: Ask Jev about each page
+        id: triage
+        env:
+          TYPESAFE_API_KEY: ${{ secrets.TYPESAFE_API_KEY }}
+        run: |
+          python3 scripts/jev_triage.py triage --old "$RUNNER_TEMP/coverage/old.txt" \
+            --new "$RUNNER_TEMP/coverage/new.txt" --skill "$SKILL" --out-dir "$RUNNER_TEMP/coverage"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: coverage-inputs
+          path: ${{ runner.temp }}/coverage/
+          if-no-files-found: error
 
+  skip-claude:
+    name: ⏭️ Wording only · skip Claude
+    needs: triage
+    if: needs.triage.outputs.route == 'skip'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          fetch-depth: 0
+          token: ${{ secrets.GH_PAT || github.token }}
+      - uses: ./.github/actions/publish-review
+        with:
+          pr: ${{ needs.triage.outputs.pr }}
+          gh-token: ${{ secrets.GH_PAT || github.token }}
+          vars-token: ${{ secrets.GH_PAT }}
+
+  focused:
+    name: 🎯 Facts changed · focus Claude on ${{ needs.triage.outputs.update }} page(s)
+    needs: triage
+    if: needs.triage.outputs.route == 'focused'
+    runs-on: ubuntu-latest
+    outputs:
+      pr: ${{ needs.triage.outputs.pr }}
+    steps:
+      - name: Hand Claude only what Jev routed to it
+        run: |
+          {
+            echo "## 🎯 Focused Claude review"
+            echo
+            echo "Jev routed ${{ needs.triage.outputs.pages }} changed page(s): ${{ needs.triage.outputs.update }} to act on, ${{ needs.triage.outputs.unsure }} for Claude to judge, ${{ needs.triage.outputs.skip }} skipped."
+            echo "Claude's prompt carries the routing; the triage job's summary shows the tree."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  full-review:
+    name: 🛟 Full Claude review
+    needs: triage
+    if: needs.triage.outputs.route == 'full'
+    runs-on: ubuntu-latest
+    outputs:
+      pr: ${{ needs.triage.outputs.pr }}
+    steps:
+      - name: Hand Claude every change
+        env:
+          WHY: ${{ needs.triage.outputs.why }}
+        run: |
+          {
+            echo "## 🛟 Full Claude review"
+            echo
+            echo "Claude reviews every change without Jev's routing: $WHY."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  claude:
+    name: ✍️ Claude · edit the skill
+    needs: [focused, full-review]
+    if: >-
+      !cancelled()
+      && (needs.focused.result == 'success' || needs.full-review.result == 'success')
+    runs-on: ubuntu-latest
+    env:
+      # Only one of the two branches ran; the other's outputs are empty.
+      PR: ${{ needs.focused.outputs.pr || needs.full-review.outputs.pr }}
+    outputs:
+      pr: ${{ needs.focused.outputs.pr || needs.full-review.outputs.pr }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Continue on the open pull request's branch
+        if: env.PR != ''
+        run: python3 scripts/docs_pipeline.py use-branch --branch "$BRANCH" --base-branch "$BASE_BRANCH"
+      - uses: actions/download-artifact@v4
+        with:
+          name: coverage-inputs
+          path: ${{ runner.temp }}/coverage
+      - name: Put the docs where Claude reads them
+        run: |
+          mkdir -p "$(dirname "$DOCS")"
+          cp "$RUNNER_TEMP/coverage/new.txt" "$DOCS"
       - name: Install Claude Code
-        if: steps.plan.outputs.run == 'true'
         run: npm install -g "@anthropic-ai/claude-code@$CLAUDE_CODE_VERSION"
 
       # The prompt carries third-party docs text, so the toolset is an
@@ -101,7 +225,6 @@ jobs:
       # commands or reach the API key. The prompt goes in on stdin because
       # one argv string caps at 128 KiB.
       - name: Ask Claude to update the skill
-        if: steps.plan.outputs.run == 'true'
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: |
@@ -109,35 +232,44 @@ jobs:
             echo "::error::The ANTHROPIC_API_KEY secret is not set"
             exit 1
           fi
-          cat .github/skill-coverage-prompt.md "$RUNNER_TEMP/coverage/report.md" > "$RUNNER_TEMP/coverage/prompt.md"
+          mkdir -p "$RUNNER_TEMP/claude"
+          {
+            cat .github/skill-coverage-prompt.md
+            echo
+            cat "$RUNNER_TEMP/coverage/focus.md"
+            printf '\n## Report\n\n'
+            cat "$RUNNER_TEMP/coverage/report.md"
+          } > "$RUNNER_TEMP/claude/prompt.md"
 
           if timeout 1800s claude -p \
               --allowedTools "Read,Grep,Glob,Edit,Write" \
               --output-format json \
               --model "$MODEL" \
               --max-budget-usd "$MAX_BUDGET_USD" \
-              < "$RUNNER_TEMP/coverage/prompt.md" \
-              > "$RUNNER_TEMP/coverage/claude.json" \
-              2> "$RUNNER_TEMP/coverage/claude-stderr.log"; then
+              < "$RUNNER_TEMP/claude/prompt.md" \
+              > "$RUNNER_TEMP/claude/claude.json" \
+              2> "$RUNNER_TEMP/claude/claude-stderr.log"; then
             :
           else
             code=$?
             echo "::error::claude exited $code"
-            tail -n 50 "$RUNNER_TEMP/coverage/claude-stderr.log"
+            tail -n 50 "$RUNNER_TEMP/claude/claude-stderr.log"
             exit 1
           fi
 
-          jq -r '.result // empty' "$RUNNER_TEMP/coverage/claude.json" > "$RUNNER_TEMP/coverage/summary.md"
-          jq -r '"Claude: \(.num_turns // "?") turns, $\(.total_cost_usd // "?")"' "$RUNNER_TEMP/coverage/claude.json"
-          if [[ "$(jq -r '.is_error // false' "$RUNNER_TEMP/coverage/claude.json")" == "true" ]]; then
+          jq -r '.result // empty' "$RUNNER_TEMP/claude/claude.json" > "$RUNNER_TEMP/claude/summary.md"
+          jq -r '"Claude: \(.num_turns // "?") turns, $\(.total_cost_usd // "?")"' "$RUNNER_TEMP/claude/claude.json"
+          if [[ "$(jq -r '.is_error // false' "$RUNNER_TEMP/claude/claude.json")" == "true" ]]; then
             echo "::error::Claude reported an error"
-            cat "$RUNNER_TEMP/coverage/summary.md"
+            cat "$RUNNER_TEMP/claude/summary.md"
             exit 1
           fi
-          cat "$RUNNER_TEMP/coverage/summary.md" >> "$GITHUB_STEP_SUMMARY"
-
+          {
+            echo "## ✍️ Claude"
+            echo
+            cat "$RUNNER_TEMP/claude/summary.md"
+          } >> "$GITHUB_STEP_SUMMARY"
       - name: Confine the edits to the skill
-        if: steps.plan.outputs.run == 'true'
         run: |
           outside=$(git status --porcelain --untracked-files=all | cut -c4- | grep -v "^$SKILL/" || true)
           if [[ -n "$outside" ]]; then
@@ -145,36 +277,132 @@ jobs:
             echo "$outside"
             exit 1
           fi
-
       - name: Checks
-        if: steps.plan.outputs.run == 'true'
         run: |
           python3 scripts/check_configs.py
           python3 -m unittest discover -s tests
-
-      - name: Open or update the pull request, or record the review
-        if: steps.plan.outputs.run == 'true'
-        env:
-          GH_TOKEN: ${{ secrets.GH_PAT || github.token }}
-          VARS_TOKEN: ${{ secrets.GH_PAT }}
+      - name: Hand the edited skill to the next jobs
         run: |
-          python3 scripts/docs_pipeline.py publish --latest "$LATEST" --pr "${{ steps.plan.outputs.pr }}" \
-            --branch "$BRANCH" --base-branch "$BASE_BRANCH" --skill "$SKILL" \
-            --summary "$RUNNER_TEMP/coverage/summary.md" --report "$RUNNER_TEMP/coverage/report.md" \
-            --run-url "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
-
-      - name: Keep the run's files
-        if: always() && steps.plan.outputs.run == 'true'
+          mkdir -p "$RUNNER_TEMP/edits"
+          cp -r "$SKILL" "$RUNNER_TEMP/edits/skill"
+          cp "$RUNNER_TEMP/claude/summary.md" "$RUNNER_TEMP/edits/summary.md"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: claude-edits
+          path: ${{ runner.temp }}/edits/
+          if-no-files-found: error
+      - name: Keep Claude's prompt and output
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: skill-coverage
-          path: ${{ runner.temp }}/coverage/
+          name: claude-run
+          path: ${{ runner.temp }}/claude/
           if-no-files-found: ignore
+
+  verify:
+    name: 🔎 Jev · check Claude's edits
+    needs: claude
+    if: "!cancelled() && needs.claude.result == 'success'"
+    runs-on: ubuntu-latest
+    outputs:
+      verdict: ${{ steps.verify.outputs.verdict }}
+      doubts: ${{ steps.verify.outputs.doubts }}
+      pr: ${{ needs.claude.outputs.pr }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Continue on the open pull request's branch
+        if: needs.claude.outputs.pr != ''
+        run: python3 scripts/docs_pipeline.py use-branch --branch "$BRANCH" --base-branch "$BASE_BRANCH"
+      - uses: actions/download-artifact@v4
+        with:
+          name: coverage-inputs
+          path: ${{ runner.temp }}/coverage
+      - uses: actions/download-artifact@v4
+        with:
+          name: claude-edits
+          path: ${{ runner.temp }}/edits
+      - name: Install the TypeSafe SDK
+        run: pip install --quiet "typesafe-sdk==$TYPESAFE_SDK_VERSION"
+      - name: Ask Jev whether each edited page agrees with the docs
+        id: verify
+        env:
+          TYPESAFE_API_KEY: ${{ secrets.TYPESAFE_API_KEY }}
+        run: |
+          python3 scripts/jev_triage.py verify --triage "$RUNNER_TEMP/coverage/triage.json" \
+            --old "$RUNNER_TEMP/coverage/old.txt" --new "$RUNNER_TEMP/coverage/new.txt" \
+            --skill-before "$SKILL" --skill-after "$RUNNER_TEMP/edits/skill" --out-dir "$RUNNER_TEMP/verify"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: jev-verify
+          path: ${{ runner.temp }}/verify/
+          if-no-files-found: error
+
+  publish-verified:
+    name: ✅ Jev verified · open the PR
+    needs: verify
+    if: needs.verify.outputs.verdict == 'verified'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          fetch-depth: 0
+          token: ${{ secrets.GH_PAT || github.token }}
+      - uses: ./.github/actions/publish-review
+        with:
+          pr: ${{ needs.verify.outputs.pr }}
+          edits: "true"
+          gh-token: ${{ secrets.GH_PAT || github.token }}
+          vars-token: ${{ secrets.GH_PAT }}
+
+  publish-flagged:
+    name: ⚠️ Jev doubts ${{ needs.verify.outputs.doubts }} page(s) · open the PR for a human check
+    needs: verify
+    if: needs.verify.outputs.verdict == 'flagged'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          fetch-depth: 0
+          token: ${{ secrets.GH_PAT || github.token }}
+      - uses: ./.github/actions/publish-review
+        with:
+          pr: ${{ needs.verify.outputs.pr }}
+          edits: "true"
+          title-prefix: "[check by hand] "
+          gh-token: ${{ secrets.GH_PAT || github.token }}
+          vars-token: ${{ secrets.GH_PAT }}
+
+  publish-unchanged:
+    name: 🟰 No edits needed · record the review
+    needs: verify
+    if: needs.verify.outputs.verdict == 'unchanged'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          fetch-depth: 0
+          token: ${{ secrets.GH_PAT || github.token }}
+      - uses: ./.github/actions/publish-review
+        with:
+          pr: ${{ needs.verify.outputs.pr }}
+          edits: "true"
+          gh-token: ${{ secrets.GH_PAT || github.token }}
+          vars-token: ${{ secrets.GH_PAT }}
 
   # Inside a workflow_call, github.workflow is the caller's name, so a run
   # called from docs-cache leaves the alert to docs-cache and sends one email.
+  # It needs only the leaves: failure() is true when any ancestor failed.
   alert:
-    needs: update-skill
+    needs: [skip-claude, publish-verified, publish-flagged, publish-unchanged]
     if: failure() && github.workflow == 'skill coverage'
     uses: ./.github/workflows/failure-alert.yml
     secrets: inherit

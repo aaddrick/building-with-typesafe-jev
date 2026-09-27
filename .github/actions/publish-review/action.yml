@@ -1,0 +1,83 @@
+name: Publish the skill review
+description: >-
+  The last step of each branch of skill-coverage.yml. Applies Claude's edits
+  when there are any, then opens or updates the pull request, or records a
+  review that changed nothing. Jev's triage and verify tables ride along.
+  Run it after actions/checkout with fetch-depth 0. Reads LATEST, SKILL,
+  BRANCH, and BASE_BRANCH from the workflow's env.
+
+inputs:
+  pr:
+    description: Number of the open skill-coverage pull request, if any
+    default: ""
+  edits:
+    description: "'true' to apply the skill from the claude-edits artifact"
+    default: "false"
+  title-prefix:
+    description: Put before a new pull request's title
+    default: ""
+  gh-token:
+    description: Token for the push and the pull request
+    required: true
+  vars-token:
+    description: Token that can write repository variables (GH_PAT)
+    default: ""
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-python@v5
+      with:
+        python-version: "3.12"
+
+    - uses: actions/download-artifact@v4
+      with:
+        name: coverage-inputs
+        path: ${{ runner.temp }}/coverage
+
+    - if: inputs.edits == 'true'
+      uses: actions/download-artifact@v4
+      with:
+        name: claude-edits
+        path: ${{ runner.temp }}/edits
+
+    - if: inputs.edits == 'true'
+      uses: actions/download-artifact@v4
+      with:
+        name: jev-verify
+        path: ${{ runner.temp }}/verify
+
+    - name: Continue on the open pull request's branch
+      if: inputs.pr != ''
+      shell: bash
+      run: python3 scripts/docs_pipeline.py use-branch --branch "$BRANCH" --base-branch "$BASE_BRANCH"
+
+    # Only the skill can differ (the Claude job confines its edits), so
+    # replacing the folder applies every edit, deletions included.
+    - name: Apply Claude's edits
+      if: inputs.edits == 'true'
+      shell: bash
+      run: |
+        rm -rf "$SKILL"
+        cp -r "$RUNNER_TEMP/edits/skill" "$SKILL"
+
+    - name: Open or update the pull request, or record the review
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.gh-token }}
+        VARS_TOKEN: ${{ inputs.vars-token }}
+        PR: ${{ inputs.pr }}
+        EDITS: ${{ inputs.edits }}
+        TITLE_PREFIX: ${{ inputs.title-prefix }}
+      run: |
+        if [[ "$EDITS" == "true" ]]; then
+          summary="$RUNNER_TEMP/edits/summary.md"
+        else
+          summary="$RUNNER_TEMP/coverage/skip-summary.md"
+        fi
+        python3 scripts/docs_pipeline.py publish --latest "$LATEST" --pr "$PR" \
+          --branch "$BRANCH" --base-branch "$BASE_BRANCH" --skill "$SKILL" \
+          --summary "$summary" --report "$RUNNER_TEMP/coverage/report.md" \
+          --append "$RUNNER_TEMP/coverage/jev-triage.md" --append "$RUNNER_TEMP/verify/jev-verify.md" \
+          --title-prefix "$TITLE_PREFIX" \
+          --run-url "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"

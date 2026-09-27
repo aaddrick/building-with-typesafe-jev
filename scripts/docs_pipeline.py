@@ -267,6 +267,9 @@ def cmd_prepare(args) -> None:
             # A reviewed copy whose artifact expired leaves no old side, so
             # every page reads as added and Claude reviews the lot.
             print("::warning::No reviewed copy to diff against; every page reads as added.")
+    if args.old_out:
+        # Triage and verify read the same old side; empty means none.
+        Path(args.old_out).write_text(old, encoding="utf-8")
     report = docs_diff.report(old, Path(args.docs).read_text(encoding="utf-8"), docs_diff.skill_text(Path(args.skill)))
     Path(args.report).write_text(report, encoding="utf-8")
     step_summary(report_head(report))
@@ -277,8 +280,10 @@ def cmd_publish(args) -> None:
     if not latest:
         raise PipelineError("no valid latest ref to publish against")
     date = now(args).date().isoformat()
+    # Jev's triage and verify tables ride along, when those steps ran.
+    extras = [Path(f).read_text(encoding="utf-8").strip() for f in args.append if Path(f).is_file()]
     review = (
-        Path(args.summary).read_text(encoding="utf-8").strip()
+        "\n\n".join([Path(args.summary).read_text(encoding="utf-8").strip(), *[e for e in extras if e]])
         + "\n\n<details><summary>Docs change report</summary>\n\n"
         + report_head(Path(args.report).read_text(encoding="utf-8"))[:MAX_REPORT_IN_BODY]
         + "\n</details>\n"
@@ -322,7 +327,7 @@ def cmd_publish(args) -> None:
             encoding="utf-8",
         )
         gh("pr", "create", "--base", args.base_branch, "--head", args.branch,
-           "--title", f"Update the skill for the TypeSafe docs of {date}", "--body-file", str(body_file))
+           "--title", f"{args.title_prefix}Update the skill for the TypeSafe docs of {date}", "--body-file", str(body_file))
         set_outputs(outcome="opened")
 
 
@@ -379,6 +384,7 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--docs", required=True, help="where Claude reads the latest copy")
     p.add_argument("--report", required=True)
     p.add_argument("--skill", default=str(docs_diff.SKILL_DIR))
+    p.add_argument("--old-out", help="also write the reviewed copy here (empty when there is none)")
     p.set_defaults(func=cmd_prepare)
 
     p = sub.add_parser("publish")
@@ -388,6 +394,8 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--base-branch", required=True)
     p.add_argument("--skill", required=True)
     p.add_argument("--summary", required=True)
+    p.add_argument("--append", action="append", default=[], help="Markdown to add after the summary; a missing file is skipped")
+    p.add_argument("--title-prefix", default="", help="put before a new pull request's title")
     p.add_argument("--report", required=True)
     p.add_argument("--run-url", default="")
     p.add_argument("--now", help="ISO time to treat as now (tests)")

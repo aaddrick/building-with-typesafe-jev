@@ -15,6 +15,8 @@ name: docs cache
 # Needs the GH_PAT secret: GITHUB_TOKEN cannot write repository variables.
 # A fine-grained token with Variables: read and write on this repository is
 # enough here; skill-coverage.yml says what else it uses it for.
+# skill-coverage.yml also needs ANTHROPIC_API_KEY and TYPESAFE_API_KEY (Jev
+# triages each change before Claude and checks Claude's edits after).
 on:
   schedule:
     - cron: "17 */8 * * *"

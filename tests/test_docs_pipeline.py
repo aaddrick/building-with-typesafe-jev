@@ -359,6 +359,43 @@ class SkillCoverage(Pipeline):
         _, out = self.run_step("plan", "--branch", BRANCH, ok=False)
         self.assertIn("DOCS_LATEST is not set", out)
 
+    def test_prepare_keeps_the_old_copy_for_jev_and_empty_when_it_expired(self):
+        self.docs_cache(DOCS_V1)
+        reviewed = self.var("DOCS_SKILL_REVIEWED")
+        self.docs_cache(DOCS_V2)
+        old = self.tmp / "old.txt"
+        args = ["prepare", "--latest", self.var("DOCS_LATEST"), "--base", reviewed, "--docs", str(self.tmp / "new.txt"),
+                "--old-out", str(old), "--report", str(self.tmp / "r.md"), "--skill", SKILL]
+        self.run_step(*args)
+        self.assertEqual(old.read_text(), DOCS_V1)
+        state = self.load()
+        state["artifacts"][str(json.loads(reviewed)["artifact_id"])]["expired"] = True
+        self.save(state)
+        self.run_step(*args)
+        self.assertEqual(old.read_text(), "")
+
+    def test_a_flagged_pull_request_carries_jevs_tables_and_a_marked_title(self):
+        self.docs_cache(DOCS_V1)
+        self.docs_cache(DOCS_V2)
+        (self.work / SKILL / "SKILL.md").write_text("Choice takes up to 512 options.\n")
+        (self.tmp / "summary.md").write_text("### Skill changes\n\n- bumped the limit\n")
+        (self.tmp / "report.md").write_text("# report\n")
+        (self.tmp / "jev-triage.md").write_text("### Triaged by Jev\n\n| Page |\n")
+        (self.tmp / "jev-verify.md").write_text("### Checked by Jev\n\nVerdict: **flagged**\n")
+        out, _ = self.run_step(
+            "publish", "--latest", self.var("DOCS_LATEST"), "--branch", BRANCH, "--base-branch", "main",
+            "--skill", SKILL, "--summary", str(self.tmp / "summary.md"), "--report", str(self.tmp / "report.md"),
+            "--append", str(self.tmp / "jev-triage.md"), "--append", str(self.tmp / "jev-verify.md"),
+            "--append", str(self.tmp / "missing.md"), "--title-prefix", "[check by hand] ", "--now", NOW,
+        )
+        pr = self.load()["prs"]["1"]
+        self.assertEqual(out["outcome"], "opened")
+        self.assertTrue(pr["title"].startswith("[check by hand] Update the skill"))
+        body = pr["body"]
+        self.assertLess(body.index("### Skill changes"), body.index("### Triaged by Jev"))
+        self.assertLess(body.index("### Triaged by Jev"), body.index("### Checked by Jev"))
+        self.assertEqual(docs_pipeline.find_marker(body), self.ref("DOCS_LATEST"))
+
 
 class SkillReviewed(Pipeline):
     def open_and_merge(self):
@@ -423,20 +460,39 @@ class Refs(unittest.TestCase):
         self.assertEqual(docs_pipeline.find_marker(body), self.GOOD)
 
 
+def jobs(workflow_text):
+    """Each job's id mapped to its raw YAML block, without a YAML parser."""
+    body = workflow_text.split("\njobs:\n", 1)[1]
+    parts = re.split(r"^  ([\w-]+):\n", body, flags=re.M)
+    return dict(zip(parts[1::2], parts[2::2]))
+
+
+def field(block, key):
+    m = re.search(rf"^    {key}: (.+)$", block, re.M)
+    return m.group(1).strip() if m else ""
+
+
 class Workflows(unittest.TestCase):
-    """The workflows stay wired to the pipeline and to the failure alert."""
+    """The workflows stay wired to the pipeline, to Jev's decision tree, and to the failure alert."""
 
     def text(self, name):
         return (WORKFLOWS / name).read_text(encoding="utf-8")
 
+    def callers(self):
+        names = ["docs-cache.yml", "skill-coverage.yml", "skill-reviewed.yml"]
+        return [self.text(n) for n in names] + [(ROOT / ".github/actions/publish-review/action.yml").read_text()]
+
     def test_every_pipeline_command_a_workflow_calls_exists(self):
         commands = set()
-        for name in ("docs-cache.yml", "skill-coverage.yml", "skill-reviewed.yml"):
-            commands |= set(re.findall(r"docs_pipeline\.py ([\w-]+)", self.text(name)))
+        for text in self.callers():
+            commands |= set(re.findall(r"docs_pipeline\.py ([\w-]+)", text))
         known = {"compare", "record-latest", "plan", "use-branch", "prepare", "publish", "record-merged"}
-        self.assertTrue(commands, "no workflow calls docs_pipeline.py")
         self.assertLessEqual(commands, known)
         self.assertEqual(commands, known, "a pipeline command is never called")
+
+    def test_both_jev_commands_run(self):
+        called = set(re.findall(r"jev_triage\.py ([\w-]+)", self.text("skill-coverage.yml")))
+        self.assertEqual(called, {"triage", "verify"})
 
     def test_each_workflow_emails_on_failure(self):
         for name in ("docs-cache.yml", "skill-coverage.yml", "skill-reviewed.yml"):
@@ -451,6 +507,64 @@ class Workflows(unittest.TestCase):
 
     def test_the_mail_action_is_pinned_to_a_commit(self):
         self.assertRegex(self.text("failure-alert.yml"), r"uses: dawidd6/action-send-mail@[0-9a-f]{40}")
+
+
+class DecisionTree(unittest.TestCase):
+    """skill-coverage.yml's job graph is the decision tree the run page draws.
+
+    One branch job per route triage can return, one per verdict verify can
+    return, and the alert watching all of them.
+    """
+
+    def setUp(self):
+        self.jobs = jobs((WORKFLOWS / "skill-coverage.yml").read_text(encoding="utf-8"))
+
+    def branches(self, output):
+        found = {}
+        for job, block in self.jobs.items():
+            m = re.fullmatch(rf"needs\.\w+\.outputs\.{output} == '(\w+)'", field(block, "if"))
+            if m:
+                found[m.group(1)] = job
+        return found
+
+    def test_one_branch_per_triage_route(self):
+        import jev_triage
+        routes = self.branches("route")
+        self.assertEqual(set(routes), set(jev_triage.RUN_ROUTES))
+        self.assertEqual(routes, {"skip": "skip-claude", "focused": "focused", "full": "full-review"})
+
+    def test_one_branch_per_verify_verdict(self):
+        self.assertEqual(self.branches("verdict"),
+                         {"verified": "publish-verified", "flagged": "publish-flagged", "unchanged": "publish-unchanged"})
+
+    def test_claude_joins_the_two_branches_that_need_it(self):
+        claude = self.jobs["claude"]
+        self.assertEqual(field(claude, "needs"), "[focused, full-review]")
+        self.assertIn("needs.focused.result == 'success' || needs.full-review.result == 'success'", claude)
+        self.assertIn("needs.claude.result == 'success'", field(self.jobs["verify"], "if"))
+
+    def test_every_job_is_named_for_the_graph(self):
+        for job, block in self.jobs.items():
+            if job != "alert":
+                self.assertRegex(field(block, "name"), r"^\S+ ", f"{job} has no icon-led name")
+
+    def needs(self, job):
+        return set(re.findall(r"[\w-]+", field(self.jobs[job], "needs")))
+
+    def test_each_job_needs_only_its_parents_so_the_graph_reads_as_a_tree(self):
+        for job in self.jobs:
+            if job not in ("plan", "claude", "alert"):
+                self.assertLessEqual(len(self.needs(job)), 1, f"{job} has extra parents")
+
+    def test_the_alert_has_every_job_as_an_ancestor(self):
+        # failure() is true when any ancestor failed, so needing the leaves covers the tree.
+        seen, todo = set(), ["alert"]
+        while todo:
+            for parent in self.needs(todo.pop()):
+                if parent not in seen:
+                    seen.add(parent)
+                    todo.append(parent)
+        self.assertEqual(seen, set(self.jobs) - {"alert"})
 
 
 if __name__ == "__main__":
