@@ -55,19 +55,19 @@ hidden = [p for p, l in zip(posts, labels) if max(l["ai"], l["promo"]) > 0.8]
 - slop-filter, weights fit to your labels: [adamnroman/slop-filter](https://github.com/adamnroman/slop-filter)
 - Slop Mop (LinkedIn): [HN](https://news.ycombinator.com/item?id=49819820). Sniffslop: [HN](https://news.ycombinator.com/item?id=49813985)
 - Ad blocker by meaning: [realZachi/typesafe-adblock](https://github.com/realZachi/typesafe-adblock)
-- X demos: scroll-time slop detector, YouTube sponsor skipper, plain-language X post hiding, Doomscroll Filter, reply-guy filter (https://github.com/walidboulanouar/awesome-jev-use-cases)
-- Ground Truth article-framing overlay (JevDirectory). Privacy Facts policy labels (awesome-jev-typesafe)
+- X demos: scroll-time slop detector, YouTube sponsor skipper, plain-language X post hiding, Doomscroll Filter, reply-guy filter ([walidboulanouar/awesome-jev-use-cases](https://github.com/walidboulanouar/awesome-jev-use-cases))
+- Ground Truth article-framing overlay: [x.com](https://x.com/jagenaujagenau/status/2100622352333574460). Privacy Facts policy labels: [thenewpotato/privacy-facts](https://github.com/thenewpotato/privacy-facts)
 
 **Moderation and anti-spam**
 - Telegram bot that deletes only high-confidence spam: [backmeupplz/jev_antispam_bot](https://github.com/backmeupplz/jev_antispam_bot)
-- Discord moderation bot "Soter": [HN](https://news.ycombinator.com/item?id=49825787). mastra-jev-moderation (CodeAlive-AI)
+- Discord moderation bot "Soter": [HN](https://news.ycombinator.com/item?id=49825787). mastra-jev-moderation: [CodeAlive-AI/mastra-jev-moderation](https://github.com/CodeAlive-AI/mastra-jev-moderation)
 - Trust and safety ideas (severity × confidence → allow/warn/review/block): [docs.typesafe.ai](https://docs.typesafe.ai/concepts/use-case-map.md)
 
 **Email, support, CRM**
-- Chatwoot conversation priority/labels: `captain/conversation_classifier_service.rb` in chatwoot
-- inbox-zero decision model: `utils/decision-model/typesafe.ts`
-- Bryo AI email triage (Gemini slightly more accurate, 10–20× the cost): MarkTechPost launch article
-- Jevmail 5-tray Gmail sorter (awesome-jev-typesafe)
+- Chatwoot conversation priority/labels: [`captain/conversation_classifier_service.rb`](https://github.com/chatwoot/chatwoot/blob/develop/app/services/captain/conversation_classifier_service.rb) in [chatwoot/chatwoot](https://github.com/chatwoot/chatwoot)
+- inbox-zero decision model: [`utils/decision-model/typesafe.ts`](https://github.com/elie222/inbox-zero/blob/main/apps/web/utils/decision-model/typesafe.ts) in [elie222/inbox-zero](https://github.com/elie222/inbox-zero)
+- Bryo AI email triage (Gemini slightly more accurate, 10–20× the cost): [marktechpost.com](https://www.marktechpost.com/2026/09/19/typesafe-ai-releases-jev/)
+- Jevmail 5-tray Gmail sorter: [fazlerocks/jevmail](https://github.com/fazlerocks/jevmail)
 - Support cost study: [HN](https://news.ycombinator.com/item?id=49794787). CraftCX write-up: [HN](https://news.ycombinator.com/item?id=49846104)
 
 **Logs, code, security**
@@ -78,12 +78,12 @@ hidden = [p for p, l in zip(posts, labels) if max(l["ai"], l["promo"]) > 0.8]
 **Bulk business labelling**
 - Ad teardown, 724 ads for 9¢ (Matthew Berman via [linas.substack.com](https://linas.substack.com/p/how-to-use-jev-ai))
 - Resume vs. 6,245 YC companies for $0.37: [flaviocopes.com](https://flaviocopes.com/jev/)
-- IRS forms across 261 classes: kyotofin (https://gist.github.com/drillan/6916b16e8ea31a8ec36c8f59d6483150)
+- IRS forms across 261 classes: kyotofin ([gist.github.com](https://gist.github.com/drillan/6916b16e8ea31a8ec36c8f59d6483150))
 - Forum DB curation for backlinks: [HN](https://news.ycombinator.com/item?id=49804096). Site SEO audit with 52 rules: [AgriciDaniel/jev-seo](https://github.com/AgriciDaniel/jev-seo)
 - PDF classification and packet splitting: [jerryjliu/docjev](https://github.com/jerryjliu/docjev)
 - CV screening with an editable policy: [gtaras7/typesafe-jev](https://github.com/gtaras7/typesafe-jev)
 - Litigation discovery, 3 checks per page: [langchain.com](https://www.langchain.com/blog/building-prod-with-jev-and-langgraph)
 
 **Feeds**
-- worldmonitor headline threat level: `shared/jev-classify.js`
+- worldmonitor headline threat level: [`shared/jev-classify.js`](https://github.com/koala73/worldmonitor/blob/main/shared/jev-classify.js) in [koala73/worldmonitor](https://github.com/koala73/worldmonitor)
 - "Should AI Kill Us All?", headlines every 10 minutes: shouldaikillusall.com ([hellogumbo/should-ai-kill-us-all](https://github.com/hellogumbo/should-ai-kill-us-all))

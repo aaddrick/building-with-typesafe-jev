@@ -50,14 +50,14 @@ Mind the 32k-token limit on state plus the longest question. Chunk the blocks ac
 ## Prior art
 
 **Compaction and pruning**
-- fast-jev-compaction: [tamaratran/fast-jev-compaction](https://github.com/tamaratran/fast-jev-compaction). jev-pruner: [tamaratran/jev-pruner](https://github.com/tamaratran/jev-pruner). winnow: [GhalebDweikat/winnow](https://github.com/GhalebDweikat/winnow). save-token-jev (awesome-jev-typesafe). fast-jev-compaction was announced on X as "Instant compaction for Claude" (@tamarajtran).
-- LiteLLM TypeSafe guardrail that prunes tool results: `guardrail_hooks/typesafe/typesafe.py` in LiteLLM
+- fast-jev-compaction: [tamaratran/fast-jev-compaction](https://github.com/tamaratran/fast-jev-compaction). jev-pruner: [tamaratran/jev-pruner](https://github.com/tamaratran/jev-pruner). winnow: [GhalebDweikat/winnow](https://github.com/GhalebDweikat/winnow). save-token-jev: [IAmUnbounded/save-token-jev-clean](https://github.com/IAmUnbounded/save-token-jev-clean). fast-jev-compaction was announced on X as "Instant compaction for Claude" (@tamarajtran).
+- LiteLLM TypeSafe guardrail that prunes tool results: `guardrail_hooks/typesafe/typesafe.py` in [BerriAI/litellm](https://github.com/BerriAI/litellm/blob/main/litellm/proxy/guardrails/guardrail_hooks/typesafe/typesafe.py)
 - Context management "do all these tokens need to reach the agent?" (TypeSafe staffer idea): [HN](https://news.ycombinator.com/item?id=49719368)
 
 **Memory**
 - Jevmem, save/skip into JEVMEM.md after each message: [HN](https://news.ycombinator.com/item?id=49846413)
 - Proactive memory formation and retrieval (idea): [HN](https://news.ycombinator.com/item?id=49721409)
-- invalidate, memory leases ended by new evidence (awesome-jev-typesafe)
+- invalidate, memory leases ended by new evidence: [chopratejas/invalidate](https://github.com/chopratejas/invalidate)
 - Jev-Mem, a paper using Jev as the memory control plane (typing, relations, routing), 0.777 LoCoMo: [libingzheren/Jev-Mem](https://github.com/libingzheren/Jev-Mem)
 
 **Effort, model, and skill control**

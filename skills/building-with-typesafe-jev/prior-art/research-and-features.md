@@ -46,8 +46,8 @@ def to_features(r) -> dict[str, float]:
 - RST discourse relation labelling (34 labels, 2 Choices per span pair): [mkrupo/som_rst_parsing](https://github.com/mkrupo/som_rst_parsing)
 - Jev-Mem agent-memory paper (UT Dallas): [libingzheren/Jev-Mem](https://github.com/libingzheren/Jev-Mem)
 - Clinical variable extraction, Jev as a baseline: [JunMa11/MedJev](https://github.com/JunMa11/MedJev)
-- Systematic-review extraction with verbatim quotes: jev-reviewer (awesome-jev-typesafe)
-- Engineering: CAD routing, FEM triage, DFM, BOM alignment: jev-for-engineers (awesome-jev-typesafe)
+- Systematic-review extraction with verbatim quotes: [choxos/jev-reviewer](https://github.com/choxos/jev-reviewer)
+- Engineering: CAD routing, FEM triage, DFM, BOM alignment: [Foadsf/jev-for-engineers](https://github.com/Foadsf/jev-for-engineers)
 
 **Data curation**
 - jev-curate, Rust streaming of Parquet/JSONL rubrics at >1,500 rows/s: [AkashPriyadarshii/jev-curate](https://github.com/AkashPriyadarshii/jev-curate)
