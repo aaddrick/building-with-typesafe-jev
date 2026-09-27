@@ -27,7 +27,8 @@ def walk(client: TypeSafeClient, doc: str, tree: dict, k: int = 3) -> list[tuple
                 state={"document": doc},
                 questions={"next": Choice(
                     instructions="Which direct child category best matches `document`?",
-                    criteria={key: kids[name] for key, name in keys.items()},  # subtree as description
+                    criteria={key: {"category": name, "subtree": kids[name]}  # the key hides the name
+                              for key, name in keys.items()},
                 )},
             )
             for key, p in r.choices["next"].probabilities.items():
