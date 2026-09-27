@@ -1,0 +1,24 @@
+{
+  "$schema": "https://www.schemastore.org/claude-code-marketplace.json",
+  "name": "building-with-typesafe-jev",
+  "description": "Unofficial skill for building with TypeSafe AI's Jev: typed decisions, calibrated confidence, and prior art from 150+ community projects.",
+  "owner": {
+    "name": "aaddrick",
+    "url": "https://github.com/aaddrick"
+  },
+  "plugins": [
+    {
+      "name": "building-with-typesafe-jev",
+      "description": "Teaches Claude the Jev API, when to use Choice, Score, or Noul, how to route on confidence, and where to find prior art for a design before building it.",
+      "source": "./",
+      "category": "development",
+      "keywords": [
+        "typesafe",
+        "jev",
+        "system-one",
+        "classification",
+        "structured-output"
+      ]
+    }
+  ]
+}

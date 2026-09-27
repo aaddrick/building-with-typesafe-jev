@@ -1,0 +1,16 @@
+{
+  "description": "At session start, tell the agent whether live Jev testing is on, which variable holds the key, and whether that variable is set. Never prints the key.",
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/skills/building-with-typesafe-jev/scripts/jev_live.py\" hook --harness claude",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

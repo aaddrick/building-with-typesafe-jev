@@ -1,0 +1,902 @@
+[
+ {
+  "case": "command-gate",
+  "arm": "with",
+  "run": 1,
+  "input_tokens": 26,
+  "cache_creation_input_tokens": 35101,
+  "cache_read_input_tokens": 463047,
+  "output_tokens": 11540,
+  "thinking_tokens": 5070,
+  "models": [
+   "claude-haiku-4-5-20251001",
+   "claude-sonnet-5"
+  ],
+  "cost_usd": 0.43865740000000003
+ },
+ {
+  "case": "command-gate",
+  "arm": "with",
+  "run": 2,
+  "input_tokens": 18,
+  "cache_creation_input_tokens": 25734,
+  "cache_read_input_tokens": 280165,
+  "output_tokens": 9023,
+  "thinking_tokens": 4942,
+  "models": [
+   "claude-haiku-4-5-20251001",
+   "claude-sonnet-5"
+  ],
+  "cost_usd": 0.28559100000000004
+ },
+ {
+  "case": "command-gate",
+  "arm": "with",
+  "run": 3,
+  "input_tokens": 24,
+  "cache_creation_input_tokens": 29941,
+  "cache_read_input_tokens": 402812,
+  "output_tokens": 10624,
+  "thinking_tokens": 5122,
+  "models": [
+   "claude-haiku-4-5-20251001",
+   "claude-sonnet-5"
+  ],
+  "cost_usd": 0.35615539999999996
+ },
+ {
+  "case": "command-gate",
+  "arm": "with",
+  "run": 4,
+  "input_tokens": 20,
+  "cache_creation_input_tokens": 32247,
+  "cache_read_input_tokens": 340534,
+  "output_tokens": 12138,
+  "thinking_tokens": 6850,
+  "models": [
+   "claude-haiku-4-5-20251001",
+   "claude-sonnet-5"
+  ],
+  "cost_usd": 0.39214079999999996
+ },
+ {
+  "case": "command-gate",
+  "arm": "with",
+  "run": 5,
+  "input_tokens": 12,
+  "cache_creation_input_tokens": 29867,
+  "cache_read_input_tokens": 179895,
+  "output_tokens": 9388,
+  "thinking_tokens": 5598,
+  "models": [
+   "claude-haiku-4-5-20251001",
+   "claude-sonnet-5"
+  ],
+  "cost_usd": 0.39124600000000004
+ },
+ {
+  "case": "command-gate",
+  "arm": "with",
+  "run": 6,
+  "input_tokens": 22,
+  "cache_creation_input_tokens": 34737,
+  "cache_read_input_tokens": 376398,
+  "output_tokens": 15605,
+  "thinking_tokens": 9372,
+  "models": [
+   "claude-haiku-4-5-20251001",
+   "claude-sonnet-5"
+  ],
+  "cost_usd": 0.4279766
+ },
+ {
+  "case": "command-gate",
+  "arm": "with",
+  "run": 7,
+  "input_tokens": 14,
+  "cache_creation_input_tokens": 30013,
+  "cache_read_input_tokens": 218872,
+  "output_tokens": 9889,
+  "thinking_tokens": 4284,
+  "models": [
+   "claude-haiku-4-5-20251001",
+   "claude-sonnet-5"
+  ],
+  "cost_usd": 0.3400213999999999
+ },
+ {
+  "case": "command-gate",
+  "arm": "with",
+  "run": 8,
+  "input_tokens": 18,
+  "cache_creation_input_tokens": 27504,
+  "cache_read_input_tokens": 286603,
+  "output_tokens": 9519,
+  "thinking_tokens": 4631,
+  "models": [
+   "claude-haiku-4-5-20251001",
+   "claude-sonnet-5"
+  ],
+  "cost_usd": 0.29079659999999996
+ },
+ {
+  "case": "command-gate",
+  "arm": "with",
+  "run": 9,
+  "input_tokens": 24,
+  "cache_creation_input_tokens": 32814,
+  "cache_read_input_tokens": 436605,
+  "output_tokens": 15310,
+  "thinking_tokens": 9308,
+  "models": [
+   "claude-haiku-4-5-20251001",
+   "claude-sonnet-5"
+  ],
+  "cost_usd": 0.39961499999999994
+ },
+ {
+  "case": "command-gate",
+  "arm": "with",
+  "run": 10,
+  "input_tokens": 18,
+  "cache_creation_input_tokens": 29473,
+  "cache_read_input_tokens": 299702,
+  "output_tokens": 9337,
+  "thinking_tokens": 4897,
+  "models": [
+   "claude-haiku-4-5-20251001",
+   "claude-sonnet-5"
+  ],
+  "cost_usd": 0.3574533999999999
+ },
+ {
+  "case": "email-facts",
+  "arm": "with",
+  "run": 1,
+  "input_tokens": 22,
+  "cache_creation_input_tokens": 37310,
+  "cache_read_input_tokens": 383334,
+  "output_tokens": 15862,
+  "thinking_tokens": 9920,
+  "models": [
+   "claude-haiku-4-5-20251001",
+   "claude-sonnet-5"
+  ],
+  "cost_usd": 0.4810768
+ },
+ {
+  "case": "email-facts",
+  "arm": "with",
+  "run": 2,
+  "input_tokens": 24,
+  "cache_creation_input_tokens": 45290,
+  "cache_read_input_tokens": 457456,
+  "output_tokens": 16617,
+  "thinking_tokens": 9248,
+  "models": [
+   "claude-haiku-4-5-20251001",
+   "claude-sonnet-5"
+  ],
+  "cost_usd": 0.6773302
+ },
+ {
+  "case": "email-facts",
+  "arm": "with",
+  "run": 3,
+  "input_tokens": 14,
+  "cache_creation_input_tokens": 25702,
+  "cache_read_input_tokens": 212923,
+  "output_tokens": 5006,
+  "thinking_tokens": 2287,
+  "models": [
+   "claude-haiku-4-5-20251001",
+   "claude-sonnet-5"
+  ],
+  "cost_usd": 0.2736496
+ },
+ {
+  "case": "email-facts",
+  "arm": "with",
+  "run": 4,
+  "input_tokens": 24,
+  "cache_creation_input_tokens": 44887,
+  "cache_read_input_tokens": 451672,
+  "output_tokens": 13697,
+  "thinking_tokens": 7009,
+  "models": [
+   "claude-haiku-4-5-20251001",
+   "claude-sonnet-5"
+  ],
+  "cost_usd": 0.5710654000000001
+ },
+ {
+  "case": "email-facts",
+  "arm": "with",
+  "run": 5,
+  "input_tokens": 16,
+  "cache_creation_input_tokens": 22186,
+  "cache_read_input_tokens": 240524,
+  "output_tokens": 5074,
+  "thinking_tokens": 2752,
+  "models": [
+   "claude-haiku-4-5-20251001",
+   "claude-sonnet-5"
+  ],
+  "cost_usd": 0.2190418
+ },
+ {
+  "case": "email-facts",
+  "arm": "with",
+  "run": 6,
+  "input_tokens": 18,
+  "cache_creation_input_tokens": 38959,
+  "cache_read_input_tokens": 309570,
+  "output_tokens": 15381,
+  "thinking_tokens": 9263,
+  "models": [
+   "claude-haiku-4-5-20251001",
+   "claude-sonnet-5"
+  ],
+  "cost_usd": 0.4981640000000001
+ },
+ {
+  "case": "email-facts",
+  "arm": "with",
+  "run": 7,
+  "input_tokens": 16,
+  "cache_creation_input_tokens": 28916,
+  "cache_read_input_tokens": 245334,
+  "output_tokens": 7812,
+  "thinking_tokens": 5034,
+  "models": [
+   "claude-haiku-4-5-20251001",
+   "claude-sonnet-5"
+  ],
+  "cost_usd": 0.34889580000000003
+ },
+ {
+  "case": "email-facts",
+  "arm": "with",
+  "run": 8,
+  "input_tokens": 24,
+  "cache_creation_input_tokens": 31759,
+  "cache_read_input_tokens": 417077,
+  "output_tokens": 9074,
+  "thinking_tokens": 5065,
+  "models": [
+   "claude-haiku-4-5-20251001",
+   "claude-sonnet-5"
+  ],
+  "cost_usd": 0.41571640000000004
+ },
+ {
+  "case": "email-facts",
+  "arm": "with",
+  "run": 9,
+  "input_tokens": 22,
+  "cache_creation_input_tokens": 33958,
+  "cache_read_input_tokens": 381487,
+  "output_tokens": 10376,
+  "thinking_tokens": 6362,
+  "models": [
+   "claude-haiku-4-5-20251001",
+   "claude-sonnet-5"
+  ],
+  "cost_usd": 0.4661943999999999
+ },
+ {
+  "case": "email-facts",
+  "arm": "with",
+  "run": 10,
+  "input_tokens": 22,
+  "cache_creation_input_tokens": 26719,
+  "cache_read_input_tokens": 375228,
+  "output_tokens": 7308,
+  "thinking_tokens": 4160,
+  "models": [
+   "claude-haiku-4-5-20251001",
+   "claude-sonnet-5"
+  ],
+  "cost_usd": 0.31900059999999997
+ },
+ {
+  "case": "log-labeler",
+  "arm": "with",
+  "run": 1,
+  "input_tokens": 22,
+  "cache_creation_input_tokens": 31760,
+  "cache_read_input_tokens": 377884,
+  "output_tokens": 9858,
+  "thinking_tokens": 5342,
+  "models": [
+   "claude-haiku-4-5-20251001",
+   "claude-sonnet-5"
+  ],
+  "cost_usd": 0.4297328
+ },
+ {
+  "case": "log-labeler",
+  "arm": "with",
+  "run": 2,
+  "input_tokens": 18,
+  "cache_creation_input_tokens": 27566,
+  "cache_read_input_tokens": 282728,
+  "output_tokens": 7881,
+  "thinking_tokens": 3818,
+  "models": [
+   "claude-haiku-4-5-20251001",
+   "claude-sonnet-5"
+  ],
+  "cost_usd": 0.3535896
+ },
+ {
+  "case": "log-labeler",
+  "arm": "with",
+  "run": 3,
+  "input_tokens": 20,
+  "cache_creation_input_tokens": 44415,
+  "cache_read_input_tokens": 360689,
+  "output_tokens": 16710,
+  "thinking_tokens": 10938,
+  "models": [
+   "claude-haiku-4-5-20251001",
+   "claude-sonnet-5"
+  ],
+  "cost_usd": 0.5891468000000001
+ },
+ {
+  "case": "log-labeler",
+  "arm": "with",
+  "run": 4,
+  "input_tokens": 16,
+  "cache_creation_input_tokens": 27631,
+  "cache_read_input_tokens": 250353,
+  "output_tokens": 7254,
+  "thinking_tokens": 3805,
+  "models": [
+   "claude-haiku-4-5-20251001",
+   "claude-sonnet-5"
+  ],
+  "cost_usd": 0.33329060000000005
+ },
+ {
+  "case": "log-labeler",
+  "arm": "with",
+  "run": 5,
+  "input_tokens": 20,
+  "cache_creation_input_tokens": 22877,
+  "cache_read_input_tokens": 308257,
+  "output_tokens": 5266,
+  "thinking_tokens": 1785,
+  "models": [
+   "claude-haiku-4-5-20251001",
+   "claude-sonnet-5"
+  ],
+  "cost_usd": 0.2647704
+ },
+ {
+  "case": "log-labeler",
+  "arm": "with",
+  "run": 6,
+  "input_tokens": 24,
+  "cache_creation_input_tokens": 35385,
+  "cache_read_input_tokens": 450958,
+  "output_tokens": 11944,
+  "thinking_tokens": 6857,
+  "models": [
+   "claude-haiku-4-5-20251001",
+   "claude-sonnet-5"
+  ],
+  "cost_usd": 0.4954386
+ },
+ {
+  "case": "log-labeler",
+  "arm": "with",
+  "run": 7,
+  "input_tokens": 30,
+  "cache_creation_input_tokens": 34027,
+  "cache_read_input_tokens": 570360,
+  "output_tokens": 12038,
+  "thinking_tokens": 7211,
+  "models": [
+   "claude-haiku-4-5-20251001",
+   "claude-sonnet-5"
+  ],
+  "cost_usd": 0.45894300000000005
+ },
+ {
+  "case": "log-labeler",
+  "arm": "with",
+  "run": 8,
+  "input_tokens": 22,
+  "cache_creation_input_tokens": 31252,
+  "cache_read_input_tokens": 386523,
+  "output_tokens": 11116,
+  "thinking_tokens": 6426,
+  "models": [
+   "claude-haiku-4-5-20251001",
+   "claude-sonnet-5"
+  ],
+  "cost_usd": 0.40437159999999994
+ },
+ {
+  "case": "log-labeler",
+  "arm": "with",
+  "run": 9,
+  "input_tokens": 18,
+  "cache_creation_input_tokens": 31267,
+  "cache_read_input_tokens": 297772,
+  "output_tokens": 10434,
+  "thinking_tokens": 5967,
+  "models": [
+   "claude-haiku-4-5-20251001",
+   "claude-sonnet-5"
+  ],
+  "cost_usd": 0.41968740000000004
+ },
+ {
+  "case": "log-labeler",
+  "arm": "with",
+  "run": 10,
+  "input_tokens": 16,
+  "cache_creation_input_tokens": 26916,
+  "cache_read_input_tokens": 251251,
+  "output_tokens": 7310,
+  "thinking_tokens": 3679,
+  "models": [
+   "claude-haiku-4-5-20251001",
+   "claude-sonnet-5"
+  ],
+  "cost_usd": 0.3255022
+ },
+ {
+  "case": "reply-grader",
+  "arm": "with",
+  "run": 1,
+  "input_tokens": 12,
+  "cache_creation_input_tokens": 26066,
+  "cache_read_input_tokens": 172500,
+  "output_tokens": 7924,
+  "thinking_tokens": 4896,
+  "models": [
+   "claude-haiku-4-5-20251001",
+   "claude-sonnet-5"
+  ],
+  "cost_usd": 0.28401100000000007
+ },
+ {
+  "case": "reply-grader",
+  "arm": "with",
+  "run": 2,
+  "input_tokens": 16,
+  "cache_creation_input_tokens": 27038,
+  "cache_read_input_tokens": 253373,
+  "output_tokens": 7557,
+  "thinking_tokens": 4128,
+  "models": [
+   "claude-haiku-4-5-20251001",
+   "claude-sonnet-5"
+  ],
+  "cost_usd": 0.3196415999999999
+ },
+ {
+  "case": "reply-grader",
+  "arm": "with",
+  "run": 3,
+  "input_tokens": 20,
+  "cache_creation_input_tokens": 62211,
+  "cache_read_input_tokens": 612974,
+  "output_tokens": 7414,
+  "thinking_tokens": 4254,
+  "models": [
+   "claude-haiku-4-5-20251001",
+   "claude-sonnet-5"
+  ],
+  "cost_usd": 0.4865687999999999
+ },
+ {
+  "case": "reply-grader",
+  "arm": "with",
+  "run": 4,
+  "input_tokens": 14,
+  "cache_creation_input_tokens": 25010,
+  "cache_read_input_tokens": 210306,
+  "output_tokens": 6387,
+  "thinking_tokens": 3203,
+  "models": [
+   "claude-haiku-4-5-20251001",
+   "claude-sonnet-5"
+  ],
+  "cost_usd": 0.2830202
+ },
+ {
+  "case": "reply-grader",
+  "arm": "with",
+  "run": 5,
+  "input_tokens": 30,
+  "cache_creation_input_tokens": 103561,
+  "cache_read_input_tokens": 742063,
+  "output_tokens": 11463,
+  "thinking_tokens": 5734,
+  "models": [
+   "claude-haiku-4-5-20251001",
+   "claude-sonnet-5"
+  ],
+  "cost_usd": 0.7760956
+ },
+ {
+  "case": "reply-grader",
+  "arm": "with",
+  "run": 6,
+  "input_tokens": 28,
+  "cache_creation_input_tokens": 30992,
+  "cache_read_input_tokens": 482205,
+  "output_tokens": 8343,
+  "thinking_tokens": 4049,
+  "models": [
+   "claude-haiku-4-5-20251001",
+   "claude-sonnet-5"
+  ],
+  "cost_usd": 0.368225
+ },
+ {
+  "case": "reply-grader",
+  "arm": "with",
+  "run": 7,
+  "input_tokens": 18,
+  "cache_creation_input_tokens": 28049,
+  "cache_read_input_tokens": 292052,
+  "output_tokens": 8441,
+  "thinking_tokens": 5336,
+  "models": [
+   "claude-haiku-4-5-20251001",
+   "claude-sonnet-5"
+  ],
+  "cost_usd": 0.3116944
+ },
+ {
+  "case": "reply-grader",
+  "arm": "with",
+  "run": 8,
+  "input_tokens": 20,
+  "cache_creation_input_tokens": 26564,
+  "cache_read_input_tokens": 308916,
+  "output_tokens": 7932,
+  "thinking_tokens": 4745,
+  "models": [
+   "claude-haiku-4-5-20251001",
+   "claude-sonnet-5"
+  ],
+  "cost_usd": 0.32218120000000006
+ },
+ {
+  "case": "reply-grader",
+  "arm": "with",
+  "run": 9,
+  "input_tokens": 24,
+  "cache_creation_input_tokens": 26006,
+  "cache_read_input_tokens": 395220,
+  "output_tokens": 9041,
+  "thinking_tokens": 4581,
+  "models": [
+   "claude-haiku-4-5-20251001",
+   "claude-sonnet-5"
+  ],
+  "cost_usd": 0.38380100000000006
+ },
+ {
+  "case": "reply-grader",
+  "arm": "with",
+  "run": 10,
+  "input_tokens": 28,
+  "cache_creation_input_tokens": 34078,
+  "cache_read_input_tokens": 493608,
+  "output_tokens": 12907,
+  "thinking_tokens": 7608,
+  "models": [
+   "claude-haiku-4-5-20251001",
+   "claude-sonnet-5"
+  ],
+  "cost_usd": 0.45889959999999996
+ },
+ {
+  "case": "taxonomy-classify",
+  "arm": "with",
+  "run": 1,
+  "input_tokens": 16,
+  "cache_creation_input_tokens": 23780,
+  "cache_read_input_tokens": 247459,
+  "output_tokens": 4689,
+  "thinking_tokens": 1760,
+  "models": [
+   "claude-haiku-4-5-20251001",
+   "claude-sonnet-5"
+  ],
+  "cost_usd": 0.26009479999999996
+ },
+ {
+  "case": "taxonomy-classify",
+  "arm": "with",
+  "run": 2,
+  "input_tokens": 22,
+  "cache_creation_input_tokens": 25475,
+  "cache_read_input_tokens": 366468,
+  "output_tokens": 3852,
+  "thinking_tokens": 871,
+  "models": [
+   "claude-haiku-4-5-20251001",
+   "claude-sonnet-5"
+  ],
+  "cost_usd": 0.25246359999999995
+ },
+ {
+  "case": "taxonomy-classify",
+  "arm": "with",
+  "run": 3,
+  "input_tokens": 20,
+  "cache_creation_input_tokens": 26979,
+  "cache_read_input_tokens": 337742,
+  "output_tokens": 5410,
+  "thinking_tokens": 2316,
+  "models": [
+   "claude-haiku-4-5-20251001",
+   "claude-sonnet-5"
+  ],
+  "cost_usd": 0.3052994
+ },
+ {
+  "case": "taxonomy-classify",
+  "arm": "with",
+  "run": 4,
+  "input_tokens": 14,
+  "cache_creation_input_tokens": 20897,
+  "cache_read_input_tokens": 211928,
+  "output_tokens": 3505,
+  "thinking_tokens": 1234,
+  "models": [
+   "claude-haiku-4-5-20251001",
+   "claude-sonnet-5"
+  ],
+  "cost_usd": 0.1784146
+ },
+ {
+  "case": "taxonomy-classify",
+  "arm": "with",
+  "run": 5,
+  "input_tokens": 26,
+  "cache_creation_input_tokens": 26547,
+  "cache_read_input_tokens": 456551,
+  "output_tokens": 6344,
+  "thinking_tokens": 2835,
+  "models": [
+   "claude-haiku-4-5-20251001",
+   "claude-sonnet-5"
+  ],
+  "cost_usd": 0.3352031999999999
+ },
+ {
+  "case": "taxonomy-classify",
+  "arm": "with",
+  "run": 6,
+  "input_tokens": 36,
+  "cache_creation_input_tokens": 31042,
+  "cache_read_input_tokens": 678194,
+  "output_tokens": 7826,
+  "thinking_tokens": 2774,
+  "models": [
+   "claude-haiku-4-5-20251001",
+   "claude-sonnet-5"
+  ],
+  "cost_usd": 0.4144187999999999
+ },
+ {
+  "case": "taxonomy-classify",
+  "arm": "with",
+  "run": 7,
+  "input_tokens": 20,
+  "cache_creation_input_tokens": 24559,
+  "cache_read_input_tokens": 315641,
+  "output_tokens": 5144,
+  "thinking_tokens": 2198,
+  "models": [
+   "claude-haiku-4-5-20251001",
+   "claude-sonnet-5"
+  ],
+  "cost_usd": 0.2710102
+ },
+ {
+  "case": "taxonomy-classify",
+  "arm": "with",
+  "run": 8,
+  "input_tokens": 16,
+  "cache_creation_input_tokens": 24628,
+  "cache_read_input_tokens": 256510,
+  "output_tokens": 4468,
+  "thinking_tokens": 1883,
+  "models": [
+   "claude-haiku-4-5-20251001",
+   "claude-sonnet-5"
+  ],
+  "cost_usd": 0.24115099999999998
+ },
+ {
+  "case": "taxonomy-classify",
+  "arm": "with",
+  "run": 9,
+  "input_tokens": 22,
+  "cache_creation_input_tokens": 26705,
+  "cache_read_input_tokens": 372927,
+  "output_tokens": 6461,
+  "thinking_tokens": 3000,
+  "models": [
+   "claude-haiku-4-5-20251001",
+   "claude-sonnet-5"
+  ],
+  "cost_usd": 0.3005204
+ },
+ {
+  "case": "taxonomy-classify",
+  "arm": "with",
+  "run": 10,
+  "input_tokens": 20,
+  "cache_creation_input_tokens": 49193,
+  "cache_read_input_tokens": 397401,
+  "output_tokens": 9069,
+  "thinking_tokens": 5945,
+  "models": [
+   "claude-haiku-4-5-20251001",
+   "claude-sonnet-5"
+  ],
+  "cost_usd": 0.4220102
+ },
+ {
+  "case": "triage-ticket",
+  "arm": "with",
+  "run": 1,
+  "input_tokens": 16,
+  "cache_creation_input_tokens": 32007,
+  "cache_read_input_tokens": 276840,
+  "output_tokens": 8946,
+  "thinking_tokens": 4809,
+  "models": [
+   "claude-haiku-4-5-20251001",
+   "claude-sonnet-5"
+  ],
+  "cost_usd": 0.409563
+ },
+ {
+  "case": "triage-ticket",
+  "arm": "with",
+  "run": 2,
+  "input_tokens": 16,
+  "cache_creation_input_tokens": 30370,
+  "cache_read_input_tokens": 264272,
+  "output_tokens": 8341,
+  "thinking_tokens": 3650,
+  "models": [
+   "claude-haiku-4-5-20251001",
+   "claude-sonnet-5"
+  ],
+  "cost_usd": 0.3756144
+ },
+ {
+  "case": "triage-ticket",
+  "arm": "with",
+  "run": 3,
+  "input_tokens": 20,
+  "cache_creation_input_tokens": 36248,
+  "cache_read_input_tokens": 359599,
+  "output_tokens": 11801,
+  "thinking_tokens": 6026,
+  "models": [
+   "claude-haiku-4-5-20251001",
+   "claude-sonnet-5"
+  ],
+  "cost_usd": 0.4696818
+ },
+ {
+  "case": "triage-ticket",
+  "arm": "with",
+  "run": 4,
+  "input_tokens": 18,
+  "cache_creation_input_tokens": 34349,
+  "cache_read_input_tokens": 309422,
+  "output_tokens": 10534,
+  "thinking_tokens": 5702,
+  "models": [
+   "claude-haiku-4-5-20251001",
+   "claude-sonnet-5"
+  ],
+  "cost_usd": 0.42945740000000004
+ },
+ {
+  "case": "triage-ticket",
+  "arm": "with",
+  "run": 5,
+  "input_tokens": 22,
+  "cache_creation_input_tokens": 38826,
+  "cache_read_input_tokens": 415796,
+  "output_tokens": 11464,
+  "thinking_tokens": 5549,
+  "models": [
+   "claude-haiku-4-5-20251001",
+   "claude-sonnet-5"
+  ],
+  "cost_usd": 0.5176552
+ },
+ {
+  "case": "triage-ticket",
+  "arm": "with",
+  "run": 6,
+  "input_tokens": 14,
+  "cache_creation_input_tokens": 29863,
+  "cache_read_input_tokens": 219303,
+  "output_tokens": 8671,
+  "thinking_tokens": 5039,
+  "models": [
+   "claude-haiku-4-5-20251001",
+   "claude-sonnet-5"
+  ],
+  "cost_usd": 0.3250666
+ },
+ {
+  "case": "triage-ticket",
+  "arm": "with",
+  "run": 7,
+  "input_tokens": 16,
+  "cache_creation_input_tokens": 34318,
+  "cache_read_input_tokens": 276667,
+  "output_tokens": 8677,
+  "thinking_tokens": 4294,
+  "models": [
+   "claude-haiku-4-5-20251001",
+   "claude-sonnet-5"
+  ],
+  "cost_usd": 0.39552840000000006
+ },
+ {
+  "case": "triage-ticket",
+  "arm": "with",
+  "run": 8,
+  "input_tokens": 18,
+  "cache_creation_input_tokens": 32358,
+  "cache_read_input_tokens": 303073,
+  "output_tokens": 8448,
+  "thinking_tokens": 4088,
+  "models": [
+   "claude-haiku-4-5-20251001",
+   "claude-sonnet-5"
+  ],
+  "cost_usd": 0.39462860000000005
+ },
+ {
+  "case": "triage-ticket",
+  "arm": "with",
+  "run": 9,
+  "input_tokens": 20,
+  "cache_creation_input_tokens": 32207,
+  "cache_read_input_tokens": 352696,
+  "output_tokens": 11079,
+  "thinking_tokens": 5453,
+  "models": [
+   "claude-haiku-4-5-20251001",
+   "claude-sonnet-5"
+  ],
+  "cost_usd": 0.38849120000000004
+ },
+ {
+  "case": "triage-ticket",
+  "arm": "with",
+  "run": 10,
+  "input_tokens": 20,
+  "cache_creation_input_tokens": 38911,
+  "cache_read_input_tokens": 390196,
+  "output_tokens": 11680,
+  "thinking_tokens": 5858,
+  "models": [
+   "claude-haiku-4-5-20251001",
+   "claude-sonnet-5"
+  ],
+  "cost_usd": 0.4936111999999999
+ }
+]

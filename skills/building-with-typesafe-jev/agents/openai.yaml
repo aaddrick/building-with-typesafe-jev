@@ -1,0 +1,7 @@
+interface:
+  display_name: "Building with TypeSafe Jev"
+  short_description: "Typed decisions with calibrated confidence"
+  default_prompt: "Use $building-with-typesafe-jev to design or review this Jev integration."
+
+policy:
+  allow_implicit_invocation: true

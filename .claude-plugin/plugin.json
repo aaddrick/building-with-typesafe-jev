@@ -1,0 +1,38 @@
+{
+  "name": "building-with-typesafe-jev",
+  "version": "0.2.0",
+  "description": "Unofficial Claude Code skill for building with TypeSafe AI's Jev: the typed Choice/Score/Noul API, calibrated-confidence routing, field-tested anti-patterns, and a prior-art library of 150+ community projects sorted by implementation shape.",
+  "author": {
+    "name": "aaddrick",
+    "url": "https://github.com/aaddrick"
+  },
+  "homepage": "https://github.com/aaddrick/building-with-typesafe-jev",
+  "repository": "https://github.com/aaddrick/building-with-typesafe-jev",
+  "license": "MIT",
+  "keywords": [
+    "typesafe",
+    "jev",
+    "system-one",
+    "classification",
+    "structured-output",
+    "agent-skill"
+  ],
+  "userConfig": {
+    "live_testing": {
+      "type": "string",
+      "title": "Live testing",
+      "description": "Let the skill make a few real Jev API calls (about 10 per task, a fraction of a cent each) to test a design. Off: the skill designs from its API reference only and never looks for a key.",
+      "options": [
+        "off",
+        "on"
+      ],
+      "default": "off"
+    },
+    "key_env_var": {
+      "type": "string",
+      "title": "Key variable",
+      "description": "Name of the environment variable that holds your TypeSafe API key. The name only, never the key itself.",
+      "default": "TYPESAFE_API_KEY"
+    }
+  }
+}

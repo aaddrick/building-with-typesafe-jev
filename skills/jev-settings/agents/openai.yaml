@@ -1,0 +1,7 @@
+interface:
+  display_name: "Jev settings"
+  short_description: "Turn live Jev API testing on or off"
+  default_prompt: "Use $jev-settings to show my Jev live-testing settings."
+
+policy:
+  allow_implicit_invocation: false

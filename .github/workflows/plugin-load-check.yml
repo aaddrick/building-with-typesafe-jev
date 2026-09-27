@@ -1,0 +1,83 @@
+name: plugin loads
+
+# Installs the plugin from this checkout into scratch configs and fails if a
+# harness does not load it. Catches load-layer breakage that JSON validation
+# misses, such as a skills path that points at nothing.
+on:
+  pull_request:
+    paths:
+      - .claude-plugin/**
+      - .codex-plugin/**
+      - plugin.json
+      - skills/**
+      - .github/workflows/plugin-load-check.yml
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: plugin-load-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # Pinned so a CLI release breaks this job on the commit that bumps the pin,
+  # not on an unrelated pull request.
+  CLAUDE_CODE_VERSION: "2.1.283"
+
+jobs:
+  claude-code:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Claude Code
+        run: npm install -g "@anthropic-ai/claude-code@$CLAUDE_CODE_VERSION"
+      - name: Manifests pass the official validator
+        run: claude plugin validate "$GITHUB_WORKSPACE" --strict
+      - name: Install into a scratch config and check it is enabled
+        run: |
+          export CLAUDE_CONFIG_DIR="$RUNNER_TEMP/claude-scratch"
+          mkdir -p "$CLAUDE_CONFIG_DIR"
+          claude plugin marketplace add "$GITHUB_WORKSPACE"
+          claude plugin install building-with-typesafe-jev@building-with-typesafe-jev
+          claude plugin list --json | python3 -c '
+          import json, sys
+          wanted = "building-with-typesafe-jev@building-with-typesafe-jev"
+          plugins = json.load(sys.stdin)
+          if not any(p.get("id") == wanted and p.get("enabled") for p in plugins):
+              print(f"::error::{wanted} did not install and enable"); sys.exit(1)
+          print(f"{wanted} enabled")'
+
+  antigravity-cli:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # Google's installer takes no version: it always fetches the latest agy
+      # build and checks it against the release manifest's SHA-512.
+      - name: Install Antigravity CLI into a scratch home
+        run: |
+          echo "HOME=$RUNNER_TEMP/agy-home" >> "$GITHUB_ENV"
+          export HOME="$RUNNER_TEMP/agy-home"
+          mkdir -p "$HOME"
+          curl -fsSL https://antigravity.google/cli/install.sh | bash
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+      - name: Validate, install, and find both skills intact
+        run: |
+          agy --version
+          agy plugin validate "$GITHUB_WORKSPACE"
+          agy plugin install "$GITHUB_WORKSPACE"
+          agy plugin list | tee "$RUNNER_TEMP/plugins.txt"
+          grep -q '"building-with-typesafe-jev"' "$RUNNER_TEMP/plugins.txt" || {
+            echo "::error::Antigravity CLI did not install the plugin"; exit 1; }
+          # Without plugin.json, agy converts a Gemini commands/ folder into
+          # skills, and the converted command overwrote jev-settings. Check the
+          # installed text so that cannot come back unnoticed.
+          for skill in building-with-typesafe-jev jev-settings; do
+            found=$(find "$HOME/.gemini" -path "*/plugins/building-with-typesafe-jev/skills/$skill/SKILL.md" | head -1)
+            grep -q "^name: $skill$" "$found" 2>/dev/null || {
+              echo "::error::Antigravity CLI did not install the $skill skill"; exit 1; }
+          done
+          grep -q "^# Jev settings$" "$found" || {
+            echo "::error::the installed jev-settings skill is not the one in this repo"; exit 1; }

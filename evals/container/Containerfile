@@ -1,0 +1,13 @@
+# The eval suite's runtime: Claude Code plus what the agents under test need
+# (Python, uv, git) and what Claude Code's Bash sandbox needs (bubblewrap, socat).
+FROM registry.fedoraproject.org/fedora:43
+ARG CLAUDE_CODE_VERSION=2.1.283
+RUN dnf install -y --setopt=install_weak_deps=False \
+      nodejs npm git python3 uv bubblewrap socat procps-ng which findutils ca-certificates \
+ && dnf clean all \
+ && npm install -g "@anthropic-ai/claude-code@${CLAUDE_CODE_VERSION}"
+RUN useradd --uid 1000 --create-home eval
+COPY entry.sh /usr/local/bin/entry.sh
+USER eval
+WORKDIR /out
+ENTRYPOINT ["/usr/local/bin/entry.sh"]

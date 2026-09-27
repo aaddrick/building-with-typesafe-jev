@@ -1,0 +1,33 @@
+name: checks
+
+# Cheap gates for what a reviewer cannot see: a malformed manifest, a skill
+# frontmatter or file reference that broke, a leaked API key, and a translated
+# README whose commands drifted from the English one.
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: checks-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  gates:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Manifests, skill frontmatter, file references, no leaked keys
+        run: python3 scripts/check_configs.py
+
+      - name: Translated READMEs match the English commands and steps
+        run: python3 -m unittest discover -s tests -v

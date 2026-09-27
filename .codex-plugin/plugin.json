@@ -1,0 +1,39 @@
+{
+  "name": "building-with-typesafe-jev",
+  "version": "0.2.0",
+  "description": "Unofficial Codex skill for building with TypeSafe AI's Jev: the typed Choice/Score/Noul API, calibrated-confidence routing, field-tested anti-patterns, and a prior-art library of 150+ community projects sorted by implementation shape.",
+  "author": {
+    "name": "aaddrick",
+    "url": "https://github.com/aaddrick"
+  },
+  "homepage": "https://github.com/aaddrick/building-with-typesafe-jev",
+  "repository": "https://github.com/aaddrick/building-with-typesafe-jev",
+  "license": "MIT",
+  "keywords": [
+    "typesafe",
+    "jev",
+    "system-one",
+    "classification",
+    "structured-output",
+    "codex"
+  ],
+  "skills": "./skills/",
+  "hooks": "./hooks/codex-hooks.json",
+  "interface": {
+    "displayName": "Building with TypeSafe Jev",
+    "shortDescription": "Typed decisions with calibrated confidence",
+    "longDescription": "Write correct TypeSafe Jev integrations: pick Choice, Score, or Noul; batch speculative questions in one call; route on calibrated confidence; avoid the known failure modes; and find prior art from 150+ community projects before designing something new.",
+    "developerName": "aaddrick",
+    "category": "Coding",
+    "capabilities": [
+      "Instructions"
+    ],
+    "websiteURL": "https://github.com/aaddrick/building-with-typesafe-jev",
+    "defaultPrompt": [
+      "Use building-with-typesafe-jev to replace this LLM classification call with Jev.",
+      "Find prior art for a Jev-powered design before we build it.",
+      "Review this Jev integration against the skill's rules."
+    ],
+    "brandColor": "#B45309"
+  }
+}

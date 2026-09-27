@@ -1,0 +1,13 @@
+{
+ "commit": "85a88f936ddf8e7cd74941fbe03658f9a8b089e3",
+ "session": "2026-09-26T11-43-49Z",
+ "dirty": [],
+ "this_ref": "85a88f936ddf8e7cd74941fbe03658f9a8b089e3",
+ "runs": 60,
+ "agent_models": {
+  "claude-sonnet-5": 60
+ },
+ "skills_loaded": {
+  "building-with-typesafe-jev": 60
+ }
+}
