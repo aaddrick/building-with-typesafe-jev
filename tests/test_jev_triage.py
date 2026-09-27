@@ -282,6 +282,55 @@ class Rendering(unittest.TestCase):
         self.assertIn("- `p1`", text)
         self.assertIn("Review every change", T.focus_prompt({**self.tri(), "route": "full", "why": "no key"}))
 
+    def verdict(self, verdict="flagged"):
+        return {"verdict": verdict, "why": "w", "jev": {}, "checks": [
+            {"slug": "p1", "target": "api-reference.md", "result": "doubt" if verdict == "flagged" else "ok",
+             "by": "jev", "edge": "conflict 0.10 · covered 0.30"}]}
+
+    def edges(self, tree):
+        return re.findall(r"^  (\S+) (==>|-\.->)(?: \|[^|]*\|)? (\w+)", tree, re.M)
+
+    def test_the_flow_draws_every_branch_and_marks_the_path_taken(self):
+        tree = T.flow_tree(self.tri(), self.verdict())
+        for key in T.RUN_ROUTES:
+            self.assertIn(f"route_{key}", tree)
+        for key in T.VERDICTS:
+            self.assertIn(f"verdict_{key}", tree)
+        self.assertIn("route_focused{{", tree)
+        self.assertRegex(tree, r'route_focused\{\{"[^"]+"\}\}:::taken')
+        self.assertRegex(tree, r'route_skip\{\{"[^"]+"\}\}:::idle')
+        self.assertRegex(tree, r"verdict_flagged\(\[\"[^\"]+\"\]\):::taken")
+        solid = {(a, b) for a, kind, b in self.edges(tree) if kind == "==>"}
+        dotted = {(a, b) for a, kind, b in self.edges(tree) if kind == "-.->"}
+        self.assertIn(("route_focused", "claude"), solid)
+        self.assertIn(("route_full", "claude"), dotted)
+        self.assertIn(("route_skip", "record"), dotted)
+        self.assertIn(("jt", "route_skip"), dotted)
+        self.assertNotIn(("jt", "route_focused"), dotted)
+        self.assertIn(("v0", "verdict_flagged"), solid)
+        self.assertIn(("claude", "verdict_verified"), dotted)
+
+    def test_a_skipped_run_never_reaches_claude_or_a_verdict(self):
+        tri = {**self.tri(), "route": "skip"}
+        tree = T.flow_tree(tri)
+        self.assertRegex(tree, r"claude\[\"[^\"]+\"\]:::idle")
+        self.assertRegex(tree, r"record\(\[\"[^\"]+\"\]\):::taken")
+        self.assertNotIn("verdict_", tree)
+
+    def test_a_run_with_no_edits_goes_straight_to_its_verdict(self):
+        tree = T.flow_tree(self.tri(), {"verdict": "unchanged", "why": "w", "jev": {}, "checks": []})
+        solid = {(a, b) for a, kind, b in self.edges(tree) if kind == "==>"}
+        self.assertIn(("claude", "verdict_unchanged"), solid)
+
+    def test_the_flow_command_writes_markdown_with_or_without_verify(self):
+        tmp = Path(tempfile.mkdtemp())
+        self.addCleanup(shutil.rmtree, tmp)
+        (tmp / "t.json").write_text(json.dumps(self.tri()))
+        T.main(["flow", "--triage", str(tmp / "t.json"), "--verify", str(tmp / "missing.json"), "--out", str(tmp / "f.md")])
+        text = (tmp / "f.md").read_text()
+        self.assertTrue(text.startswith("### How this review ran\n\n```mermaid\n"))
+        self.assertIn("Solid arrows", text)
+
     def test_the_tally_prices_input_tokens(self):
         self.assertIn("$0.00004", T.tally_line(self.tri()["jev"]))
 

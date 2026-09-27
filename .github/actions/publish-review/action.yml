@@ -2,7 +2,8 @@ name: Publish the skill review
 description: >-
   The last step of each branch of skill-coverage.yml. Applies Claude's edits
   when there are any, then opens or updates the pull request, or records a
-  review that changed nothing. Jev's triage and verify tables ride along.
+  review that changed nothing. A Mermaid tree of the run's path and Jev's
+  triage and verify tables ride along.
   Run it after actions/checkout with fetch-depth 0. Reads LATEST, SKILL,
   BRANCH, and BASE_BRANCH from the workflow's env.
 
@@ -61,6 +62,12 @@ runs:
         rm -rf "$SKILL"
         cp -r "$RUNNER_TEMP/edits/skill" "$SKILL"
 
+    - name: Draw the run as one tree for the pull request
+      shell: bash
+      run: |
+        python3 scripts/jev_triage.py flow --triage "$RUNNER_TEMP/coverage/triage.json" \
+          --verify "$RUNNER_TEMP/verify/verify.json" --out "$RUNNER_TEMP/flow.md"
+
     - name: Open or update the pull request, or record the review
       shell: bash
       env:
@@ -78,6 +85,7 @@ runs:
         python3 scripts/docs_pipeline.py publish --latest "$LATEST" --pr "$PR" \
           --branch "$BRANCH" --base-branch "$BASE_BRANCH" --skill "$SKILL" \
           --summary "$summary" --report "$RUNNER_TEMP/coverage/report.md" \
+          --append "$RUNNER_TEMP/flow.md" \
           --append "$RUNNER_TEMP/coverage/jev-triage.md" --append "$RUNNER_TEMP/verify/jev-verify.md" \
           --title-prefix "$TITLE_PREFIX" \
           --run-url "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"

@@ -490,9 +490,11 @@ class Workflows(unittest.TestCase):
         self.assertLessEqual(commands, known)
         self.assertEqual(commands, known, "a pipeline command is never called")
 
-    def test_both_jev_commands_run(self):
-        called = set(re.findall(r"jev_triage\.py ([\w-]+)", self.text("skill-coverage.yml")))
-        self.assertEqual(called, {"triage", "verify"})
+    def test_every_jev_command_runs(self):
+        called = set()
+        for text in self.callers():
+            called |= set(re.findall(r"jev_triage\.py ([\w-]+)", text))
+        self.assertEqual(called, {"triage", "verify", "flow"})
 
     def test_each_workflow_emails_on_failure(self):
         for name in ("docs-cache.yml", "skill-coverage.yml", "skill-reviewed.yml"):

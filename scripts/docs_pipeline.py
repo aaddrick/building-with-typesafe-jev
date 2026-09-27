@@ -42,8 +42,10 @@ import docs_diff  # noqa: E402
 REF_KEYS = ("run_id", "artifact_id", "sha256", "pages")
 MARKER = re.compile(r"<!-- docs-review: (\{[^{}]*\}) -->")
 BOT = ["-c", "user.name=github-actions[bot]", "-c", "user.email=github-actions[bot]@users.noreply.github.com"]
-# The pull request description carries at most this much of the report.
+# The pull request description carries at most this much of the report, and
+# the whole body stays under GitHub's 65,536-character limit.
 MAX_REPORT_IN_BODY = 40_000
+MAX_BODY = 60_000
 
 
 class PipelineError(Exception):
@@ -282,10 +284,12 @@ def cmd_publish(args) -> None:
     date = now(args).date().isoformat()
     # Jev's triage and verify tables ride along, when those steps ran.
     extras = [Path(f).read_text(encoding="utf-8").strip() for f in args.append if Path(f).is_file()]
+    lead = "\n\n".join([Path(args.summary).read_text(encoding="utf-8").strip(), *[e for e in extras if e]])
+    room = max(0, min(MAX_REPORT_IN_BODY, MAX_BODY - len(lead) - 2_000))
     review = (
-        "\n\n".join([Path(args.summary).read_text(encoding="utf-8").strip(), *[e for e in extras if e]])
+        lead
         + "\n\n<details><summary>Docs change report</summary>\n\n"
-        + report_head(Path(args.report).read_text(encoding="utf-8"))[:MAX_REPORT_IN_BODY]
+        + report_head(Path(args.report).read_text(encoding="utf-8"))[:room]
         + "\n</details>\n"
     )
     footer = f"🤖 Generated with [Claude Code](https://claude.com/claude-code) by [skill-coverage]({args.run_url})"

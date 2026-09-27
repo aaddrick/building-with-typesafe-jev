@@ -16,6 +16,7 @@ Commands (each writes step outputs, a Mermaid decision tree to the step
 summary, and Markdown for the pull request):
   triage  --old OLD --new NEW --skill DIR --out-dir DIR
   verify  --triage FILE --old OLD --new NEW --skill-before DIR --skill-after DIR --out-dir DIR
+  flow    --triage FILE [--verify FILE] --out FILE   (the whole run as one tree, for the PR)
 
 Without TYPESAFE_API_KEY or the typesafe-sdk package, triage routes the run
 to a full Claude review and verify reports every page as unchecked: the
@@ -299,6 +300,8 @@ def mermaid(lines: list[str]) -> str:
         "classDef ok fill:#dcfce7,stroke:#16a34a,color:#14532d",
         "classDef doubt fill:#fee2e2,stroke:#dc2626,color:#7f1d1d",
         "classDef run fill:#ede9fe,stroke:#7c3aed,color:#3b0764,font-weight:bold",
+        "classDef taken fill:#ede9fe,stroke:#7c3aed,stroke-width:3px,color:#3b0764,font-weight:bold",
+        "classDef idle fill:#f8fafc,stroke:#cbd5e1,stroke-dasharray:4 3,color:#94a3b8",
     ]
     return "```mermaid\nflowchart LR\n" + "\n".join("  " + s for s in styles + lines) + "\n```\n"
 
@@ -346,6 +349,78 @@ def verify_tree(ver: dict) -> str:
     if not ver["checks"]:
         lines.append("start --> verdict")
     return mermaid(lines)
+
+
+VERDICTS = {
+    "verified": "✅ Jev verified · open the PR",
+    "flagged": "⚠️ Jev doubts · PR for a human check",
+    "unchanged": "🟰 No edits · record the review",
+}
+
+
+def flow_tree(tri: dict, ver: dict | None = None) -> str:
+    """The whole run as one tree for the pull request: every branch drawn, the path taken solid."""
+    pages = tri["pages"]
+    shown = pages if len(pages) <= MAX_TREE_PAGES else [p for p in pages if p["route"] != "skip"]
+    folded = len(pages) - len(shown)
+    route = tri["route"]
+    ran_claude = route != "skip"
+
+    def arrow(taken):
+        return "==>" if taken else "-.->"
+
+    def cls(taken):
+        return "taken" if taken else "idle"
+
+    lines = [f'docs(["📄 Docs changed · {len(pages)} page(s)"]):::run', 'subgraph jt["🧠 Jev triage"]']
+    for i, p in enumerate(shown):
+        who = "Jev" if p["by"] == "jev" else "code"
+        dest = f"{ROUTE_ICON[p['route']]} {p['route']}" + (f" → {p['target']}" if p["route"] != "skip" and p["target"] else "")
+        lines += [f'p{i}["{label(p["slug"])}<br/>({p["status"]})"]',
+                  f'p{i} -->|"{label(who + " · " + p.get("edge", p["reason"]))}"| r{i}(["{label(dest)}"]):::{p["route"]}']
+    if folded:
+        lines += [f'folded["{folded} more page(s)"]', 'folded -->|"Jev"| fr(["⏭️ skip"]):::skip']
+    lines.append("end")
+    leaves = [f"r{i}" for i in range(len(shown))] + (["fr"] if folded else [])
+    lines += [f"docs --> p{i}" for i in range(len(shown))] + (["docs --> folded"] if folded else [])
+    for key, text in RUN_ROUTES.items():
+        lines.append(f'route_{key}{{{{"{label(text)}"}}}}:::{cls(key == route)}')
+    lines += [f"{leaf} ==> route_{route}" for leaf in leaves] or [f"docs ==> route_{route}"]
+    # Branches not taken hang off the triage box, so they read as the other ways out.
+    lines += [f"jt -.-> route_{key}" for key in RUN_ROUTES if key != route]
+    lines += [
+        f'claude["✍️ Claude · edit the skill"]:::{cls(ran_claude)}',
+        f"route_focused {arrow(route == 'focused')} claude",
+        f"route_full {arrow(route == 'full')} claude",
+        f'record(["🟰 Record the review, or update the open PR"]):::{cls(not ran_claude)}',
+        f"route_skip {arrow(route == 'skip')} record",
+    ]
+    if ran_claude:
+        verdict = ver["verdict"] if ver else None
+        for key, text in VERDICTS.items():
+            lines.append(f'verdict_{key}(["{label(text)}"]):::{cls(key == verdict)}')
+        checks = ver["checks"] if ver else []
+        if checks:
+            icon = {"ok": "✅ agrees", "doubt": "⚠️ doubt", "unchecked": "❔ unchecked"}
+            style = {"ok": "ok", "doubt": "doubt", "unchecked": "unsure"}
+            lines.append('subgraph jv["🔎 Jev verify"]')
+            for i, c in enumerate(checks):
+                name = c["slug"] + (f" → {c['target']}" if c["target"] else "")
+                who = "Jev" if c["by"] == "jev" else "code"
+                lines += [f'c{i}["{label(name)}"]',
+                          f'c{i} -->|"{label(who + " · " + c["edge"])}"| v{i}(["{icon[c["result"]]}"]):::{style[c["result"]]}']
+            lines.append("end")
+            lines += [f"claude ==> c{i}" for i in range(len(checks))]
+            lines += [f"v{i} ==> verdict_{verdict}" for i in range(len(checks))]
+            lines += [f"claude -.-> verdict_{k}" for k in VERDICTS if k != verdict]
+        else:
+            lines += [f"claude {arrow(k == verdict)} verdict_{k}" for k in VERDICTS]
+    return mermaid(lines)
+
+
+def flow_markdown(tri: dict, ver: dict | None) -> str:
+    return ("### How this review ran\n\n" + flow_tree(tri, ver)
+            + "\nSolid arrows are the path this run took; dotted ones are the branches it did not.\n")
 
 
 def tally_line(jev: dict) -> str:
@@ -429,6 +504,12 @@ def cmd_verify(args) -> None:
     set_outputs(verdict=ver["verdict"], why=ver["why"], doubts=sum(c["result"] != "ok" for c in ver["checks"]))
 
 
+def cmd_flow(args) -> None:
+    tri = json.loads(Path(args.triage).read_text(encoding="utf-8"))
+    ver = json.loads(Path(args.verify).read_text(encoding="utf-8")) if args.verify and Path(args.verify).is_file() else None
+    Path(args.out).write_text(flow_markdown(tri, ver), encoding="utf-8")
+
+
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     sub = parser.add_subparsers(dest="cmd", required=True)
@@ -446,6 +527,11 @@ def main(argv=None) -> int:
     p.add_argument("--skill-after", required=True)
     p.add_argument("--out-dir", required=True)
     p.set_defaults(func=cmd_verify)
+    p = sub.add_parser("flow", help="draw the whole run as one Mermaid tree for the pull request")
+    p.add_argument("--triage", required=True)
+    p.add_argument("--verify", help="verify.json; a missing file means verify did not run")
+    p.add_argument("--out", required=True)
+    p.set_defaults(func=cmd_flow)
     args = parser.parse_args(argv)
     args.func(args)
     return 0
