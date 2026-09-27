@@ -55,7 +55,7 @@ def pick(client: TypeSafeClient, goal: str, elements: list[dict]) -> dict | None
 - Browserbase Stagehand `act()` rebuilt on Jev, median 1.97 s → 0.46 s: https://www.langchain.com/blog/building-prod-with-jev-and-langgraph
 - Mac computer use with OCR, no screenshots, about $0.0002 per step, an LLM only for free text: gh:awlevin/typesafe-computer-use
 - Accessibility-tree browser agent, 10–40 refs per step, 21–23 decisions all correct for about $0.001: HN:49758669
-- macOS Accessibility tree: jev-use (savka777). CUA example: trycua/cua `examples/jev-use`
+- macOS Accessibility tree, with voice control: gh:savka777/jev-use. CUA's separate Jev example: trycua/cua `libs/cua-driver/examples/jev-use`
 - Droidrun mobile-jev, 9 Uber actions on a real phone in 21 s (via MarkTechPost launch article). iOS/Android jev-phone: HN:49831841
 - Rental search across Craigslist, FB Marketplace, Redfin, Zillow: Hearth (Nancy-Chauhan)
 - Distilled form-filler that beats Jev: HN:49767564

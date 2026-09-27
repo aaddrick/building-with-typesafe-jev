@@ -61,7 +61,7 @@ def decide(obs: dict, legal: list[str]) -> str | None:
 ## Prior art
 
 **Games**
-- Doom from text state, about 10 Hz, about $7/hour: TypeSafe launch post https://typesafe.ai/blog/introducing-system-one-models-and-jev. ViZDoom version with separate navigation and combat channels (JevDirectory).
+- Doom from text state, about 10 Hz, about $7/hour: TypeSafe launch post https://typesafe.ai/blog/introducing-system-one-models-and-jev. Kevin Madura's ViZDoom version, with separate navigation (5 decisions/s) and combat (12 decisions/s) channels: https://mattpaige68.substack.com/p/a-new-ai-model-just-launched-that
 - Wikiracing: link Choice, with a Score pre-rank when there are more than 255 links (same launch post).
 - StarCraft 1998 shareware, mouse/keyboard harness, beat mission 1 in 421 decisions: gh:phyous/tsai-sc
 - StarCraft II "JEV-Star": HN:49834465
@@ -81,7 +81,7 @@ def decide(obs: dict, legal: list[str]) -> str | None:
 - Camera-only drone in MuJoCo, CV state → manoeuvre Choice + risk Score + "target lost" Noul at about 2.5 Hz: gh:RomanSlack/jev-drone
 - Franka arm from plain-English goals: jev-askable-arm (awesome-jev-typesafe)
 - MuJoCo robot workbench, Jev vs. MiniCPM: gh:FBddcz/embodied-jev
-- Three.js driving from path, traffic, and signal tables: gh:standardagents/jevpilot. live-jev asks 4 questions every 200 ms.
+- Three.js driving from path, traffic, and signal tables: gh:standardagents/jevpilot. A 2D browser car sim that asks 4 questions every 200 ms: gh:vinilana/live-jev
 - Four-camera car with radar and blind-spot inputs: gh:kavehmz/typesafe-playground
 - Citywide traffic signal policy (Chicago): gh:skcache/jevtrafficsim
 - Air traffic approach control: HN:49829999

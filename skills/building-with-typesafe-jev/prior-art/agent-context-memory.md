@@ -50,8 +50,7 @@ Mind the 32k-token limit on state plus the longest question. Chunk the blocks ac
 ## Prior art
 
 **Compaction and pruning**
-- fast-jev-compaction: gh:tamaratran/fast-jev-compaction. jev-pruner: gh:tamaratran/jev-pruner. winnow: gh:GhalebDweikat/winnow. save-token-jev (awesome-jev-typesafe)
-- "Instant compaction for Claude" (X, @tamarajtran)
+- fast-jev-compaction: gh:tamaratran/fast-jev-compaction. jev-pruner: gh:tamaratran/jev-pruner. winnow: gh:GhalebDweikat/winnow. save-token-jev (awesome-jev-typesafe). fast-jev-compaction was announced on X as "Instant compaction for Claude" (@tamarajtran).
 - LiteLLM TypeSafe guardrail that prunes tool results: `guardrail_hooks/typesafe/typesafe.py` in LiteLLM
 - Context management "do all these tokens need to reach the agent?" (TypeSafe staffer idea): HN:49719368
 

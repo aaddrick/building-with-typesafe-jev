@@ -54,6 +54,6 @@ def on_partial(client: TypeSafeClient, text_so_far: str, held_for_s: float, inte
 - Real-time audio beeper with ffmpeg: jev-audio-beeper (awesome-jev-typesafe)
 - Speech-driven NPC addressee detection: gh:wondertwins/jev-benchmark
 - Home Assistant voice ("cold and dark in here" → lights and heat): HN:49851245, gh:AboveColin/HA-Jev
-- Home network monitoring in real time (early experiment): https://runtimewire.com/article/typesafe-investors-discuss-a-higher-valuation-after-jev-reaches-nearly-13-of-one
+- Home network monitoring in real time (the author's early experiment, mentioned in a RuntimeWire article on TypeSafe's valuation): https://runtimewire.com/article/typesafe-investors-discuss-a-higher-valuation-after-jev-reaches-nearly-13-of-one
 - AI video editor, cutting >30 s tool latency (idea): HN:49721095
 - For fixed-rate control loops, see `control-loops.md`
