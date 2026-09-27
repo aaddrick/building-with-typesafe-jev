@@ -299,7 +299,23 @@ The skill loads in layers, so the agent reads only what the task needs.
 | `prior-art/INDEX.md` | A map from "what I want to build" to a shape, plus ideas that failed | Before it designs something new |
 | `prior-art/*.md` | 11 shape files: a code sketch, field lessons, and linked projects | One or two per design |
 
-The prior-art library sorts projects by how they work, not by industry. A game bot, a drone, and a trading bot are all **control loops**, so they share one sketch and one set of lessons. The other shapes: select from candidates, gates, stream filters, ranking and matching, judges and evals, incremental and real-time, agent context and memory, pairing with an LLM, answers as data, and embedding in infrastructure. The index also lists ideas that failed in the field.
+## The prior-art library
+
+Most catalogs sort projects by industry. This library sorts them by implementation shape. A game bot, a drone, and a trading bot share one shape: a control loop. Sorted that way, the three share one code sketch and one set of field lessons. The 11 shapes:
+
+- **Control loops**: games, drones, robots, markets.
+- **Select from candidates**: browser and phone agents, tool calling without an LLM, extraction, routers.
+- **Gates**: tool-call approval, "done" checks, CI, money, content.
+- **Stream filters**: slop filters, moderation, email, logs, bulk labels.
+- **Ranking and matching**: rerankers, entity matching, graph and taxonomy walks.
+- **Judges and evals**: rubric judges, trace grading, code review as triage.
+- **Incremental and real-time**: dubbing, voice, keystroke-driven interfaces.
+- **Agent context and memory**: compaction, memory gates, memory expiry, effort control.
+- **Pairing with an LLM**: planner and actor, verify-then-escalate, distillation.
+- **Answers as data**: features for classical models, research instruments, benchmarks.
+- **Embedding in infrastructure**: SQL functions, vector databases, CI hooks, Home Assistant.
+
+The index also lists the ideas that failed in the field: chess, code review as the only reviewer, perception, and calibration taken on trust. A failed attempt saves the next builder from repeating it.
 
 ## How this differs from the official skill
 

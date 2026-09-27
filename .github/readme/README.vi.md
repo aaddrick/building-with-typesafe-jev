@@ -299,7 +299,23 @@ Skill tải theo từng lớp, nên tác nhân chỉ đọc những gì tác v�
 | `prior-art/INDEX.md` | Bản đồ từ "thứ tôi muốn làm" tới một dạng, cùng các ý tưởng đã thất bại | Trước khi thiết kế thứ gì mới |
 | `prior-art/*.md` | 11 file dạng: một đoạn code mẫu, bài học thực tế, và các dự án liên kết | Một hoặc hai file cho mỗi thiết kế |
 
-Thư viện tham khảo xếp dự án theo cách chúng hoạt động, không theo ngành. Một bot chơi game, một drone và một bot giao dịch đều là **vòng điều khiển**, nên chúng dùng chung một đoạn code mẫu và một bộ bài học. Các dạng còn lại: chọn từ các ứng viên, cổng kiểm soát, bộ lọc luồng, xếp hạng và so khớp, giám khảo và đánh giá, tăng dần và thời gian thực, ngữ cảnh và bộ nhớ của tác nhân, kết hợp với LLM, câu trả lời là dữ liệu, và nhúng vào hạ tầng. Chỉ mục cũng liệt kê các ý tưởng đã thất bại trong thực tế.
+## Thư viện tham khảo
+
+Hầu hết các danh mục xếp dự án theo ngành. Thư viện này xếp chúng theo dạng triển khai. Một bot chơi game, một drone và một bot giao dịch có chung một dạng: vòng điều khiển. Xếp theo cách đó, cả ba dùng chung một đoạn code mẫu và một bộ bài học thực tế. 11 dạng:
+
+- **Vòng điều khiển**: game, drone, robot, thị trường.
+- **Chọn từ các ứng viên**: tác nhân trình duyệt và điện thoại, gọi công cụ không cần LLM, trích xuất, bộ định tuyến.
+- **Cổng kiểm soát**: duyệt lệnh gọi công cụ, kiểm tra "đã xong", CI, tiền, nội dung.
+- **Bộ lọc luồng**: lọc nội dung rác, kiểm duyệt, email, log, gán nhãn hàng loạt.
+- **Xếp hạng và so khớp**: reranker, so khớp thực thể, duyệt đồ thị và phân loại.
+- **Giám khảo và đánh giá**: giám khảo theo rubric, chấm trace, review code để phân loại.
+- **Tăng dần và thời gian thực**: lồng tiếng, giọng nói, giao diện chạy theo phím gõ.
+- **Ngữ cảnh và bộ nhớ của tác nhân**: nén ngữ cảnh, cổng bộ nhớ, hết hạn bộ nhớ, điều chỉnh mức nỗ lực.
+- **Kết hợp với LLM**: planner và actor, kiểm tra rồi mới chuyển lên, chưng cất (distillation).
+- **Câu trả lời là dữ liệu**: đặc trưng cho model cổ điển, công cụ nghiên cứu, benchmark.
+- **Nhúng vào hạ tầng**: hàm SQL, cơ sở dữ liệu vector, hook CI, Home Assistant.
+
+Chỉ mục cũng liệt kê các ý tưởng đã thất bại trong thực tế: cờ vua, review code khi Jev là người review duy nhất, nhận thức hình ảnh, và tin vào hiệu chỉnh mà không kiểm tra. Một lần thử thất bại giúp người làm sau khỏi lặp lại nó.
 
 ## Khác biệt so với skill chính thức
 

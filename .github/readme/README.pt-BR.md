@@ -299,7 +299,23 @@ A skill carrega em camadas, então o agente lê só o que a tarefa pede.
 | `prior-art/INDEX.md` | Um mapa de "o que eu quero construir" para um formato, mais as ideias que falharam | Antes de projetar algo novo |
 | `prior-art/*.md` | 11 arquivos de formato: um esboço de código, lições de campo e projetos com link | Um ou dois por design |
 
-A biblioteca de referências organiza os projetos pela forma como funcionam, não por setor. Um bot de jogo, um drone e um bot de trading são todos **loops de controle**, então compartilham um esboço e um conjunto de lições. Os outros formatos: seleção entre candidatos, portões, filtros de fluxo, ranqueamento e correspondência, juízes e avaliações, incremental e em tempo real, contexto e memória de agentes, parceria com um LLM, respostas como dados e embutido na infraestrutura. O índice também lista as ideias que falharam na prática.
+## A biblioteca de referências
+
+A maioria dos catálogos organiza os projetos por setor. Esta biblioteca os organiza pelo formato da implementação. Um bot de jogo, um drone e um bot de trading compartilham o mesmo formato: um loop de controle. Organizados assim, os três compartilham um esboço de código e um conjunto de lições de campo. Os 11 formatos:
+
+- **Loops de controle**: jogos, drones, robôs, mercados.
+- **Seleção entre candidatos**: agentes de navegador e de celular, tool calling sem LLM, extração, roteadores.
+- **Portões**: aprovação de tool calls, verificações de "pronto", CI, dinheiro, conteúdo.
+- **Filtros de fluxo**: filtros de conteúdo genérico, moderação, e-mail, logs, rotulagem em massa.
+- **Ranqueamento e correspondência**: rerankers, correspondência de entidades, percursos em grafos e taxonomias.
+- **Juízes e avaliações**: juízes com rubrica, avaliação de traces, code review como triagem.
+- **Incremental e em tempo real**: dublagem, voz, interfaces guiadas pela digitação.
+- **Contexto e memória de agentes**: compactação, portões de memória, expiração de memória, controle de esforço.
+- **Parceria com um LLM**: planejador e executor, verificar e depois escalar, destilação.
+- **Respostas como dados**: features para modelos clássicos, instrumentos de pesquisa, benchmarks.
+- **Embutido na infraestrutura**: funções SQL, bancos de dados vetoriais, hooks de CI, Home Assistant.
+
+O índice também lista as ideias que falharam na prática: xadrez, code review como único revisor, percepção e calibração aceita sem verificação. Uma tentativa que falhou poupa o próximo construtor de repeti-la.
 
 ## Como ela difere da skill oficial
 

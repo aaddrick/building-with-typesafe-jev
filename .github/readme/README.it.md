@@ -299,7 +299,23 @@ La skill si carica a livelli, così l'agente legge solo quello che serve al task
 | `prior-art/INDEX.md` | Una mappa da "cosa voglio costruire" a una forma, più le idee che non hanno funzionato | Prima di progettare qualcosa di nuovo |
 | `prior-art/*.md` | 11 file di forma: uno sketch di codice, lezioni dal campo e progetti collegati | Uno o due per design |
 
-La libreria di esempi ordina i progetti per come funzionano, non per settore. Un bot per videogiochi, un drone e un bot di trading sono tutti **cicli di controllo**, quindi condividono uno sketch e un insieme di lezioni. Le altre forme: scelta tra candidati, gate, filtri di stream, ranking e matching, giudici e valutazioni, incrementale e in tempo reale, contesto e memoria dell'agente, abbinamento a un LLM, risposte come dati e integrazione nell'infrastruttura. L'indice elenca anche le idee che sul campo non hanno funzionato.
+## La libreria di esempi
+
+La maggior parte dei cataloghi ordina i progetti per settore. Questa libreria li ordina per forma di implementazione. Un bot per videogiochi, un drone e un bot di trading hanno la stessa forma: un ciclo di controllo. Ordinati così, i tre condividono uno sketch di codice e un insieme di lezioni dal campo. Le 11 forme:
+
+- **Cicli di controllo**: giochi, droni, robot, mercati.
+- **Scelta tra candidati**: agenti per browser e telefono, tool calling senza LLM, estrazione, router.
+- **Gate**: approvazione delle chiamate ai tool, controlli di "fatto", CI, denaro, contenuti.
+- **Filtri di stream**: filtri anti-slop, moderazione, email, log, etichettatura in blocco.
+- **Ranking e matching**: reranker, entity matching, navigazione di grafi e tassonomie.
+- **Giudici e valutazioni**: giudici con rubrica, valutazione delle tracce, code review come triage.
+- **Incrementale e in tempo reale**: doppiaggio, voce, interfacce guidate dai tasti premuti.
+- **Contesto e memoria dell'agente**: compattazione, gate sulla memoria, scadenza della memoria, controllo dello sforzo.
+- **Abbinamento a un LLM**: pianificatore ed esecutore, verifica e poi escalation, distillazione.
+- **Risposte come dati**: feature per modelli classici, strumenti di ricerca, benchmark.
+- **Integrazione nell'infrastruttura**: funzioni SQL, database vettoriali, hook di CI, Home Assistant.
+
+L'indice elenca anche le idee che sul campo non hanno funzionato: scacchi, code review come unico revisore, percezione e calibrazione presa sulla fiducia. Un tentativo fallito evita al prossimo di ripeterlo.
 
 ## In cosa differisce dalla skill ufficiale
 
