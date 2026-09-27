@@ -275,13 +275,17 @@ Score is the share of checks passed, averaged over 10 runs per task.
 | kept a plain-code backstop for destructive commands | 7 | 10 | 2 |
 | read `score` as a position from 0 to n-1 | 9 | 10 | 5 |
 
-Each row beats no skill, the official skill, or both by more than chance at 95%. [results.md](evals/docs/results.md) has the method and every other check.
+[See every check →](evals/docs/results.md#every-check)
 
-One check did not move: routing on `confidence` passed 2 of 10 runs with and without the skill, because the task never said where an uncertain ticket should go. The task now names a fallback for the next batch.
+Each of these rows beats no skill, the official skill, or both by more than chance at 95%.
 
-Before the evals, the skill was written the same way you write code against a failing test: run the task with no skill, record every mistake, write the skill to fix them, then re-run with fresh agents until the gaps closed. The API facts and three prior-art sketches were checked against the live API (Python SDK 0.7.1, model `jev-1.13.0`).
+**More detail:**
 
-**More detail:** [evals/README.md](evals/README.md) has per-case results and how to run the suite. [evals/docs/results.md](evals/docs/results.md) has every check, each judge's votes, cost, and method.
+- [evals/README.md](evals/README.md): results by case, and how to run the suite
+- [evals/docs/results.md](evals/docs/results.md): every check, each judge's scores, cost, tokens, and method
+- [evals/docs/cases.md](evals/docs/cases.md): the six tasks and what each check looks for
+- [evals/docs/harness.md](evals/docs/harness.md): how a run works, the isolated containers, and how to keep a batch
+- [evals/docs/lessons.md](evals/docs/lessons.md): what broke while the suite was being built
 
 ## What is inside
 
