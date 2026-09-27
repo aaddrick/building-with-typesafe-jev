@@ -24,8 +24,7 @@
   <a href="README.ko.md">한국어</a> ·
   <strong>Tiếng Việt</strong> ·
   <a href="README.pt-BR.md">Português (BR)</a> ·
-  <a href="README.it.md">Italiano</a> ·
-  <a href="README.en-x-aibro.md">AI Bro</a>
+  <a href="README.it.md">Italiano</a>
 </p>
 
 > [!NOTE]
@@ -334,6 +333,8 @@ Chúng tôi giao cho một tác nhân lập trình sáu tác vụ Jev, chẳng h
 
 Một phép khớp mẫu chấm ba tiêu chí trong số này. Bốn tiêu chí còn lại do ba người chấm LLM từ ba nhà cung cấp chấm, Claude Opus, GPT-6 Sol và Kimi K3, và đa số quyết định. Tác nhân là một mô hình Claude, nên một người chấm Claude không bao giờ tự mình quyết định.
 
+Thêm một tiêu chí nữa dẫn trước, với hai người chấm trên ba đồng ý, nên nó không có trong bảng. Với Opus và GPT-6 Sol, skill này không để lý do của chính tác nhân phê duyệt một lệnh ở 10 lần chạy, so với 5 khi không có skill. Kimi K3 cho đạt 9 trên 10 lần chạy không có skill đó.
+
 ### So với skill chính thức
 
 Theo cùng kiểm định đó, skill này đạt thường xuyên hơn skill chính thức ở tám tiêu chí. Bốn tiêu chí nằm trong bảng: phép đếm, tên trường, phiên bản model, và lựa chọn còn lại. Bốn tiêu chí kia:
@@ -345,11 +346,10 @@ Theo cùng kiểm định đó, skill này đạt thường xuyên hơn skill ch
 
 ### Nơi nó không tạo ra khác biệt
 
-- Một tiêu chí làm các người chấm bất đồng, nên nó không có trong bảng. Với Opus và GPT-6 Sol, skill này không để lý do của chính tác nhân phê duyệt một lệnh ở 10 lần chạy, so với 5 khi không có skill. Kimi K3 cho đạt 9 trên 10 lần chạy không có skill đó.
 - Định tuyến theo `confidence` đạt 2 trên 10 lần chạy với skill này và 2 trên 10 khi không có skill. Tác vụ chưa bao giờ nói ticket không chắc chắn nên đi đâu, nên phần lớn tác nhân trả về giá trị độ tin cậy và để bên gọi tự quyết định. Chính skill cũng nói như vậy là ổn khi code chỉ chọn phương án tốt nhất. Giờ tác vụ đã chỉ rõ một phương án dự phòng, và đợt eval tiếp theo sẽ kiểm tra điều đó.
 - Mọi tiêu chí khác hoặc đạt ở gần như mọi lần chạy trong cả ba thiết lập, hoặc chênh lệch ít hơn mức ngẫu nhiên.
 
-[evals README](../../evals/README.md) có mọi tiêu chí kèm khoảng của nó, và cách chạy bộ eval.
+[evals/docs/results.md](../../evals/docs/results.md) có mọi tiêu chí. [evals README](../../evals/README.md) có cách chạy bộ eval.
 
 ## Bên trong có gì
 

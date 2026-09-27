@@ -24,8 +24,7 @@
   <a href="README.ko.md">한국어</a> ·
   <a href="README.vi.md">Tiếng Việt</a> ·
   <strong>Português (BR)</strong> ·
-  <a href="README.it.md">Italiano</a> ·
-  <a href="README.en-x-aibro.md">AI Bro</a>
+  <a href="README.it.md">Italiano</a>
 </p>
 
 > [!NOTE]
@@ -334,6 +333,8 @@ Estas são as verificações em que a diferença entre esta skill e nenhuma skil
 
 Uma correspondência de padrão avalia três dessas verificações. As outras quatro vão para três avaliadores LLM de três provedores, Claude Opus, GPT-6 Sol e Kimi K3, e a maioria decide. O agente é um modelo Claude, então um avaliador Claude nunca decide sozinho.
 
+Mais uma verificação fica à frente, por dois avaliadores contra um, então não está na tabela. Com o Opus e o GPT-6 Sol, esta skill não deixou o motivo do próprio agente aprovar um comando em 10 execuções, contra 5 sem nenhuma skill. O Kimi K3 aprovou 9 dessas 10 execuções sem nenhuma skill.
+
 ### Contra a skill oficial
 
 Pelo mesmo teste, esta skill passou mais vezes que a skill oficial em oito verificações. Quatro estão na tabela: contagem, nomes de campo, versão do modelo e a opção genérica. As outras quatro:
@@ -345,11 +346,10 @@ Pelo mesmo teste, esta skill passou mais vezes que a skill oficial em oito verif
 
 ### Onde não fez diferença
 
-- Uma verificação divide os avaliadores, então não está na tabela. Com o Opus e o GPT-6 Sol, esta skill não deixou o motivo do próprio agente aprovar um comando em 10 execuções, contra 5 sem nenhuma skill. O Kimi K3 aprovou 9 dessas 10 execuções sem nenhuma skill.
 - Rotear por `confidence` passou em 2 de 10 execuções com esta skill e em 2 de 10 sem nenhuma skill. A tarefa nunca disse para onde um ticket incerto deveria ir, então a maioria dos agentes devolveu o valor de confiança e deixou a decisão para quem chama. A própria skill diz que isso está certo quando o código só escolhe a melhor opção. A tarefa agora define um fallback, e o próximo lote de eval vai testá-lo.
 - Todas as outras verificações ou passaram em quase todas as execuções nas três configurações, ou diferiram menos do que o acaso explicaria.
 
-O [README dos evals](../../evals/README.md) tem todas as verificações com as suas faixas e como rodar a suíte.
+O [evals/docs/results.md](../../evals/docs/results.md) tem todas as verificações. O [README dos evals](../../evals/README.md) explica como rodar a suíte.
 
 ## O que tem dentro
 

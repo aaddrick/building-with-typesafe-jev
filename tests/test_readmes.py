@@ -15,7 +15,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 ENGLISH = ROOT / "README.md"
 TRANSLATIONS = sorted((ROOT / ".github" / "readme").glob("README.*.md"))
-LANGUAGES = {"zh-CN", "ja", "ko", "vi", "pt-BR", "it", "en-x-aibro"}
+LANGUAGES = {"zh-CN", "ja", "ko", "vi", "pt-BR", "it"}
 
 NUMBERED_ITEM = re.compile(r"^(\d+)\. ")
 INLINE_CODE = re.compile(r"`([^`\n]+)`")

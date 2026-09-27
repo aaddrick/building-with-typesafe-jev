@@ -24,8 +24,7 @@
   <a href=".github/readme/README.ko.md">한국어</a> ·
   <a href=".github/readme/README.vi.md">Tiếng Việt</a> ·
   <a href=".github/readme/README.pt-BR.md">Português (BR)</a> ·
-  <a href=".github/readme/README.it.md">Italiano</a> ·
-  <a href=".github/readme/README.en-x-aibro.md">AI Bro</a>
+  <a href=".github/readme/README.it.md">Italiano</a>
 </p>
 
 > [!NOTE]
@@ -334,6 +333,8 @@ These are the checks where the gap between this skill and no skill is too large 
 
 A pattern match grades three of these checks. The other four go to three LLM judges from three providers, Claude Opus, GPT-6 Sol, and Kimi K3, and the majority decides. The agent is a Claude model, so a Claude judge never decides alone.
 
+One more check leads, by two judges to one, so it is not in the table. With Opus and GPT-6 Sol, this skill kept the agent's own reason from approving a command in 10 runs, against 5 with no skill. Kimi K3 passed 9 of those 10 no-skill runs.
+
 ### Against the official skill
 
 By the same test, this skill passed more often than the official skill on eight checks. Four are in the table: counting, field names, model version, and the catch-all. The other four:
@@ -345,11 +346,10 @@ By the same test, this skill passed more often than the official skill on eight 
 
 ### Where it made no difference
 
-- One check splits the judges, so it is not in the table. With Opus and GPT-6 Sol, this skill kept the agent's own reason from approving a command in 10 runs, against 5 with no skill. Kimi K3 passed 9 of those 10 no-skill runs.
 - Routing on `confidence` passed 2 of 10 runs with this skill and 2 of 10 with no skill. The task never said where an uncertain ticket should go, so most agents returned the confidence value and left the decision to the caller. The skill itself says that is fine when code only picks the best option. The task now names a fallback, and the next eval batch will test it.
 - Every other check either passed in almost every run in all three setups, or differed by less than chance.
 
-The [evals README](evals/README.md) has every check with its range, and how to run the suite.
+[evals/docs/results.md](evals/docs/results.md) has every check. The [evals README](evals/README.md) says how to run the suite.
 
 ## What is inside
 

@@ -24,8 +24,7 @@
   <a href="README.ko.md">한국어</a> ·
   <a href="README.vi.md">Tiếng Việt</a> ·
   <a href="README.pt-BR.md">Português (BR)</a> ·
-  <a href="README.it.md">Italiano</a> ·
-  <a href="README.en-x-aibro.md">AI Bro</a>
+  <a href="README.it.md">Italiano</a>
 </p>
 
 > [!NOTE]
@@ -334,6 +333,8 @@ LLM 可以返回 JSON，用上 Structured Outputs 后，JSON 每次都能解析�
 
 其中三项检查由模式匹配评分。另外四项交给来自三家提供商的三个 LLM 评判模型，Claude Opus、GPT-6 Sol 和 Kimi K3，按多数决定。智能体是 Claude 模型，所以 Claude 评判模型从不单独做决定。
 
+还有一项检查也领先，但只有三个评判模型中的两个这样判定，所以没有列在表里。用 Opus 和 GPT-6 Sol 评判时，这个技能有 10 次运行做到了不让智能体自己给出的理由批准命令，没有技能时只有 5 次。Kimi K3 则判定那 10 次没有技能的运行中有 9 次通过。
+
 ### 与官方技能相比
 
 按同样的检验，这个技能在八项检查上比官方技能通过得更多。其中四项在表里：计数、字段名、模型版本和兜底选项。另外四项是：
@@ -345,11 +346,10 @@ LLM 可以返回 JSON，用上 Structured Outputs 后，JSON 每次都能解析�
 
 ### 没有带来差别的地方
 
-- 有一项检查让评判模型意见不一，所以没有列在表里。用 Opus 和 GPT-6 Sol 评判时，这个技能有 10 次运行做到了不让智能体自己给出的理由批准命令，没有技能时只有 5 次。Kimi K3 则判定那 10 次没有技能的运行中有 9 次通过。
 - 按 `confidence` 分流在有这个技能时 10 次中通过 2 次，没有技能时也是 10 次中通过 2 次。任务从未说明不确定的工单应该流向哪里，所以大多数智能体返回了置信度值，把决定留给调用方。技能本身也说，当代码只需选出最佳选项时，这样做没有问题。任务现在指定了一个兜底去向，下一批评测会对此进行检验。
 - 其余每一项检查，要么在三种设置下几乎每次运行都通过，要么差距小于偶然范围。
 
-[evals README](../../evals/README.md) 列出了每一项检查及其区间，以及如何运行这套评测。
+[evals/docs/results.md](../../evals/docs/results.md) 列出了每一项检查。[evals README](../../evals/README.md) 说明了如何运行这套评测。
 
 ## 里面有什么
 

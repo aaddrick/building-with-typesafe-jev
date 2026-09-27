@@ -9,7 +9,6 @@ typed answers, one per primitive, each with the probability your code branches o
 Run it after any change to the header text, the example, or the harness list:
 
     python3 scripts/make_card.py
-    python3 scripts/make_card.py --variant aibro   # the AI Bro README's card
 
 Needs Pillow and NumPy. Neither is a test dependency, so CI does not run this.
 Pillow encodes the same pixels differently across versions, so no gate checks
@@ -51,34 +50,6 @@ VARIANTS = {
         "fade": False,
         "wrong": 3,
         "dim_from": 7,
-    },
-    "aibro": {
-        "out": ROOT / ".github" / "assets" / "hero-en-x-aibro.png",
-        "tag1": "Your coding agent treats Jev like one more chat model. This is the patch.",
-        "tag2": "Typed decisions. Calibrated confidence. 150+ community builds, clustered by shape.",
-        "left": "STRUCTURED OUTPUTS  ·  VALID, NOT RIGHT",
-        "right": "SYSTEM ONE  ·  1 CALL  ·  100-200 MS",
-        # Schema-valid on every call, and still wrong: the self-reported
-        # confidence is sampled like any other token.
-        "prose": [
-            "{",
-            "  \"next_step\": \"run_tests\",",
-            "  \"pr_verdict\": \"meets spec\",",
-            "  \"deletes_files\": false,",
-            "  \"confidence\": 0.95",
-            "}",
-            "",
-            "// parses every time",
-            "// confidence: sampled, not calibrated",
-        ],
-        "fade": False,
-        "wrong": 3,      # prose line drawn in red: the confident wrong answer
-        "dim_from": 7,   # prose lines from here on are comments
-        "rows": [
-            ("CHOICE", "next_step",     "run tests", 0.91, "confidence 0.91"),
-            ("SCORE",  "pr_vs_spec",    "1.6 / 2",   0.8,  "scale 0-2"),
-            ("NOUL",   "deletes_files", "0.97",      0.97, "P(yes)"),
-        ],
     },
 }
 args = [a for a in sys.argv[1:]]

@@ -24,8 +24,7 @@
   <a href="README.ko.md">한국어</a> ·
   <a href="README.vi.md">Tiếng Việt</a> ·
   <a href="README.pt-BR.md">Português (BR)</a> ·
-  <strong>Italiano</strong> ·
-  <a href="README.en-x-aibro.md">AI Bro</a>
+  <strong>Italiano</strong>
 </p>
 
 > [!NOTE]
@@ -334,6 +333,8 @@ Questi sono i controlli in cui il divario tra questa skill e nessuna skill è tr
 
 Un pattern match valuta tre di questi controlli. Gli altri quattro vanno a tre giudici LLM di tre fornitori diversi, Claude Opus, GPT-6 Sol e Kimi K3, e decide la maggioranza. L'agente è un modello Claude, quindi un giudice Claude non decide mai da solo.
 
+Un altro controllo è in vantaggio, per due giudici contro uno, quindi non è nella tabella. Con Opus e GPT-6 Sol, questa skill non ha lasciato che la motivazione dell'agente stesso approvasse un comando in 10 esecuzioni, contro 5 senza skill. Kimi K3 ha promosso 9 di quelle 10 esecuzioni senza skill.
+
 ### Rispetto alla skill ufficiale
 
 Con lo stesso test, questa skill ha superato più spesso della skill ufficiale otto controlli. Quattro sono nella tabella: conteggi, nomi dei campi, versione del modello e opzione generica. Gli altri quattro:
@@ -345,11 +346,10 @@ Con lo stesso test, questa skill ha superato più spesso della skill ufficiale o
 
 ### Dove non ha fatto differenza
 
-- Un controllo divide i giudici, quindi non è nella tabella. Con Opus e GPT-6 Sol, questa skill non ha lasciato che la motivazione dell'agente stesso approvasse un comando in 10 esecuzioni, contro 5 senza skill. Kimi K3 ha promosso 9 di quelle 10 esecuzioni senza skill.
 - L'instradamento in base a `confidence` è stato superato in 2 esecuzioni su 10 con questa skill e in 2 su 10 senza skill. Il task non diceva mai dove mandare un ticket incerto, quindi la maggior parte degli agenti ha restituito il valore di confidenza e ha lasciato la decisione al chiamante. La skill stessa dice che va bene quando il codice sceglie solo l'opzione migliore. Ora il task indica un fallback, e il prossimo batch di eval lo metterà alla prova.
 - Ogni altro controllo è stato superato in quasi tutte le esecuzioni in tutte e tre le configurazioni, oppure ha mostrato una differenza inferiore a quella attribuibile al caso.
 
-Il [README degli eval](../../evals/README.md) riporta ogni controllo con il suo intervallo e come eseguire la suite.
+[evals/docs/results.md](../../evals/docs/results.md) riporta ogni controllo. Il [README degli eval](../../evals/README.md) spiega come eseguire la suite.
 
 ## Cosa contiene
 
