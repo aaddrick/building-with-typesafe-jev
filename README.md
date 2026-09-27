@@ -111,6 +111,8 @@ The skill works without a key. With `TYPESAFE_API_KEY` set in the agent's shell,
 <details>
 <summary><strong>Create, store, and troubleshoot a key</strong></summary>
 
+<br>
+
 <details>
 <summary><strong>Create a key</strong> (four steps in the TypeSafe console)</summary>
 
