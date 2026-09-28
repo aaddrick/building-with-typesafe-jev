@@ -58,7 +58,7 @@ Jev 코드를 작업하면 스킬이 알아서 로드됩니다. 직접 로드하
 <details>
 <summary><strong>Claude Desktop, Cowork, claude.ai</strong></summary>
 
-**Customize > Plugins > Add > Add marketplace**을 열고 `https://github.com/aaddrick/building-with-typesafe-jev`를 붙여넣으세요. 그런 다음 그 마켓플레이스에서 플러그인을 설치하세요.
+**Customize > Plugins > Add > Add marketplace**을 열고 **Add from a repository**를 선택한 다음 `aaddrick/building-with-typesafe-jev`를 입력하세요. **Sync automatically**을 켜 두면 이 저장소가 업데이트될 때 플러그인도 업데이트됩니다. **Sync**를 선택한 다음 **Building with typesafe jev** 옆의 **Add**를 선택하세요.
 
 </details>
 

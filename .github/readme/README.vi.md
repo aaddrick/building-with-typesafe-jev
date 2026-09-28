@@ -58,7 +58,7 @@ Skill tự tải khi bạn làm việc với code Jev. Muốn tải thủ công,
 <details>
 <summary><strong>Claude Desktop, Cowork và claude.ai</strong></summary>
 
-Mở **Customize > Plugins > Add > Add marketplace** rồi dán `https://github.com/aaddrick/building-with-typesafe-jev`. Sau đó cài plugin từ marketplace đó.
+Mở **Customize > Plugins > Add > Add marketplace**, chọn **Add from a repository** và nhập `aaddrick/building-with-typesafe-jev`. Giữ **Sync automatically** bật để plugin cập nhật khi repo này cập nhật. Chọn **Sync**, rồi chọn **Add** cạnh **Building with typesafe jev**.
 
 </details>
 
