@@ -58,7 +58,25 @@ Jev のコードを扱うと、スキルは自動で読み込まれます。手�
 <details>
 <summary><strong>Claude Desktop、Cowork、claude.ai</strong></summary>
 
-**Customize > Plugins > Add > Add marketplace** を開き、**Add from a repository** を選んで `aaddrick/building-with-typesafe-jev` を入力します。**Sync automatically** をオンのままにしておくと、このリポジトリの更新に合わせてプラグインも更新されます。**Sync** を選び、**Building with typesafe jev** の横の **Add** を選びます。
+**ステップ 1.** **Customize > Plugins** を開き、**Add**、**Add marketplace** の順に選びます。
+
+<img src="../assets/plugin-marketplace/step-1.png" alt="Customize の Plugins ページで Add メニューを開いた画面。琥珀色の枠と矢印が Add marketplace を指しています。" width="100%">
+
+**ステップ 2.** **Add from a repository** を選びます。
+
+<img src="../assets/plugin-marketplace/step-2.png" alt="Add marketplace ダイアログ。琥珀色の枠と矢印が Add from a repository を指しています。" width="100%">
+
+**ステップ 3.** `aaddrick/building-with-typesafe-jev` を入力します。**Sync automatically** をオンのままにしておくと、このリポジトリの更新に合わせてプラグインも更新されます。続けて **Sync** を選びます。
+
+<img src="../assets/plugin-marketplace/step-3.png" alt="URL 欄に aaddrick/building-with-typesafe-jev を入力し、Sync automatically をオンにした Add marketplace ダイアログ。琥珀色の枠と矢印が URL 欄、トグル、Sync ボタンを指しています。" width="100%">
+
+**ステップ 4.** **Building with typesafe jev** の横の **Add** を選びます。
+
+<img src="../assets/plugin-marketplace/step-4.png" alt="Building with typesafe jev が表示された Discover の一覧。琥珀色の枠と矢印がその Add ボタンを指しています。" width="100%">
+
+**ステップ 5.** プラグインのインストール完了が表示されます。同じアカウントのデスクトップアプリと Cowork にも表示されます。
+
+<img src="../assets/plugin-marketplace/step-5.png" alt="Building with typesafe jev のプラグインページと、インストールが完了して使用可能になったという通知。琥珀色の枠と矢印が通知を指しています。" width="100%">
 
 </details>
 

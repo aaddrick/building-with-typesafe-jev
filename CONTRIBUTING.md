@@ -27,6 +27,11 @@ If you change an install command in `README.md`, change it in every file under `
 
 If you change the hero text, regenerate the card with `python3 scripts/make_card.py` (needs Pillow and NumPy) and commit the PNG.
 
-## Screenshots of the API key flow
+## Screenshots
 
-`.github/assets/api-key/step-*.png` come from `scripts/annotate_screens.py`. The raw captures show a live key and account details, so they never go in the repo. To refresh them, capture the four console screens at 1512x807, keep the raw files outside the repo, and run `python3 scripts/annotate_screens.py /path/to/raw-dir`. Check every output image for an unmasked key or name before you commit, then revoke the key you created for the capture.
+The README walkthroughs use images from `scripts/annotate_screens.py`, which blurs account details and draws the step highlights. The raw captures show account details, and the API key ones a live key, so they never go in the repo. Keep them outside the repo and check every output image for anything unmasked before you commit.
+
+- **API key flow** (`.github/assets/api-key/`): capture the four console screens at 1512x807, run `python3 scripts/annotate_screens.py api-key /path/to/raw-dir`, then revoke the key you created for the capture.
+- **Plugin marketplace flow** (`.github/assets/plugin-marketplace/`): capture the five claude.ai screens at 1510x812 in the dark theme, starting with no marketplace added (remove it under **Customize > Plugins > Add > Manage marketplaces**), then run `python3 scripts/annotate_screens.py plugin-marketplace /path/to/raw-dir`.
+
+The script's docstring lists the file names each flow expects.

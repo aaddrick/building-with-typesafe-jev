@@ -58,7 +58,25 @@ La skill si carica da sola quando lavori su codice Jev. Per caricarla a mano, di
 <details>
 <summary><strong>Claude Desktop, Cowork e claude.ai</strong></summary>
 
-Apri **Customize > Plugins > Add > Add marketplace**, scegli **Add from a repository** e inserisci `aaddrick/building-with-typesafe-jev`. Lascia attivo **Sync automatically** così il plugin si aggiorna insieme a questo repository. Seleziona **Sync**, poi **Add** accanto a **Building with typesafe jev**.
+**Passo 1.** Apri **Customize > Plugins**, seleziona **Add** e poi **Add marketplace**.
+
+<img src="../assets/plugin-marketplace/step-1.png" alt="La pagina Plugins in Customize con il menu Add aperto. Un riquadro e una freccia color ambra indicano Add marketplace." width="100%">
+
+**Passo 2.** Scegli **Add from a repository**.
+
+<img src="../assets/plugin-marketplace/step-2.png" alt="La finestra di dialogo Add marketplace. Un riquadro e una freccia color ambra indicano Add from a repository." width="100%">
+
+**Passo 3.** Inserisci `aaddrick/building-with-typesafe-jev`. Lascia attivo **Sync automatically** così il plugin si aggiorna insieme a questo repository. Poi seleziona **Sync**.
+
+<img src="../assets/plugin-marketplace/step-3.png" alt="La finestra di dialogo Add marketplace con aaddrick/building-with-typesafe-jev nel campo URL e Sync automatically attivo. Un riquadro e una freccia color ambra indicano il campo URL, l'interruttore e il pulsante Sync." width="100%">
+
+**Passo 4.** Seleziona **Add** accanto a **Building with typesafe jev**.
+
+<img src="../assets/plugin-marketplace/step-4.png" alt="L'elenco Discover con Building with typesafe jev. Un riquadro e una freccia color ambra indicano il suo pulsante Add." width="100%">
+
+**Passo 5.** Claude conferma che il plugin è installato. Compare anche nell'app desktop e in Cowork con lo stesso account.
+
+<img src="../assets/plugin-marketplace/step-5.png" alt="La pagina del plugin Building with typesafe jev con un avviso che è installato e pronto all'uso. Un riquadro e una freccia color ambra indicano l'avviso." width="100%">
 
 </details>
 

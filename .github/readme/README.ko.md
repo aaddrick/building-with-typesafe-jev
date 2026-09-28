@@ -58,7 +58,25 @@ Jev 코드를 작업하면 스킬이 알아서 로드됩니다. 직접 로드하
 <details>
 <summary><strong>Claude Desktop, Cowork, claude.ai</strong></summary>
 
-**Customize > Plugins > Add > Add marketplace**을 열고 **Add from a repository**를 선택한 다음 `aaddrick/building-with-typesafe-jev`를 입력하세요. **Sync automatically**을 켜 두면 이 저장소가 업데이트될 때 플러그인도 업데이트됩니다. **Sync**를 선택한 다음 **Building with typesafe jev** 옆의 **Add**를 선택하세요.
+**1단계.** **Customize > Plugins**를 열고 **Add**, **Add marketplace**를 차례로 선택하세요.
+
+<img src="../assets/plugin-marketplace/step-1.png" alt="Customize의 Plugins 페이지에서 Add 메뉴를 연 화면. 호박색 상자와 화살표가 Add marketplace를 가리킵니다." width="100%">
+
+**2단계.** **Add from a repository**를 선택하세요.
+
+<img src="../assets/plugin-marketplace/step-2.png" alt="Add marketplace 대화상자. 호박색 상자와 화살표가 Add from a repository를 가리킵니다." width="100%">
+
+**3단계.** `aaddrick/building-with-typesafe-jev`를 입력하세요. **Sync automatically**를 켜 두면 이 저장소가 업데이트될 때 플러그인도 업데이트됩니다. 그런 다음 **Sync**를 선택하세요.
+
+<img src="../assets/plugin-marketplace/step-3.png" alt="URL 필드에 aaddrick/building-with-typesafe-jev를 입력하고 Sync automatically를 켠 Add marketplace 대화상자. 호박색 상자와 화살표가 URL 필드, 토글, Sync 버튼을 가리킵니다." width="100%">
+
+**4단계.** **Building with typesafe jev** 옆의 **Add**를 선택하세요.
+
+<img src="../assets/plugin-marketplace/step-4.png" alt="Building with typesafe jev가 보이는 Discover 목록. 호박색 상자와 화살표가 Add 버튼을 가리킵니다." width="100%">
+
+**5단계.** 플러그인이 설치되었다는 알림이 나타납니다. 같은 계정의 데스크톱 앱과 Cowork에도 나타납니다.
+
+<img src="../assets/plugin-marketplace/step-5.png" alt="Building with typesafe jev 플러그인 페이지와 설치되어 사용할 준비가 되었다는 알림. 호박색 상자와 화살표가 알림을 가리킵니다." width="100%">
 
 </details>
 

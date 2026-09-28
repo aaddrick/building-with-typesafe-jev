@@ -58,7 +58,25 @@ The skill loads on its own when you work on Jev code. To load it by hand, type:
 <details>
 <summary><strong>Claude Desktop, Cowork, and claude.ai</strong></summary>
 
-Open **Customize > Plugins > Add > Add marketplace**, choose **Add from a repository**, and enter `aaddrick/building-with-typesafe-jev`. Leave **Sync automatically** on so the plugin updates when this repository does. Select **Sync**, then select **Add** next to **Building with typesafe jev**.
+**Step 1.** Open **Customize > Plugins**, select **Add**, then **Add marketplace**.
+
+<img src=".github/assets/plugin-marketplace/step-1.png" alt="The Plugins page in Customize with the Add menu open. An amber box and arrow point at Add marketplace." width="100%">
+
+**Step 2.** Choose **Add from a repository**.
+
+<img src=".github/assets/plugin-marketplace/step-2.png" alt="The Add marketplace dialog. An amber box and arrow point at Add from a repository." width="100%">
+
+**Step 3.** Enter `aaddrick/building-with-typesafe-jev`. Leave **Sync automatically** on so the plugin updates when this repository does. Then select **Sync**.
+
+<img src=".github/assets/plugin-marketplace/step-3.png" alt="The Add marketplace dialog with aaddrick/building-with-typesafe-jev in the URL field and Sync automatically on. An amber box and arrow point at the URL field, the toggle, and the Sync button." width="100%">
+
+**Step 4.** Select **Add** next to **Building with typesafe jev**.
+
+<img src=".github/assets/plugin-marketplace/step-4.png" alt="The Discover list showing Building with typesafe jev. An amber box and arrow point at its Add button." width="100%">
+
+**Step 5.** Claude confirms the plugin is installed. It also appears in the desktop app and Cowork on the same account.
+
+<img src=".github/assets/plugin-marketplace/step-5.png" alt="The Building with typesafe jev plugin page with a notice that it is installed and ready to use. An amber box and arrow point at the notice." width="100%">
 
 </details>
 
