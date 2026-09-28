@@ -56,6 +56,13 @@ A skill carrega sozinha quando você trabalha com código do Jev. Para carregá-
 </details>
 
 <details>
+<summary><strong>Claude Desktop, Cowork e claude.ai</strong></summary>
+
+Abra **Customize > Plugins > Add > Add marketplace** e cole `https://github.com/aaddrick/building-with-typesafe-jev`. Depois instale o plugin a partir desse marketplace.
+
+</details>
+
+<details>
 <summary><strong>Codex</strong></summary>
 
 ```bash

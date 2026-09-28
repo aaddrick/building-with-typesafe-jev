@@ -56,6 +56,13 @@ Jev のコードを扱うと、スキルは自動で読み込まれます。手�
 </details>
 
 <details>
+<summary><strong>Claude Desktop、Cowork、claude.ai</strong></summary>
+
+**Customize > Plugins > Add > Add marketplace** を開き、`https://github.com/aaddrick/building-with-typesafe-jev` を貼り付けます。そのマーケットプレイスからプラグインをインストールします。
+
+</details>
+
+<details>
 <summary><strong>Codex</strong></summary>
 
 ```bash

@@ -56,6 +56,13 @@ claude plugin install building-with-typesafe-jev@building-with-typesafe-jev
 </details>
 
 <details>
+<summary><strong>Claude Desktop、Cowork 和 claude.ai</strong></summary>
+
+打开 **Customize > Plugins > Add > Add marketplace**，粘贴 `https://github.com/aaddrick/building-with-typesafe-jev`。然后从该插件市场安装插件。
+
+</details>
+
+<details>
 <summary><strong>Codex</strong></summary>
 
 ```bash
