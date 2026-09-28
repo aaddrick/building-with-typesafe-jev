@@ -1,18 +1,23 @@
 #!/usr/bin/env python3
-"""Annotate the API key walkthrough screenshots for the README.
+"""Annotate the README walkthrough screenshots.
 
-The raw captures hold a live API key and account details, so they never enter
-the repo. Capture them yourself (1512x807, console.typesafe.ai), then run:
+The raw captures hold account details, and the API key ones a live key, so they
+never enter the repo. Capture them yourself, then run:
 
-    python3 scripts/annotate_screens.py /path/to/raw-dir
+    python3 scripts/annotate_screens.py api-key /path/to/raw-dir
+    python3 scripts/annotate_screens.py plugin-marketplace /path/to/raw-dir
 
-Expected raw files: 01-home.jpg, 02-keys.jpg, 03-name.jpg, 04-created.jpg.
-Writes .github/assets/api-key/step-1.png ... step-4.png.
+api-key: 1512x807 captures of console.typesafe.ai, named 01-home.jpg,
+02-keys.jpg, 03-name.jpg, 04-created.jpg.
+plugin-marketplace: 1510x812 captures of claude.ai/customize/plugins with a dark
+theme, named 01-add-menu.jpg, 02-chooser.jpg, 03-repo.jpg, 04-listed.jpg,
+05-installed.jpg.
+Each flow writes .github/assets/<flow>/step-1.png onward.
 
-Every image gets the same treatment: blur the account name and every existing
-key row, mask the new key's value, then draw an amber highlight box, a numbered
-badge, and an arrow with a label on the one control the step is about.
-Coordinates are in the 1512x807 capture frame.
+Every image gets the same treatment: blur the account details (and, for API
+keys, every existing key row and the new key's value), then draw an amber
+highlight box, a numbered badge, and an arrow with a label on the one control
+the step is about. Coordinates are in the capture frame.
 """
 
 import sys
@@ -22,7 +27,7 @@ from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
 ROOT = Path(__file__).resolve().parents[1]
 FONTS = ROOT / "assets" / "fonts"
-OUT = ROOT / ".github" / "assets" / "api-key"
+ASSETS = ROOT / ".github" / "assets"
 
 AMBER = (0xD9, 0x8B, 0x0B)
 INK = (0x1B, 0x19, 0x16)
@@ -30,6 +35,7 @@ WHITE = (0xFF, 0xFF, 0xFF)
 
 ACCOUNT = (0, 740, 265, 807)            # avatar, name, org
 ROWS = (298, 162, 1480, 436)            # every key row: names, prefixes, creator
+SIDEBAR = (0, 300, 288, 812)            # claude.ai: projects, pins, chat titles, account
 
 
 def font(size, weight="SemiBold"):
@@ -85,23 +91,34 @@ def highlight(img, box, step, label, arrow_from):
     d.text((cx + r + 8, cy - 18), label, font=f, fill=WHITE)
 
 
-STEPS = [
-    # raw file, extra blurs, dialog kept sharp, key mask, target box, label, label position
-    ("01-home.jpg",    [],     None,                  None,                 (8, 182, 256, 214),   "Open API Keys",            (132, 420)),
-    ("02-keys.jpg",    [ROWS], None,                  None,                 (1361, 14, 1479, 47), "Click Create key",         (1180, 560)),
-    ("03-name.jpg",    [ROWS], (492, 281, 1021, 527), None,                 (517, 410, 996, 502), "Name it, then Create key", (756, 640)),
-    ("04-created.jpg", [ROWS], (492, 266, 1021, 542), (517, 354, 914, 434), (922, 378, 996, 410), "Copy it now: shown once",  (1180, 640)),
-]
+# flow: (capture size, output size, steps). Each step is
+# raw file, blurs, dialog kept sharp, key mask, target box, label, label position.
+FLOWS = {
+    "api-key": ((1512, 807), (1210, 646), [
+        ("01-home.jpg",    [ACCOUNT],       None,                  None,                 (8, 182, 256, 214),   "Open API Keys",            (132, 420)),
+        ("02-keys.jpg",    [ACCOUNT, ROWS], None,                  None,                 (1361, 14, 1479, 47), "Click Create key",         (1180, 560)),
+        ("03-name.jpg",    [ACCOUNT, ROWS], (492, 281, 1021, 527), None,                 (517, 410, 996, 502), "Name it, then Create key", (756, 640)),
+        ("04-created.jpg", [ACCOUNT, ROWS], (492, 266, 1021, 542), (517, 354, 914, 434), (922, 378, 996, 410), "Copy it now: shown once",  (1180, 640)),
+    ]),
+    "plugin-marketplace": ((1510, 812), (1208, 650), [
+        ("01-add-menu.jpg",  [SIDEBAR], None, None, (1206, 159, 1388, 193),  "Add, then Add marketplace", (1100, 330)),
+        ("02-chooser.jpg",   [SIDEBAR], None, None, (410, 410, 1102, 479),   "Add from a repository",     (755, 660)),
+        ("03-repo.jpg",      [SIDEBAR], None, None, (409, 405, 1102, 586),   "Enter the repo, then Sync", (755, 690)),
+        ("04-listed.jpg",    [SIDEBAR], None, None, (1338, 190, 1389, 224),  "Add the plugin",            (1180, 258)),
+        ("05-installed.jpg", [SIDEBAR], None, None, (1132, 735, 1484, 795),  "Installed and ready",       (1000, 600)),
+    ]),
+}
 
 
-def main(raw_dir: Path) -> None:
-    OUT.mkdir(parents=True, exist_ok=True)
-    for i, (name, blurs, dialog, key_box, target, label, label_at) in enumerate(STEPS, start=1):
+def main(flow: str, raw_dir: Path) -> None:
+    size, out_size, steps = FLOWS[flow]
+    out_dir = ASSETS / flow
+    out_dir.mkdir(parents=True, exist_ok=True)
+    for i, (name, blurs, dialog, key_box, target, label, label_at) in enumerate(steps, start=1):
         img = Image.open(raw_dir / name).convert("RGB")
-        if img.size != (1512, 807):
-            sys.exit(f"{name}: expected 1512x807, got {img.size}")
+        if img.size != size:
+            sys.exit(f"{name}: expected {size[0]}x{size[1]}, got {img.size}")
         sharp = img.crop(dialog) if dialog else None
-        blur(img, ACCOUNT)
         for box in blurs:
             blur(img, box)
         if sharp:
@@ -109,12 +126,12 @@ def main(raw_dir: Path) -> None:
         if key_box:
             mask_key(img, key_box)
         highlight(img, target, i, label, label_at)
-        out = OUT / f"step-{i}.png"
-        img.resize((1210, 646), Image.LANCZOS).save(out, optimize=True)
+        out = out_dir / f"step-{i}.png"
+        img.resize(out_size, Image.LANCZOS).save(out, optimize=True)
         print(f"wrote {out}")
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
+    if len(sys.argv) != 3 or sys.argv[1] not in FLOWS:
         sys.exit(__doc__)
-    main(Path(sys.argv[1]))
+    main(sys.argv[1], Path(sys.argv[2]))

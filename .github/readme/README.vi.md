@@ -58,7 +58,25 @@ Skill tự tải khi bạn làm việc với code Jev. Muốn tải thủ công,
 <details>
 <summary><strong>Claude Desktop, Cowork và claude.ai</strong></summary>
 
-Mở **Customize > Plugins > Add > Add marketplace**, chọn **Add from a repository** và nhập `aaddrick/building-with-typesafe-jev`. Giữ **Sync automatically** bật để plugin cập nhật khi repo này cập nhật. Chọn **Sync**, rồi chọn **Add** cạnh **Building with typesafe jev**.
+**Bước 1.** Mở **Customize > Plugins**, chọn **Add**, rồi **Add marketplace**.
+
+<img src="../assets/plugin-marketplace/step-1.png" alt="Trang Plugins trong Customize với menu Add đang mở. Khung và mũi tên màu hổ phách chỉ vào Add marketplace." width="100%">
+
+**Bước 2.** Chọn **Add from a repository**.
+
+<img src="../assets/plugin-marketplace/step-2.png" alt="Hộp thoại Add marketplace. Khung và mũi tên màu hổ phách chỉ vào Add from a repository." width="100%">
+
+**Bước 3.** Nhập `aaddrick/building-with-typesafe-jev`. Giữ **Sync automatically** bật để plugin cập nhật khi repo này cập nhật. Sau đó chọn **Sync**.
+
+<img src="../assets/plugin-marketplace/step-3.png" alt="Hộp thoại Add marketplace với aaddrick/building-with-typesafe-jev trong ô URL và Sync automatically đang bật. Khung và mũi tên màu hổ phách chỉ vào ô URL, công tắc và nút Sync." width="100%">
+
+**Bước 4.** Chọn **Add** cạnh **Building with typesafe jev**.
+
+<img src="../assets/plugin-marketplace/step-4.png" alt="Danh sách Discover hiển thị Building with typesafe jev. Khung và mũi tên màu hổ phách chỉ vào nút Add của nó." width="100%">
+
+**Bước 5.** Claude báo plugin đã được cài. Plugin cũng xuất hiện trong ứng dụng desktop và Cowork trên cùng tài khoản.
+
+<img src="../assets/plugin-marketplace/step-5.png" alt="Trang plugin Building with typesafe jev với thông báo đã cài xong và sẵn sàng dùng. Khung và mũi tên màu hổ phách chỉ vào thông báo." width="100%">
 
 </details>
 

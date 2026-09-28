@@ -58,7 +58,25 @@ claude plugin install building-with-typesafe-jev@building-with-typesafe-jev
 <details>
 <summary><strong>Claude Desktop、Cowork 和 claude.ai</strong></summary>
 
-打开 **Customize > Plugins > Add > Add marketplace**，选择 **Add from a repository**，输入 `aaddrick/building-with-typesafe-jev`。保持 **Sync automatically** 开启，插件会随本仓库一起更新。选择 **Sync**，然后选择 **Building with typesafe jev** 旁边的 **Add**。
+**第 1 步。** 打开 **Customize > Plugins**，依次选择 **Add** 和 **Add marketplace**。
+
+<img src="../assets/plugin-marketplace/step-1.png" alt="Customize 中的 Plugins 页面，Add 菜单已展开。琥珀色方框和箭头指向 Add marketplace。" width="100%">
+
+**第 2 步。** 选择 **Add from a repository**。
+
+<img src="../assets/plugin-marketplace/step-2.png" alt="Add marketplace 对话框。琥珀色方框和箭头指向 Add from a repository。" width="100%">
+
+**第 3 步。** 输入 `aaddrick/building-with-typesafe-jev`。保持 **Sync automatically** 开启，插件会随本仓库一起更新。然后选择 **Sync**。
+
+<img src="../assets/plugin-marketplace/step-3.png" alt="Add marketplace 对话框，URL 栏中填入 aaddrick/building-with-typesafe-jev，Sync automatically 已开启。琥珀色方框和箭头指向 URL 栏、开关和 Sync 按钮。" width="100%">
+
+**第 4 步。** 选择 **Building with typesafe jev** 旁边的 **Add**。
+
+<img src="../assets/plugin-marketplace/step-4.png" alt="Discover 列表中显示 Building with typesafe jev。琥珀色方框和箭头指向它的 Add 按钮。" width="100%">
+
+**第 5 步。** Claude 提示插件已安装。同一账号下的桌面应用和 Cowork 中也会出现它。
+
+<img src="../assets/plugin-marketplace/step-5.png" alt="Building with typesafe jev 插件页面，提示已安装并可以使用。琥珀色方框和箭头指向该提示。" width="100%">
 
 </details>
 

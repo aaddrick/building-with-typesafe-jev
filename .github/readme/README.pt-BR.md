@@ -58,7 +58,25 @@ A skill carrega sozinha quando você trabalha com código do Jev. Para carregá-
 <details>
 <summary><strong>Claude Desktop, Cowork e claude.ai</strong></summary>
 
-Abra **Customize > Plugins > Add > Add marketplace**, escolha **Add from a repository** e digite `aaddrick/building-with-typesafe-jev`. Deixe **Sync automatically** ligado para o plugin se atualizar junto com este repositório. Selecione **Sync** e depois **Add** ao lado de **Building with typesafe jev**.
+**Passo 1.** Abra **Customize > Plugins**, selecione **Add** e depois **Add marketplace**.
+
+<img src="../assets/plugin-marketplace/step-1.png" alt="A página Plugins em Customize com o menu Add aberto. Uma caixa e uma seta âmbar apontam para Add marketplace." width="100%">
+
+**Passo 2.** Escolha **Add from a repository**.
+
+<img src="../assets/plugin-marketplace/step-2.png" alt="A caixa de diálogo Add marketplace. Uma caixa e uma seta âmbar apontam para Add from a repository." width="100%">
+
+**Passo 3.** Digite `aaddrick/building-with-typesafe-jev`. Deixe **Sync automatically** ligado para o plugin se atualizar junto com este repositório. Depois selecione **Sync**.
+
+<img src="../assets/plugin-marketplace/step-3.png" alt="A caixa de diálogo Add marketplace com aaddrick/building-with-typesafe-jev no campo URL e Sync automatically ligado. Uma caixa e uma seta âmbar apontam para o campo URL, a chave e o botão Sync." width="100%">
+
+**Passo 4.** Selecione **Add** ao lado de **Building with typesafe jev**.
+
+<img src="../assets/plugin-marketplace/step-4.png" alt="A lista Discover mostrando Building with typesafe jev. Uma caixa e uma seta âmbar apontam para o botão Add." width="100%">
+
+**Passo 5.** O Claude confirma que o plugin foi instalado. Ele também aparece no app para desktop e no Cowork da mesma conta.
+
+<img src="../assets/plugin-marketplace/step-5.png" alt="A página do plugin Building with typesafe jev com um aviso de que ele está instalado e pronto para uso. Uma caixa e uma seta âmbar apontam para o aviso." width="100%">
 
 </details>
 
