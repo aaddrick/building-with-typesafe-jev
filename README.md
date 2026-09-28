@@ -56,6 +56,13 @@ The skill loads on its own when you work on Jev code. To load it by hand, type:
 </details>
 
 <details>
+<summary><strong>Claude Desktop, Cowork, and claude.ai</strong></summary>
+
+Open **Customize > Plugins > Add > Add marketplace**, choose **Add from a repository**, and enter `aaddrick/building-with-typesafe-jev`. Leave **Sync automatically** on so the plugin updates when this repository does. Select **Sync**, then select **Add** next to **Building with typesafe jev**.
+
+</details>
+
+<details>
 <summary><strong>Codex</strong></summary>
 
 ```bash
