@@ -37,7 +37,7 @@ Items with no link come from the indexes at the bottom.
 - **Perception**: Jev is text-only. Self-driving pushback: perception is the bottleneck ([HN](https://news.ycombinator.com/item?id=49722214)). Do perception with CV first.
 - **NSFW image flagging via an open "VisionLaya" clone**: too many false positives ([HN](https://news.ycombinator.com/item?id=49779502)).
 - **Record dedupe and a personal prompt router**: one user found these "underwhelming / OK at best" ([HN](https://news.ycombinator.com/item?id=49842510)).
-- **Out-of-box calibration claims**: a fair die gave face 1 about 83%. Fit Platt scaling on your own labels ([HN](https://news.ycombinator.com/item?id=49830385), [HN](https://news.ycombinator.com/item?id=49839995)).
+- **Out-of-box calibration claims**: a fair die gave face 1 about 83%. Fit Platt scaling on your own labels ([HN](https://news.ycombinator.com/item?id=49830385), [HN](https://news.ycombinator.com/item?id=49839995)). On inputs where people disagree, Jev is overconfident, and one global temperature did not fix both clear and contested items ([zenodo.org](https://zenodo.org/records/22971492)). Check calibration on your hard cases separately.
 - **Speed marketing**: measured gains were about 5–7× over small LLMs, not 40–200× ([HN](https://news.ycombinator.com/item?id=49845146)). Batched LLM calls can match it offline.
 
 ## Bigger indexes (for more than these files hold)

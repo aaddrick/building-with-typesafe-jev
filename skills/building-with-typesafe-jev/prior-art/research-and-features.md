@@ -33,6 +33,7 @@ def to_features(r) -> dict[str, float]:
 - Research designs that use the calibrated probabilities themselves are a novel angle. Example: do option probabilities match how human test-takers distribute their answers?
 - For studies, pin the model ID and report it. Measure run-to-run stability (std ≈ 0.01 reported) before you trust small effects.
 - Calibration varies by domain. Check it against labels before you treat a probability as a frequency.
+- Confidence ranks contested inputs well but overstates agreement on them. On ChaosNLI items where annotators split, Choice top probability averaged 0.81 against 0.47 annotator agreement, yet it still separated contested from clear items (AUROC 0.744). Use it as a ranking, and set cut-offs on your own labels.
 
 ## Prior art
 
@@ -59,4 +60,5 @@ def to_features(r) -> dict[str, float]:
 - Parallel vs. separate questions (identical answers, 12× cheaper batched): [docs.typesafe.ai](https://docs.typesafe.ai/cookbooks/parallel_questions.md)
 - Self-consistency vs. LLMs: [docs.typesafe.ai](https://docs.typesafe.ai/cookbooks/consistency_choice_cookbook.md)
 - Calibration critiques (fair die, "30% risk"): [HN](https://news.ycombinator.com/item?id=49830385), [HN](https://news.ycombinator.com/item?id=49816899)
+- Preregistered calibration test under human disagreement (ChaosNLI, 100 annotations per item): [zenodo.org](https://zenodo.org/records/22971492), code [GautamTalksDev/jevbench](https://github.com/GautamTalksDev/jevbench)
 - jevbench leaderboard (decider-4b slightly above Jev 1.13): [HN](https://news.ycombinator.com/item?id=49849014)
